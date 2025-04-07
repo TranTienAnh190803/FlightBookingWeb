@@ -33,12 +33,15 @@ public class SecurityConfig {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(
-                        request -> request.requestMatchers("/login", "/register", "/public/**").permitAll()
+                        request -> request.requestMatchers("/public/**").permitAll()
+                                                                        .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
+                                                                        .requestMatchers("/user/**").hasAnyAuthority("USER")
                                                                         .anyRequest().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider()).addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .authenticationProvider(authenticationProvider()).addFilterBefore(
+                        jwtAuthFilter, UsernamePasswordAuthenticationFilter.class
+                );
         return httpSecurity.build();
     }
 

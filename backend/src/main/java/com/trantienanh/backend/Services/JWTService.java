@@ -3,6 +3,7 @@ package com.trantienanh.backend.Services;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -13,7 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.function.Function;
 
-@Service
+@Component
 public class JWTService {
     private SecretKey secretKey;
 
@@ -44,7 +45,7 @@ public class JWTService {
                 .compact();
     }
 
-    public String extractUserName(String token) {
+    public String extractUsername(String token) {
         return extractClaims(token, Claims::getSubject);
     }
 
@@ -58,6 +59,6 @@ public class JWTService {
 
     public Boolean isTokenValid(String token, UserDetails userDetails) {
         String username = userDetails.getUsername();
-        return (username.equals(extractUserName(token)) && !isTokenExpire(token));
+        return (username.equals(extractUsername(token)) && !isTokenExpire(token));
     }
 }
