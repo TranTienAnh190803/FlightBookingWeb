@@ -26,6 +26,10 @@ public class User implements UserDetails{
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
 
+    private String email;
+
+    private String phoneNumber;
+
     private String address;
 
     private String role;
@@ -33,12 +37,14 @@ public class User implements UserDetails{
     public User() {
     }
 
-    public User(Integer id, String name, String username, String password, Date dateOfBirth, String address, String role) {
+    public User(Integer id, String name, String username, String password, Date dateOfBirth, String email, String phoneNumber, String address, String role) {
         this.id = id;
         this.name = name;
         this.username = username;
         this.password = password;
         this.dateOfBirth = dateOfBirth;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
         this.address = address;
         this.role = role;
     }
@@ -81,6 +87,22 @@ public class User implements UserDetails{
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getRole() {

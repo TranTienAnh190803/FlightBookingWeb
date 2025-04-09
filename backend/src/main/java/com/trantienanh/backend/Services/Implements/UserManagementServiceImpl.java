@@ -34,6 +34,8 @@ public class UserManagementServiceImpl implements UserManagementService {
             user.setName(registerRequest.getAddress());
             user.setRole(registerRequest.getRole());
             user.setDateOfBirth(registerRequest.getDateOfBirth());
+            user.setPhoneNumber(registerRequest.getPhoneNumber());
+            user.setEmail(registerRequest.getEmail());
             user.setUsername(registerRequest.getUsername());
             user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
 
