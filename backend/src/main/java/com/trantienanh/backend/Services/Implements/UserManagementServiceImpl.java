@@ -31,7 +31,7 @@ public class UserManagementServiceImpl implements UserManagementService {
         try {
             User user = new User();
             user.setAddress(registerRequest.getAddress());
-            user.setName(registerRequest.getAddress());
+            user.setName(registerRequest.getName());
             user.setRole(registerRequest.getRole());
             user.setDateOfBirth(registerRequest.getDateOfBirth());
             user.setPhoneNumber(registerRequest.getPhoneNumber());
@@ -100,6 +100,26 @@ public class UserManagementServiceImpl implements UserManagementService {
         } catch (Exception e) {
             response.setStatusCode(500);
             response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public UserDTO getProfile(String username) {
+        UserDTO response = new UserDTO();
+
+        try {
+            User userProfile = userRepository.findByUsername(username).orElse(null);
+            if (userProfile != null) {
+                response.setUser(userProfile);
+                response.setStatusCode(200);
+            }
+            else {
+                response.setStatusCode(404);
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
         }
 
         return response;

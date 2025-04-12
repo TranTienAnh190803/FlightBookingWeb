@@ -24,11 +24,24 @@ class UserService{
         }
     }
 
-    static async logout() {
+    static async getProfile(token) {
+        try {
+            const response = await axios.get(`${this.BASE_URL}/admin-user/get-profile`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+
+            return response.data;
+        } catch (error) {
+            throw error
+        }
+    }
+
+    static logout() {
         localStorage.removeItem("token");
         localStorage.removeItem("role");
     }
 
+    // Authenticate and Authorize
     static isAuthenticated() {
         const token = localStorage.getItem("token");
         if (token === null)
@@ -38,14 +51,14 @@ class UserService{
 
     static isAdmin() {
         const role = localStorage.getItem("role");
-        if (role === "ADMIN")
+        if (role === "ADMIN" && this.isAuthenticated())
             return true;
         return false;
     }
 
     static isUser() {
         const role = localStorage.getItem("role");
-        if (role === "USER")
+        if (role === "USER" && this.isAuthenticated())
             return true;
         return false;
     }

@@ -8,4 +8,6 @@ public interface UserManagementService {
     public UserDTO login(UserDTO loginRequest);
 
     public UserDTO refreshToken(UserDTO refreshTokenRequest);
+
+    public UserDTO getProfile(String username);
 }
