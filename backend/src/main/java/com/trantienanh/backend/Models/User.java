@@ -32,12 +32,20 @@ public class User implements UserDetails{
 
     private String address;
 
+    private boolean gender;
+
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] avatar;
+
+    private String avatarType;
+
     private String role;
 
     public User() {
     }
 
-    public User(Integer id, String name, String username, String password, Date dateOfBirth, String email, String phoneNumber, String address, String role) {
+    public User(Integer id, String name, String username, String password, Date dateOfBirth, String email, String phoneNumber, String address, boolean gender, byte[] avatar, String avatarType, String role) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -46,6 +54,9 @@ public class User implements UserDetails{
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.gender = gender;
+        this.avatar = avatar;
+        this.avatarType = avatarType;
         this.role = role;
     }
 
@@ -103,6 +114,30 @@ public class User implements UserDetails{
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public boolean isGender() {
+        return gender;
+    }
+
+    public void setGender(boolean gender) {
+        this.gender = gender;
+    }
+
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getAvatarType() {
+        return avatarType;
+    }
+
+    public void setAvatarType(String avatarType) {
+        this.avatarType = avatarType;
     }
 
     public String getRole() {

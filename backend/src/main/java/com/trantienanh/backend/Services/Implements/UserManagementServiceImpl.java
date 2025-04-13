@@ -6,11 +6,15 @@ import com.trantienanh.backend.Repositories.UserRepository;
 import com.trantienanh.backend.Services.JWTService;
 import com.trantienanh.backend.Services.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
+import java.io.IOException;
 import java.util.HashMap;
 
 @Service
@@ -35,6 +39,7 @@ public class UserManagementServiceImpl implements UserManagementService {
             user.setRole(registerRequest.getRole());
             user.setDateOfBirth(registerRequest.getDateOfBirth());
             user.setPhoneNumber(registerRequest.getPhoneNumber());
+            user.setGender(registerRequest.isGender());
             user.setEmail(registerRequest.getEmail());
             user.setUsername(registerRequest.getUsername());
             user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
@@ -117,11 +122,62 @@ public class UserManagementServiceImpl implements UserManagementService {
             }
             else {
                 response.setStatusCode(404);
+                response.setMessage("User Not Found");
             }
         } catch (Exception e) {
             response.setStatusCode(500);
+            response.setMessage(e.getMessage());
         }
 
         return response;
     }
+
+    @Override
+    public UserDTO uploadAvatar(String username, MultipartFile file) {
+        UserDTO response = new UserDTO();
+
+        try {
+            User user = userRepository.findByUsername(username).orElse(null);
+            if (user == null) {
+                response.setStatusCode(404);
+                response.setMessage("User Not Found");
+            }
+            else {
+                user.setAvatar(file.getBytes());
+                user.setAvatarType(file.getContentType());
+                userRepository.save(user);
+                response.setStatusCode(200);
+                response.setMessage("Upload success!");
+            }
+        } catch (IOException e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public UserDTO getAvatar(String username) {
+        UserDTO response = new UserDTO();
+
+        try {
+            User user = userRepository.findByUsername(username).orElse(null);
+            if (user == null || user.getAvatar() == null) {
+                response.setStatusCode(404);
+                response.setMessage("User Not Found");
+            }
+            else {
+                response.setStatusCode(200);
+                response.setAvatar(user.getAvatar());
+                response.setAvatarType(user.getAvatarType());
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
+
 }

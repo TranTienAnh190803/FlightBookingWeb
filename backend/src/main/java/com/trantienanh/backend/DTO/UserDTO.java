@@ -23,6 +23,12 @@ public class UserDTO {
 
     private String phoneNumber;
 
+    private boolean gender;
+
+    private byte[] avatar;
+
+    private String avatarType;
+
     private String role;
 
     private int statusCode;
@@ -91,6 +97,30 @@ public class UserDTO {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public boolean isGender() {
+        return gender;
+    }
+
+    public void setGender(boolean gender) {
+        this.gender = gender;
+    }
+
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getAvatarType() {
+        return avatarType;
+    }
+
+    public void setAvatarType(String avatarType) {
+        this.avatarType = avatarType;
     }
 
     public String getRole() {
