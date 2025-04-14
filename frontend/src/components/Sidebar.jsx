@@ -7,10 +7,10 @@ import {
   FaSignOutAlt,
   FaUser,
 } from "react-icons/fa";
-import avatar from "../assets/images1.jpg";
+import image1 from "../assets/user.jpg";
 import { Link } from "react-router-dom";
 
-export default function Sidebar({ name, email }) {
+export default function Sidebar({ name, email, avatar }) {
   return (
     <div
       className="list-group bg-white shadow"
@@ -22,7 +22,7 @@ export default function Sidebar({ name, email }) {
     >
       <div className="p-3 d-flex align-items-center gap-3">
         <img
-          src={avatar}
+          src={avatar ? avatar : image1}
           alt="Avatar"
           className="rounded-circle"
           style={{ width: "60px", height: "60px", objectFit: "cover" }}
@@ -57,7 +57,7 @@ export default function Sidebar({ name, email }) {
 
       <hr className="my-1" />
       <Link
-        to="/"
+        to="/login"
         className="list-group-item list-group-item-action border-0 text-danger"
       >
         <FaSignOutAlt className="me-3" />

@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import UserService from "../../services/UserService";
 import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/Sidebar";
 import style from "./userProfile.module.css";
-import image1 from "../../assets/images1.jpg";
+import image1 from "../../assets/user.jpg";
 
 export default function UserProfile() {
+  const fileInputRef = useRef(null);
   const [profile, setProfile] = useState({});
+  const [avatar, setAvatar] = useState(null);
 
   const fetchProfile = async () => {
     if (UserService.isAuthenticated()) {
@@ -17,16 +19,39 @@ export default function UserProfile() {
     }
   };
 
+  const fetchAvatar = async () => {
+    if (UserService.isAuthenticated()) {
+      const token = localStorage.getItem("token");
+      const userAvatar = await UserService.getAvatar(token);
+      setAvatar(URL.createObjectURL(userAvatar));
+    }
+  };
+
   useEffect(() => {
     fetchProfile();
+    fetchAvatar();
   }, []);
+
+  const handleImageClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleAvatarChange = async (e) => {
+    const file = e.target.files[0];
+    const token = localStorage.getItem("token");
+    const response = await UserService.uploadAvatar(token, file);
+    if (response.statusCode === 200) {
+      alert(response.message);
+      fetchAvatar();
+    } else alert(response.message);
+  };
 
   return (
     <div>
       <Navbar />
       <div className={style["wrapper"]}>
         {/* Sidebar */}
-        <Sidebar name={profile.name} email={profile.email} />
+        <Sidebar name={profile.name} email={profile.email} avatar={avatar} />
         {/* Profile */}
         <div className={style["profile"]}>
           <h3>Profile</h3>
@@ -34,7 +59,19 @@ export default function UserProfile() {
           <form>
             <div className={style["form-container1"]}>
               <div className={style["image"]}>
-                <img src={image1} alt="image" className="rounded-circle" />
+                <img
+                  src={avatar ? avatar : image1}
+                  alt="image"
+                  className="rounded-circle"
+                  onClick={handleImageClick}
+                />
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
+                  onChange={handleAvatarChange}
+                />
               </div>
               <div className={style["user-info"]}>
                 <div className={style["info"]}>

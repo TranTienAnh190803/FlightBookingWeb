@@ -36,6 +36,42 @@ class UserService{
         }
     }
 
+    static async uploadAvatar(token, image) {
+        if (!image)
+            return;
+
+        const formData = new FormData();
+        formData.append("file", image);
+
+        try {
+            const response = await axios.post(`${this.BASE_URL}/admin-user/upload-avatar`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+
+            return response.data;
+        } catch (error) {
+            throw error
+        }
+    }
+
+    static async getAvatar(token) {
+        try {
+            const response = await axios.get(`${this.BASE_URL}/admin-user/get-avatar`, {
+                responseType: "blob",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            return response.data;
+        } catch (error) {
+            throw error
+        }
+    }
+
     static logout() {
         localStorage.removeItem("token");
         localStorage.removeItem("role");
