@@ -60,4 +60,12 @@ public class UserManagementController {
         UserDTO response = userManagementService.getAvatar(username);
         return ResponseEntity.status(response.getStatusCode()).contentType(MediaType.parseMediaType(response.getAvatarType())).body(response.getAvatar());
     }
+
+    @PatchMapping("/admin-user/update-profile")
+    public ResponseEntity<UserDTO> updateProfile(@RequestBody UserDTO userDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        UserDTO response = userManagementService.updateProfile(username, userDTO);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
 }

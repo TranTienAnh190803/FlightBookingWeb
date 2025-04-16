@@ -9,8 +9,25 @@ import {
 } from "react-icons/fa";
 import image1 from "../assets/user.jpg";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import UserService from "../services/UserService";
 
-export default function Sidebar({ name, email, avatar }) {
+export default function Sidebar({ avatar }) {
+  const [profile, setProfile] = useState({});
+
+  const fetchProfile = async () => {
+    if (UserService.isAuthenticated()) {
+      const token = localStorage.getItem("token");
+      const userProfile = await UserService.getProfile(token);
+      setProfile(userProfile.user);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfile();
+    console.log(profile);
+  }, []);
+
   return (
     <div
       className="list-group bg-white shadow"
@@ -29,8 +46,8 @@ export default function Sidebar({ name, email, avatar }) {
         />
 
         <div>
-          <h5 className="mb-0 fw-bold">{name}</h5>
-          <small className="text-muted">{email}</small>
+          <h5 className="mb-0 fw-bold">{profile.name}</h5>
+          <small className="text-muted">{profile.email}</small>
         </div>
       </div>
 

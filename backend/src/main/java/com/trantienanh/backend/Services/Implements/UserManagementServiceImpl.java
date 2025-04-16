@@ -180,4 +180,35 @@ public class UserManagementServiceImpl implements UserManagementService {
         return response;
     }
 
+    @Override
+    public UserDTO updateProfile(String username, UserDTO userDTO) {
+        UserDTO response = new UserDTO();
+
+        try {
+            User userUpdate = userRepository.findByUsername(username).orElse(null);
+            if (userUpdate != null) {
+                userUpdate.setName(userDTO.getName());
+                userUpdate.setEmail(userDTO.getEmail());
+                userUpdate.setPhoneNumber(userDTO.getPhoneNumber());
+                userUpdate.setGender(userDTO.isGender());
+                userUpdate.setDateOfBirth(userDTO.getDateOfBirth());
+                userUpdate.setAddress(userDTO.getAddress());
+                userRepository.save(userUpdate);
+                response.setStatusCode(200);
+                response.setMessage("Update Profile Success");
+                response.setUser(userUpdate);
+            }
+            else {
+                response.setStatusCode(404);
+                response.setMessage("User Not Found");
+            }
+        }
+        catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
+
 }

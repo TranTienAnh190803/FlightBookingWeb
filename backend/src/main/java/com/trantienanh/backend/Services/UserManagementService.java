@@ -17,4 +17,6 @@ public interface UserManagementService {
     public UserDTO uploadAvatar(String username, MultipartFile file);
 
     public UserDTO getAvatar(String username);
+
+    public UserDTO updateProfile(String username, UserDTO userDTO);
 }

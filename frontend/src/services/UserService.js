@@ -72,6 +72,20 @@ class UserService{
         }
     }
 
+    static async updateProfile(token, updateInfo) {
+        try {
+            const response = await axios.patch(`${this.BASE_URL}/admin-user/update-profile`, updateInfo, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            return response.data;
+        } catch (error) {
+            throw error
+        }
+    }
+
     static logout() {
         localStorage.removeItem("token");
         localStorage.removeItem("role");

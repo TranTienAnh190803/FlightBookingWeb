@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import UserService from "../../services/UserService";
 import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/Sidebar";
@@ -7,6 +7,7 @@ import style from "./userProfile.module.css";
 import image1 from "../../assets/user.jpg";
 
 export default function UserProfile() {
+  const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const [profile, setProfile] = useState({});
   const [avatar, setAvatar] = useState(null);
@@ -46,17 +47,31 @@ export default function UserProfile() {
     } else alert(response.message);
   };
 
+  const handleInputChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setProfile({ ...profile, [name]: value });
+  };
+
+  const handleUpdateProfile = async () => {
+    if (UserService.isAuthenticated()) {
+      const token = localStorage.getItem("token");
+      const response = await UserService.updateProfile(token, profile);
+      navigate(0);
+    }
+  };
+
   return (
     <div>
       <Navbar />
       <div className={style["wrapper"]}>
         {/* Sidebar */}
-        <Sidebar name={profile.name} email={profile.email} avatar={avatar} />
+        <Sidebar avatar={avatar} />
         {/* Profile */}
         <div className={style["profile"]}>
           <h3>Profile</h3>
           <hr />
-          <form>
+          <form onSubmit={handleUpdateProfile}>
             <div className={style["form-container1"]}>
               <div className={style["image"]}>
                 <img
@@ -76,15 +91,30 @@ export default function UserProfile() {
               <div className={style["user-info"]}>
                 <div className={style["info"]}>
                   <label>Name: </label>
-                  <input type="text" name="name" />
+                  <input
+                    type="text"
+                    name="name"
+                    value={profile.name}
+                    onChange={handleInputChange}
+                  />
                 </div>
                 <div className={style["info"]}>
                   <label>Email: </label>
-                  <input type="text" name="email" />
+                  <input
+                    type="text"
+                    name="email"
+                    value={profile.email}
+                    onChange={handleInputChange}
+                  />
                 </div>
                 <div className={style["info"]}>
                   <label>Phone Number: </label>
-                  <input type="text" name="phoneNumber" />
+                  <input
+                    type="text"
+                    name="phoneNumber"
+                    value={profile.phoneNumber}
+                    onChange={handleInputChange}
+                  />
                 </div>
               </div>
             </div>
@@ -92,20 +122,47 @@ export default function UserProfile() {
               <div className={style["gender"]}>
                 <p>Gender: </p>
                 <label>
-                  <input type="radio" name="gender" value={true} /> Male
+                  <input
+                    type="radio"
+                    name="gender"
+                    value={true}
+                    checked={profile.gender === true}
+                    onChange={handleInputChange}
+                  />{" "}
+                  Male
                 </label>
                 <label>
-                  <input type="radio" name="gender" value={false} /> Female
+                  <input
+                    type="radio"
+                    name="gender"
+                    value={false}
+                    checked={profile.gender === false}
+                    onChange={handleInputChange}
+                  />{" "}
+                  Female
                 </label>
               </div>
               <div className={style["birth"]}>
                 <p>Date Of Birth: </p>
-                <input type="date" name="dateOfBirth" />
+                <input
+                  type="date"
+                  name="dateOfBirth"
+                  value={profile.dateOfBirth}
+                  onChange={handleInputChange}
+                />
               </div>
             </div>
             <div className={style["form-container3"]}>
               <p>Address: </p>
-              <input type="text" name="address" />
+              <input
+                type="text"
+                name="address"
+                value={profile.address}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className={style["btn-box"]}>
+              <button className="btn btn-success">Update Profile</button>
             </div>
           </form>
         </div>

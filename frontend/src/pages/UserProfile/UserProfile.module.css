@@ -83,3 +83,8 @@
     width: 96%;
     padding: 4px 8px;
 }
+
+.wrapper .btn-box{
+    text-align: end;
+    margin-top: 50px;
+}
