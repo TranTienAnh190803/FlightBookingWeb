@@ -2,20 +2,31 @@ import { Link } from "react-router-dom";
 import UserService from "../services/UserService";
 import { useEffect, useState } from "react";
 import { FaBell, FaNewspaper, FaSignOutAlt, FaUser } from "react-icons/fa";
+import image1 from "../assets/user.jpg";
 
 export default function Navbar() {
   const [profile, setProfile] = useState({});
+  const [avatar, setAvatar] = useState(null);
+
+  const fetchProfile = async () => {
+    if (UserService.isAuthenticated()) {
+      const token = localStorage.getItem("token");
+      const userProfile = await UserService.getProfile(token);
+      setProfile(userProfile.user);
+    }
+  };
+
+  const fetchAvatar = async () => {
+    if (UserService.isAuthenticated()) {
+      const token = localStorage.getItem("token");
+      const userAvatar = await UserService.getAvatar(token);
+      setAvatar(URL.createObjectURL(userAvatar));
+    }
+  };
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      if (UserService.isAuthenticated()) {
-        const token = localStorage.getItem("token");
-        const userProfile = await UserService.getProfile(token);
-        setProfile(userProfile.user);
-      }
-    };
-
     fetchProfile();
+    fetchAvatar();
   }, []);
 
   return (
@@ -83,8 +94,17 @@ export default function Navbar() {
               className="btn btn-outline-secondary dropdown-toggle"
               data-bs-toggle="dropdown"
               aria-expanded="false"
+              style={{ height: "50px" }}
             >
-              {profile.username}
+              <div style={{ height: "100%" }}>
+                <img
+                  src={avatar ? avatar : image1}
+                  alt="avatar"
+                  className="rounded-circle"
+                  style={{ height: "100%", marginRight: "8px" }}
+                />
+                {profile.username}
+              </div>
             </button>
 
             <ul

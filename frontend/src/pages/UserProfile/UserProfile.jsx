@@ -69,7 +69,9 @@ export default function UserProfile() {
         <Sidebar avatar={avatar} />
         {/* Profile */}
         <div className={style["profile"]}>
-          <h3>Profile</h3>
+          <h3>
+            <b>Profile</b>
+          </h3>
           <hr />
           <form onSubmit={handleUpdateProfile}>
             <div className={style["form-container1"]}>
@@ -90,7 +92,9 @@ export default function UserProfile() {
               </div>
               <div className={style["user-info"]}>
                 <div className={style["info"]}>
-                  <label>Name: </label>
+                  <label>
+                    <b>Name: </b>
+                  </label>
                   <input
                     type="text"
                     name="name"
@@ -99,7 +103,9 @@ export default function UserProfile() {
                   />
                 </div>
                 <div className={style["info"]}>
-                  <label>Email: </label>
+                  <label>
+                    <b>Email: </b>
+                  </label>
                   <input
                     type="text"
                     name="email"
@@ -108,7 +114,9 @@ export default function UserProfile() {
                   />
                 </div>
                 <div className={style["info"]}>
-                  <label>Phone Number: </label>
+                  <label>
+                    <b>Phone Number: </b>
+                  </label>
                   <input
                     type="text"
                     name="phoneNumber"
@@ -120,30 +128,26 @@ export default function UserProfile() {
             </div>
             <div className={style["form-container2"]}>
               <div className={style["gender"]}>
-                <p>Gender: </p>
-                <label>
-                  <input
-                    type="radio"
-                    name="gender"
-                    value={true}
-                    checked={profile.gender === true}
-                    onChange={handleInputChange}
-                  />{" "}
-                  Male
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="gender"
-                    value={false}
-                    checked={profile.gender === false}
-                    onChange={handleInputChange}
-                  />{" "}
-                  Female
-                </label>
+                <p>
+                  <b>Gender: </b>
+                </p>
+                <select
+                  className={style["combo-box"]}
+                  name="gender"
+                  onChange={handleInputChange}
+                >
+                  <option value="true" selected={profile.gender === true}>
+                    Male
+                  </option>
+                  <option value="false" selected={profile.gender === false}>
+                    Female
+                  </option>
+                </select>
               </div>
               <div className={style["birth"]}>
-                <p>Date Of Birth: </p>
+                <p>
+                  <b>Date Of Birth: </b>
+                </p>
                 <input
                   type="date"
                   name="dateOfBirth"
@@ -153,7 +157,9 @@ export default function UserProfile() {
               </div>
             </div>
             <div className={style["form-container3"]}>
-              <p>Address: </p>
+              <p>
+                <b>Address: </b>
+              </p>
               <input
                 type="text"
                 name="address"

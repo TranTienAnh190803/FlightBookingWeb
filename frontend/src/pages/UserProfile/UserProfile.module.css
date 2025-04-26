@@ -62,6 +62,11 @@
     width: 30%;
 }
 
+.wrapper .profile .form-container2 .gender .combo-box{
+    padding: 7px 8px;
+    width: 100%;
+}
+
 .wrapper .profile .form-container2 .birth{
     width: 62%;
 }
@@ -80,7 +85,7 @@
 }
 
 .wrapper .profile .form-container3 input[type="text"]{
-    width: 96%;
+    width: 100%;
     padding: 4px 8px;
 }
 
