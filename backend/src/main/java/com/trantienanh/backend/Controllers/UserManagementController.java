@@ -68,4 +68,12 @@ public class UserManagementController {
         UserDTO response = userManagementService.updateProfile(username, userDTO);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
+
+    @PatchMapping("/admin-user/change-password")
+    public ResponseEntity<UserDTO> changePassword(@RequestBody UserDTO userDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        UserDTO response = userManagementService.changePassword(username, userDTO);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
 }

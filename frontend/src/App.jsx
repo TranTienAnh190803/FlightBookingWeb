@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar.jsx";
 import UserService from "./services/UserService.js";
 import { useEffect, useState } from "react";
 import UserProfile from "./pages/UserProfile/UserProfile.jsx";
+import ChangePasswordPage from "./pages/ChangePassword/ChangePasswordPage.jsx";
 
 function App() {
   return (
@@ -20,6 +21,10 @@ function App() {
 
           {/* User page */}
           <Route path="/user/profile" element={<UserProfile />} />
+          <Route
+            path="/user/change-password"
+            element={<ChangePasswordPage />}
+          />
         </Routes>
       </div>
     </BrowserRouter>

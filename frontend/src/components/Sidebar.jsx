@@ -14,6 +14,7 @@ import UserService from "../services/UserService";
 
 export default function Sidebar({ avatar }) {
   const [profile, setProfile] = useState({});
+  const [userDefaultAvatar, setUserDefaultAvatar] = useState(image1);
 
   const fetchProfile = async () => {
     if (UserService.isAuthenticated()) {
@@ -23,9 +24,18 @@ export default function Sidebar({ avatar }) {
     }
   };
 
+  const fetchAvatar = async () => {
+    if (UserService.isAuthenticated()) {
+      const token = localStorage.getItem("token");
+      const userAvatar = await UserService.getAvatar(token);
+      setUserDefaultAvatar(URL.createObjectURL(userAvatar));
+    }
+  };
+
   useEffect(() => {
     fetchProfile();
-    console.log(profile);
+    fetchAvatar();
+    console.log(avatar);
   }, []);
 
   return (
@@ -39,7 +49,7 @@ export default function Sidebar({ avatar }) {
     >
       <div className="p-3 d-flex align-items-center gap-3">
         <img
-          src={avatar ? avatar : image1}
+          src={avatar ? avatar : userDefaultAvatar}
           alt="Avatar"
           className="rounded-circle"
           style={{ width: "60px", height: "60px", objectFit: "cover" }}
@@ -52,7 +62,10 @@ export default function Sidebar({ avatar }) {
       </div>
 
       <hr className="my-1" />
-      <Link to="/" className="list-group-item list-group-item-action border-0">
+      <Link
+        to="/user/profile"
+        className="list-group-item list-group-item-action border-0"
+      >
         <FaUser className="me-3" />
         Profile
       </Link>
@@ -67,7 +80,10 @@ export default function Sidebar({ avatar }) {
         <FaNewspaper className="me-3" />
         Booking History
       </Link>
-      <Link to="/" className="list-group-item list-group-item-action border-0">
+      <Link
+        to="/user/change-password"
+        className="list-group-item list-group-item-action border-0"
+      >
         <FaLock className="me-3" />
         Change Password
       </Link>

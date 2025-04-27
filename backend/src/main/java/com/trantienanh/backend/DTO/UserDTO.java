@@ -41,6 +41,8 @@ public class UserDTO {
 
     private String message;
 
+    private String oldPassword;
+
     private User user;
 
     public String getName() {
@@ -169,6 +171,14 @@ public class UserDTO {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
     }
 
     public User getUser() {

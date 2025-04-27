@@ -35,7 +35,7 @@
 }
 
 .wrapper .profile .form-container1 .user-info{
-    width: 60%;
+    width: 64%;
     margin: auto 0px;
 }
 
@@ -73,6 +73,11 @@
 
 .wrapper .profile .form-container2 label{
     margin-right: 15px;
+}
+
+.wrapper .profile .form-container2 input[type="text"]{
+    padding: 4px 6px;
+    background-color: #ddd;
 }
 
 .wrapper .profile .form-container2 input[type="date"]{

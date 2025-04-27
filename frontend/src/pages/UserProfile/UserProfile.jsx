@@ -127,6 +127,17 @@ export default function UserProfile() {
               </div>
             </div>
             <div className={style["form-container2"]}>
+              <div className={style["role"]}>
+                <p>
+                  <b>Role: </b>
+                </p>
+                <input
+                  type="text"
+                  name="role"
+                  value={profile.role}
+                  readOnly={true}
+                />
+              </div>
               <div className={style["gender"]}>
                 <p>
                   <b>Gender: </b>

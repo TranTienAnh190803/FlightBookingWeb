@@ -10,7 +10,7 @@ class UserService{
             
             return response.data;
         } catch (error) {
-            throw error;
+            return error.response.data;
         }
     }
 
@@ -20,7 +20,7 @@ class UserService{
 
             return response.data;
         } catch (error) {
-            throw error;
+            return error.response.data;
         }
     }
 
@@ -32,7 +32,7 @@ class UserService{
 
             return response.data;
         } catch (error) {
-            throw error
+            return error.response.data;
         }
     }
 
@@ -53,7 +53,7 @@ class UserService{
 
             return response.data;
         } catch (error) {
-            throw error
+            return error.response.data;
         }
     }
 
@@ -68,7 +68,7 @@ class UserService{
 
             return response.data;
         } catch (error) {
-            throw error
+            return error.response.data;
         }
     }
 
@@ -82,7 +82,21 @@ class UserService{
 
             return response.data;
         } catch (error) {
-            throw error
+            return error.response.data;
+        }
+    }
+
+    static async changePassword(token, passwordInfo) {
+        try {
+            const response = await axios.patch(`${this.BASE_URL}/admin-user/change-password`, passwordInfo, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            return response.data;
+        } catch (error) {
+            return error.response.data;
         }
     }
 

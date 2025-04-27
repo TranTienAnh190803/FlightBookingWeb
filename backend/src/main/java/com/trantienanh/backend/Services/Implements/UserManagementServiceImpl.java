@@ -211,4 +211,33 @@ public class UserManagementServiceImpl implements UserManagementService {
         return response;
     }
 
+    @Override
+    public UserDTO changePassword(String username, UserDTO userDTO) {
+        UserDTO response = new UserDTO();
+
+        try {
+            User user = userRepository.findByUsername(username).orElse(null);
+            if (user != null) {
+                if (passwordEncoder.matches(userDTO.getOldPassword(), user.getPassword())) {
+                    user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+                    userRepository.save(user);
+                    response.setStatusCode(200);
+                    response.setMessage("Change Password Successfully");
+                }
+                else {
+                    response.setStatusCode(500);
+                    response.setMessage("Wrong Old Password");
+                }
+            }
+            else {
+                response.setStatusCode(404);
+                response.setMessage("User not found");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
 }

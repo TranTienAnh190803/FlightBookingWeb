@@ -19,4 +19,6 @@ public interface UserManagementService {
     public UserDTO getAvatar(String username);
 
     public UserDTO updateProfile(String username, UserDTO userDTO);
+
+    public UserDTO changePassword(String username, UserDTO userDTO);
 }
