@@ -78,7 +78,7 @@ export default function UserProfile() {
               <div className={style["image"]}>
                 <img
                   src={avatar ? avatar : image1}
-                  alt="image"
+                  alt=""
                   className="rounded-circle"
                   onClick={handleImageClick}
                 />

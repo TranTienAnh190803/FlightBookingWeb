@@ -35,7 +35,6 @@ export default function Sidebar({ avatar }) {
   useEffect(() => {
     fetchProfile();
     fetchAvatar();
-    console.log(avatar);
   }, []);
 
   return (

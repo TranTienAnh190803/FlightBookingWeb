@@ -40,8 +40,7 @@ public class Flight {
     public Flight() {
     }
 
-    public Flight(Long flightId, String flightName, String airline, String departureAirport, String departureCity, Date departureDate, String destinationAirport, String destinationCity, Date arrivalDate, int capacity, int remain, String planeType, float price) {
-        this.flightId = flightId;
+    public Flight(String flightName, String airline, String departureAirport, String departureCity, Date departureDate, String destinationAirport, String destinationCity, Date arrivalDate, int capacity, int remain, String planeType, float price) {
         this.flightName = flightName;
         this.airline = airline;
         this.departureAirport = departureAirport;
