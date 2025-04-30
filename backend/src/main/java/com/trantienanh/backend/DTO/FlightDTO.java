@@ -34,6 +34,16 @@ public class FlightDTO {
 
     private float price;
 
+    private float adultPrice;
+
+    private float childrenPrice;
+
+    private float babyPrice;
+
+    private boolean roundTrip;
+
+    private Date returnDate;
+
     private int statusCode;
 
     private String message;
@@ -138,6 +148,38 @@ public class FlightDTO {
         this.price = price;
     }
 
+    public float getAdultPrice() {
+        return adultPrice;
+    }
+
+    public void setAdultPrice(float adultPrice) {
+        this.adultPrice = adultPrice;
+    }
+
+    public float getChildrenPrice() {
+        return childrenPrice;
+    }
+
+    public void setChildrenPrice(float childrenPrice) {
+        this.childrenPrice = childrenPrice;
+    }
+
+    public float getBabyPrice() {
+        return babyPrice;
+    }
+
+    public void setBabyPrice(float babyPrice) {
+        this.babyPrice = babyPrice;
+    }
+
+    public boolean isRoundTrip() {
+        return roundTrip;
+    }
+
+    public void setRoundTrip(boolean roundTrip) {
+        this.roundTrip = roundTrip;
+    }
+
     public int getStatusCode() {
         return statusCode;
     }
@@ -168,5 +210,13 @@ public class FlightDTO {
 
     public void setFlightList(List<Flight> flightList) {
         this.flightList = flightList;
+    }
+
+    public Date getReturnDate() {
+        return returnDate;
+    }
+
+    public void setReturnDate(Date returnDate) {
+        this.returnDate = returnDate;
     }
 }

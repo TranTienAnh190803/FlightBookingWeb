@@ -37,10 +37,20 @@ public class Flight {
 
     private float price;
 
+    private float adultPrice;
+
+    private float childrenPrice;
+
+    private float babyPrice;
+
+    private boolean roundTrip;
+
+    private Date returnDate;
+
     public Flight() {
     }
 
-    public Flight(String flightName, String airline, String departureAirport, String departureCity, Date departureDate, String destinationAirport, String destinationCity, Date arrivalDate, int capacity, int remain, String planeType, float price) {
+    public Flight(String flightName, String airline, String departureAirport, String departureCity, Date departureDate, String destinationAirport, String destinationCity, Date arrivalDate, int capacity, int remain, String planeType, float price, float adultPrice, float childrenPrice, float babyPrice, boolean roundTrip, Date returnDate) {
         this.flightName = flightName;
         this.airline = airline;
         this.departureAirport = departureAirport;
@@ -53,6 +63,11 @@ public class Flight {
         this.remain = remain;
         this.planeType = planeType;
         this.price = price;
+        this.adultPrice = adultPrice;
+        this.childrenPrice = childrenPrice;
+        this.babyPrice = babyPrice;
+        this.roundTrip = roundTrip;
+        this.returnDate = returnDate;
     }
 
     public Long getFlightId() {
@@ -157,5 +172,45 @@ public class Flight {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public float getAdultPrice() {
+        return adultPrice;
+    }
+
+    public void setAdultPrice(float adultPrice) {
+        this.adultPrice = adultPrice;
+    }
+
+    public float getChildrenPrice() {
+        return childrenPrice;
+    }
+
+    public void setChildrenPrice(float childrenPrice) {
+        this.childrenPrice = childrenPrice;
+    }
+
+    public float getBabyPrice() {
+        return babyPrice;
+    }
+
+    public void setBabyPrice(float babyPrice) {
+        this.babyPrice = babyPrice;
+    }
+
+    public boolean isRoundTrip() {
+        return roundTrip;
+    }
+
+    public void setRoundTrip(boolean roundTrip) {
+        this.roundTrip = roundTrip;
+    }
+
+    public Date getReturnDate() {
+        return returnDate;
+    }
+
+    public void setReturnDate(Date returnDate) {
+        this.returnDate = returnDate;
     }
 }

@@ -69,8 +69,8 @@ export default function Navbar() {
                 </Link>
               </li>
               <li className="nav-item mx-2">
-                <Link className="nav-link" to={"/"}>
-                  Flight
+                <Link className="nav-link" to={"/flights"}>
+                  Flights
                 </Link>
               </li>
               <li className="nav-item mx-2">

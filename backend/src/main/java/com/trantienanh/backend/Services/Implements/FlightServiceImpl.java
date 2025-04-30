@@ -30,7 +30,13 @@ public class FlightServiceImpl implements FlightService {
                                             flightDTO.getCapacity(),
                                             flightDTO.getCapacity(),
                                             flightDTO.getPlaneType(),
-                                            flightDTO.getPrice());
+                                            flightDTO.getPrice(),
+                                            flightDTO.getAdultPrice(),
+                                            flightDTO.getChildrenPrice(),
+                                            flightDTO.getBabyPrice(),
+                                            flightDTO.isRoundTrip(),
+                                            flightDTO.getReturnDate()
+            );
 
             flightRepository.save(newFlight);
             response.setStatusCode(200);
