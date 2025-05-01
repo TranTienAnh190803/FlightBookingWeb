@@ -17,13 +17,9 @@ export default class FlightService {
         }
     }
 
-    static async getAllFlight(token) {
+    static async getAllFlight() {
         try {
-            const response = await axios.get(`${this.BASE_URL}/admin-user/get-all-flight`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
+            const response = await axios.get(`${this.BASE_URL}/public/get-all-flight`);
             
             return response.data;
         } catch (error) {

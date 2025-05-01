@@ -12,9 +12,9 @@
 }
 
 .search-container .search-box {
-    width: 65%;
+    width: 80%;
     background-color: white;
-    padding: 20px;
+    padding: 35px;
     border-radius: 30px;
     position: absolute;
     bottom: -50%;
@@ -61,4 +61,36 @@
     top: 50%;
     right: 15px;
     transform: translateY(-50%);
+}
+
+.flights-container{
+    margin-top: 300px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.flights-container .flights-list{
+    background-color: white;
+    width: 80%;
+    border-radius: 30px;
+    padding: 35px;
+}
+
+.flights-container .flights{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5%;
+    text-decoration: none;
+}
+
+.flights-container .flights .flight{
+    width: 30%;
+    height: auto;
+    margin-bottom: 60px;
+    cursor: pointer;
+}
+
+.flights-container .flights .flight:hover{
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }

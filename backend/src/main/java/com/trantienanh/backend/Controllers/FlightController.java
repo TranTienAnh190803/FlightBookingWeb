@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+
 @RestController
 public class FlightController {
     @Autowired
@@ -21,9 +23,14 @@ public class FlightController {
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
-    @GetMapping("/admin-user/get-all-flight")
+    @GetMapping("/public/get-all-flight")
     public ResponseEntity<FlightDTO> getAllFlight() {
         FlightDTO response = flightService.getAllFlight();
         return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
+
+    @GetMapping("/public/time")
+    public String currentTime() {
+        return LocalDateTime.now().toString();
     }
 }

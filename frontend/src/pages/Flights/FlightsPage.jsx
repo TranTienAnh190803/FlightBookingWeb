@@ -7,11 +7,17 @@ import {
   FaPlaneArrival,
   FaPlaneDeparture,
 } from "react-icons/fa";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import UserService from "../../services/UserService";
+import FlightService from "../../services/FlightService";
+import FlightCard from "../../components/FlightCard";
+import { Link } from "react-router-dom";
 
 export default function FlightsPage() {
   const departureRef = useRef(null);
   const returnRef = useRef(null);
+  const [flightList, setFlightList] = useState([]);
+  const [message, setMessage] = useState("");
 
   const handleDepartureDate = () => {
     if (departureRef.current) {
@@ -25,6 +31,19 @@ export default function FlightsPage() {
     }
   };
 
+  const fetchFlightList = async () => {
+    const flights = await FlightService.getAllFlight();
+    if (flights.statusCode === 200) {
+      setFlightList(flights.flightList);
+    } else {
+      setMessage(flights.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchFlightList();
+  }, []);
+
   return (
     <div>
       <Navbar />
@@ -36,9 +55,9 @@ export default function FlightsPage() {
           }}
         >
           <div className={style["search-box"]}>
-            <h3>
+            <h1>
               <b>Filter</b>
-            </h3>
+            </h1>
             <hr />
             <form>
               <div className={style["search-input"]}>
@@ -117,6 +136,31 @@ export default function FlightsPage() {
                 <button className="btn btn-success">Search Flights</button>
               </div>
             </form>
+          </div>
+        </div>
+        <div className={style["flights-container"]}>
+          <div className={style["flights-list"]}>
+            <h1>
+              <b>Flights</b>
+            </h1>
+            <hr style={{ marginBottom: "50px" }} />
+            <Link className={style["flights"]} to={"/"}>
+              {flightList.map((flight, index) => {
+                return (
+                  <div className={style["flight"]}>
+                    <FlightCard
+                      airline={flight.airline}
+                      flightName={flight.flightName}
+                      departureDate={flight.departureDate}
+                      roundTrip={flight.roundTrip}
+                      returnDate={flight.returnDate}
+                      price={flight.price}
+                      className={style["flight-card"]}
+                    />
+                  </div>
+                );
+              })}
+            </Link>
           </div>
         </div>
       </div>
