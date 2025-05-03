@@ -68,17 +68,23 @@ export default function Sidebar({ avatar }) {
         <FaUser className="me-3" />
         Profile
       </Link>
-      <Link
-        to="/"
-        className="list-group-item list-group-item-action border-0 bg-secondary text-white"
-      >
-        <FaBell className="me-3" />
-        Notification
-      </Link>
-      <Link to="/" className="list-group-item list-group-item-action border-0">
-        <FaNewspaper className="me-3" />
-        Booking History
-      </Link>
+      {UserService.isAdmin ? (
+        <Link
+          to="/"
+          className="list-group-item list-group-item-action border-0 bg-secondary text-white"
+        >
+          <FaBell className="me-3" />
+          Notification
+        </Link>
+      ) : (
+        <Link
+          to="/"
+          className="list-group-item list-group-item-action border-0"
+        >
+          <FaNewspaper className="me-3" />
+          Booking History
+        </Link>
+      )}
       <Link
         to="/user/change-password"
         className="list-group-item list-group-item-action border-0"

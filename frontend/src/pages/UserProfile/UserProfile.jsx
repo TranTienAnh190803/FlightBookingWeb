@@ -6,7 +6,7 @@ import Sidebar from "../../components/Sidebar";
 import style from "./userProfile.module.css";
 import image1 from "../../assets/user.jpg";
 
-export default function UserProfile() {
+export default function UserProfilePage() {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const [profile, setProfile] = useState({});
@@ -68,7 +68,7 @@ export default function UserProfile() {
         {/* Sidebar */}
         <Sidebar avatar={avatar} />
         {/* Profile */}
-        <div className={style["profile"]}>
+        <div className={`${style["profile"]} shadow`}>
           <h3>
             <b>Profile</b>
           </h3>

@@ -97,11 +97,9 @@ public class UserManagementServiceImpl implements UserManagementService {
                 var jwt = jwtService.generateToken(user);
                 response.setStatusCode(200);
                 response.setToken(jwt);
-                response.setRefreshToken(refreshTokenRequest.getToken());
+                response.setRole(user.getRole());
                 response.setMessage("Refreshed Token Successfully");
             }
-
-            response.setStatusCode(200);
         } catch (Exception e) {
             response.setStatusCode(500);
             response.setMessage(e.getMessage());

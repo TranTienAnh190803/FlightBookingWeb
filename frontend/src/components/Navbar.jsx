@@ -1,7 +1,13 @@
 import { Link } from "react-router-dom";
 import UserService from "../services/UserService";
 import { useEffect, useState } from "react";
-import { FaBell, FaNewspaper, FaSignOutAlt, FaUser } from "react-icons/fa";
+import {
+  FaBell,
+  FaLock,
+  FaNewspaper,
+  FaSignOutAlt,
+  FaUser,
+} from "react-icons/fa";
 import image1 from "../assets/user.jpg";
 
 export default function Navbar() {
@@ -50,8 +56,13 @@ export default function Navbar() {
         >
           {UserService.isAdmin() ? (
             <ul className="navbar-nav mb-2 mb-lg-0">
+              <li className="nav-item mx-2">
+                <Link className="nav-link" to={"/"}>
+                  Home
+                </Link>
+              </li>
               <li className="nav-item">
-                <Link className="nav-link mx-2" to={"/"}>
+                <Link className="nav-link mx-2" to={"/admin-flight-management"}>
                   Flight Management
                 </Link>
               </li>
@@ -125,22 +136,34 @@ export default function Navbar() {
                   Profile
                 </Link>
               </li>
+              {UserService.isAdmin() ? (
+                <li>
+                  <Link
+                    className="dropdown-item d-flex align-items-center gap-3 px-3 py-2"
+                    to="/"
+                  >
+                    <FaBell />
+                    Notification
+                  </Link>
+                </li>
+              ) : (
+                <li>
+                  <Link
+                    className="dropdown-item d-flex align-items-center gap-3 px-3 py-2"
+                    to="/"
+                  >
+                    <FaNewspaper />
+                    Booking History
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link
                   className="dropdown-item d-flex align-items-center gap-3 px-3 py-2"
-                  to="/"
+                  to={`/user/change-password`}
                 >
-                  <FaBell />
-                  Notification
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="dropdown-item d-flex align-items-center gap-3 px-3 py-2"
-                  to="/"
-                >
-                  <FaNewspaper />
-                  Booking History
+                  <FaLock />
+                  Change Password
                 </Link>
               </li>
 

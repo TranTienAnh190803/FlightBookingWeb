@@ -38,7 +38,7 @@ export default function ChangePasswordPage() {
         {/* Sidebar */}
         <Sidebar />
         {/* Change Password */}
-        <div className={style["change-password"]}>
+        <div className={`${style["change-password"]} shadow`}>
           <h3>
             <b>Change Password</b>
           </h3>

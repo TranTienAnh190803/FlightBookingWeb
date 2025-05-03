@@ -1,4 +1,5 @@
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 class UserService{
 
@@ -21,6 +22,16 @@ class UserService{
             return response.data;
         } catch (error) {
             return error.response.data;
+        }
+    }
+
+    static async refreshToken(tokenNeedRefresh) {
+        try {
+            const response = await axios.post(`${this.BASE_URL}/public/refresh`, {token: tokenNeedRefresh});
+            
+            return response.data;
+        } catch (error) {
+            throw error.response.data;
         }
     }
 
@@ -125,6 +136,28 @@ class UserService{
         if (role === "USER" && this.isAuthenticated())
             return true;
         return false;
+    }
+
+    static isTokenExpired(token) {
+        try {
+            const decode = jwtDecode(token);
+            const currentTime = Date.now() / 1000;
+
+            return decode.exp < currentTime;
+        } catch (error) {
+            return true;
+        }
+    }
+
+    static isTokenAlmostExpire(token) {
+        try {
+            const decode = jwtDecode(token);
+            const currentTime = Date.now() / 1000;
+
+            return ((decode.exp - 3600000) < currentTime);
+        } catch (error) {
+            return false;
+        }
     }
 }
 

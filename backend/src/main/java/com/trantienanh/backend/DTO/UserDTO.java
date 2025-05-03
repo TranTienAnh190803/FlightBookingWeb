@@ -37,7 +37,7 @@ public class UserDTO {
 
     private String refreshToken;
 
-    private String expirationTime;
+    private int expirationTime;
 
     private String message;
 
@@ -157,11 +157,11 @@ public class UserDTO {
         this.refreshToken = refreshToken;
     }
 
-    public String getExpirationTime() {
+    public int getExpirationTime() {
         return expirationTime;
     }
 
-    public void setExpirationTime(String expirationTime) {
+    public void setExpirationTime(int expirationTime) {
         this.expirationTime = expirationTime;
     }
 
