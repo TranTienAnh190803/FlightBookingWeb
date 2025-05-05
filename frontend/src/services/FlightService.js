@@ -26,4 +26,32 @@ export default class FlightService {
             return error.response.data;
         }
     }
+
+    static async editFlight(token, flightEdited, flightId) {
+        try {
+            const response = await axios.put(`${this.BASE_URL}/admin/edit-flight?flightId=${flightId}`, flightEdited, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            return response.data;
+        } catch (error) {
+            return error.response.data;
+        }
+    }
+
+    static async deleteFlight(token, flightId) {
+        try {
+            const response = await axios.delete(`${this.BASE_URL}/admin/delete-flight?flightId=${flightId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            return response.data;
+        } catch (error) {
+            return error.response.data;
+        }
+    }
 }

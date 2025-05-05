@@ -53,11 +53,18 @@ export default function UserProfilePage() {
     setProfile({ ...profile, [name]: value });
   };
 
-  const handleUpdateProfile = async () => {
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+
     if (UserService.isAuthenticated()) {
       const token = localStorage.getItem("token");
       const response = await UserService.updateProfile(token, profile);
-      navigate(0);
+      if (response.statusCode === 200) {
+        alert(response.message);
+        navigate(0);
+      } else {
+        alert(response.message);
+      }
     }
   };
 
@@ -96,6 +103,7 @@ export default function UserProfilePage() {
                     <b>Name: </b>
                   </label>
                   <input
+                    className="form-control"
                     type="text"
                     name="name"
                     value={profile.name}
@@ -107,6 +115,7 @@ export default function UserProfilePage() {
                     <b>Email: </b>
                   </label>
                   <input
+                    className="form-control"
                     type="text"
                     name="email"
                     value={profile.email}
@@ -118,6 +127,7 @@ export default function UserProfilePage() {
                     <b>Phone Number: </b>
                   </label>
                   <input
+                    className="form-control"
                     type="text"
                     name="phoneNumber"
                     value={profile.phoneNumber}
@@ -132,6 +142,7 @@ export default function UserProfilePage() {
                   <b>Role: </b>
                 </p>
                 <input
+                  className="form-control"
                   type="text"
                   name="role"
                   value={profile.role}
@@ -143,7 +154,7 @@ export default function UserProfilePage() {
                   <b>Gender: </b>
                 </p>
                 <select
-                  className={style["combo-box"]}
+                  className={`${style["combo-box"]} form-select`}
                   name="gender"
                   onChange={handleInputChange}
                 >
@@ -160,6 +171,7 @@ export default function UserProfilePage() {
                   <b>Date Of Birth: </b>
                 </p>
                 <input
+                  className="form-control"
                   type="date"
                   name="dateOfBirth"
                   value={profile.dateOfBirth}
@@ -172,6 +184,7 @@ export default function UserProfilePage() {
                 <b>Address: </b>
               </p>
               <input
+                className="form-control"
                 type="text"
                 name="address"
                 value={profile.address}

@@ -71,7 +71,7 @@ export default function FlightManagementPage() {
                   const amm = String(arvDate.getMinutes()).padStart(2, "0");
 
                   return (
-                    <tr>
+                    <tr key={flight.flightId}>
                       <th scope="row">{flight.flightId}</th>
                       <td>{flight.departureCity}</td>
                       <td>
@@ -83,6 +83,7 @@ export default function FlightManagementPage() {
                       </td>
                       <td>
                         <input
+                          className="form-check-input"
                           type="checkbox"
                           readOnly
                           checked={flight.roundTrip}
@@ -93,14 +94,11 @@ export default function FlightManagementPage() {
                       <td>{flight.price.toLocaleString("vi-VN")}</td>
                       <td>
                         <span style={{ display: "flex", gap: "10px" }}>
-                          <Link to={"/"} className="btn btn-outline-primary">
+                          <Link
+                            to={`/admin-flight-detail/${flight.flightId}`}
+                            className="btn btn-outline-primary"
+                          >
                             Detail
-                          </Link>
-                          <Link to={"/"} className="btn btn-outline-warning">
-                            Edit
-                          </Link>
-                          <Link to={"/"} className="btn btn-outline-danger">
-                            Delete
                           </Link>
                         </span>
                       </td>

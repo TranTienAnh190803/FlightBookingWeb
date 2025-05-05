@@ -72,4 +72,95 @@ public class FlightServiceImpl implements FlightService {
 
         return response;
     }
+
+    @Override
+    public FlightDTO editFlight(Long flightId, FlightDTO flightDTO) {
+        FlightDTO response = new FlightDTO();
+
+        try {
+            Flight flightNeedEdit = flightRepository.findById(flightId).orElse(null);
+
+            if (flightNeedEdit != null) {
+                Flight newFlight = new Flight(flightId,
+                        flightDTO.getFlightName(),
+                        flightDTO.getAirline(),
+                        flightDTO.getDepartureAirport(),
+                        flightDTO.getDepartureCity(),
+                        flightDTO.getDepartureDate(),
+                        flightDTO.getDestinationAirport(),
+                        flightDTO.getDestinationCity(),
+                        flightDTO.getArrivalDate(),
+                        flightDTO.getCapacity(),
+                        flightDTO.getCapacity(),
+                        flightDTO.getPlaneType(),
+                        flightDTO.getPrice(),
+                        flightDTO.getAdultPrice(),
+                        flightDTO.getChildrenPrice(),
+                        flightDTO.getBabyPrice(),
+                        flightDTO.isRoundTrip(),
+                        flightDTO.getReturnDate()
+                );
+
+                flightRepository.save(newFlight);
+                response.setStatusCode(200);
+                response.setMessage("Edited Flight Successfully");
+            }
+            else {
+                response.setStatusCode(404);
+                response.setMessage("Flight Not Found");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public FlightDTO deleteFlight(Long flightId) {
+        FlightDTO response = new FlightDTO();
+
+        try {
+            Flight flightNeedDel = flightRepository.findById(flightId).orElse(null);
+
+            if (flightNeedDel != null) {
+                flightRepository.delete(flightNeedDel);
+                response.setStatusCode(200);
+                response.setMessage("Deleted Flight Successfully");
+            }
+            else {
+                response.setStatusCode(404);
+                response.setMessage("Flight Not Found");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public FlightDTO getSelectedFlight(Long flightId) {
+        FlightDTO response = new FlightDTO();
+
+        try {
+            Flight selectedFlight = flightRepository.findById(flightId).orElse(null);
+
+            if (selectedFlight != null) {
+                response.setFlight(selectedFlight);
+                response.setStatusCode(200);
+            }
+            else {
+                response.setStatusCode(404);
+                response.setMessage("Flight Not Found");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
 }

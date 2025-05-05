@@ -10,6 +10,7 @@ import axios from "axios";
 import FlightsPage from "./pages/Flights/FlightsPage.jsx";
 import FlightManagementPage from "./pages/FlightsManagement/FlightManagementPage.jsx";
 import UserProfilePage from "./pages/UserProfile/UserProfile.jsx";
+import AdminFlightDetail from "./pages/AdminFlightDetail/AdminFlightDetail.jsx";
 
 function App() {
   const handleRefreshToken = () => {
@@ -68,6 +69,10 @@ function App() {
               <Route
                 path="/admin-flight-management"
                 element={<FlightManagementPage />}
+              />
+              <Route
+                path="/admin-flight-detail/:flightId"
+                element={<AdminFlightDetail />}
               />
             </>
           )}
