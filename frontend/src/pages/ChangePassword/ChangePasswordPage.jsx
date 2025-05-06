@@ -3,6 +3,7 @@ import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/Sidebar";
 import style from "./ChangePasswordPage.module.css";
 import UserService from "../../services/UserService";
+import Footer from "../../components/Footer";
 
 export default function ChangePasswordPage() {
   const [changePass, setChangePass] = useState({
@@ -87,6 +88,7 @@ export default function ChangePasswordPage() {
           </form>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

@@ -12,6 +12,7 @@ import UserService from "../../services/UserService";
 import FlightService from "../../services/FlightService";
 import FlightCard from "../../components/FlightCard";
 import { Link } from "react-router-dom";
+import Footer from "../../components/Footer";
 
 export default function FlightsPage() {
   const departureRef = useRef(null);
@@ -164,6 +165,7 @@ export default function FlightsPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

@@ -27,6 +27,20 @@ export default class FlightService {
         }
     }
 
+    static async getSelectedFlight(token, flightId) {
+        try {
+            const response = await axios.get(`${this.BASE_URL}/admin-user/get-selected-flight?flightId=${flightId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            
+            return response.data;
+        } catch (error) {
+            return error.response.data;
+        }
+    }
+
     static async editFlight(token, flightEdited, flightId) {
         try {
             const response = await axios.put(`${this.BASE_URL}/admin/edit-flight?flightId=${flightId}`, flightEdited, {

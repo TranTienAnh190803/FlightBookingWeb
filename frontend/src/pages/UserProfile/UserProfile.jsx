@@ -5,6 +5,7 @@ import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/Sidebar";
 import style from "./userProfile.module.css";
 import image1 from "../../assets/user.jpg";
+import Footer from "../../components/Footer";
 
 export default function UserProfilePage() {
   const navigate = useNavigate();
@@ -197,6 +198,7 @@ export default function UserProfilePage() {
           </form>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

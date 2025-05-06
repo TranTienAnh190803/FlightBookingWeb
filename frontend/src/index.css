@@ -8,3 +8,15 @@ body{
     font-family: Arial, Helvetica, sans-serif;
     background-color: #F0F0F0;
 }
+
+.footer-facebook:hover{
+    color: #4267B2 !important;
+}
+
+.footer-youtube:hover{
+    color: #FF0000 !important;
+}
+
+.footer-github:hover{
+    color: #CCC !important;
+}

@@ -4,6 +4,7 @@ import UserService from "../../services/UserService";
 import style from "./FlightManagementPage.module.css";
 import FlightService from "../../services/FlightService";
 import { Link } from "react-router-dom";
+import Footer from "../../components/Footer";
 
 export default function FlightManagementPage() {
   const [flightList, setFlightList] = useState([]);
@@ -110,6 +111,7 @@ export default function FlightManagementPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

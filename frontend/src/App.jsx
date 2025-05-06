@@ -11,6 +11,7 @@ import FlightsPage from "./pages/Flights/FlightsPage.jsx";
 import FlightManagementPage from "./pages/FlightsManagement/FlightManagementPage.jsx";
 import UserProfilePage from "./pages/UserProfile/UserProfile.jsx";
 import AdminFlightDetail from "./pages/AdminFlightDetail/AdminFlightDetail.jsx";
+import Footer from "./components/Footer.jsx";
 
 function App() {
   const handleRefreshToken = () => {
@@ -37,8 +38,8 @@ function App() {
   };
 
   useEffect(() => {
-    handleTokenExpired();
     handleRefreshToken();
+    handleTokenExpired();
   }, []);
 
   return (

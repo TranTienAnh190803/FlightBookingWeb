@@ -4,6 +4,7 @@ import image1 from "../../assets/images1.jpg";
 import image2 from "../../assets/images2.jpg";
 import image3 from "../../assets/images3.jpg";
 import style from "./HomePage.module.css";
+import Footer from "../../components/Footer";
 
 export default function HomePage() {
   return (
@@ -107,6 +108,9 @@ export default function HomePage() {
         </div>
       </div>
       {/*  */}
+      <div></div>
+      {/*  */}
+      <Footer />
     </div>
   );
 }
