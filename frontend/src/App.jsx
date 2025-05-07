@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/Login/LoginPage.jsx";
 import RegisterPage from "./pages/Register/RegisterPage.jsx";
 import HomePage from "./pages/Home/HomePage.jsx";
-import Navbar from "./components/Navbar.jsx";
 import UserService from "./services/UserService.js";
 import { useEffect, useState } from "react";
 import ChangePasswordPage from "./pages/ChangePassword/ChangePasswordPage.jsx";
@@ -10,8 +9,8 @@ import axios from "axios";
 import FlightsPage from "./pages/Flights/FlightsPage.jsx";
 import FlightManagementPage from "./pages/FlightsManagement/FlightManagementPage.jsx";
 import UserProfilePage from "./pages/UserProfile/UserProfile.jsx";
-import AdminFlightDetail from "./pages/AdminFlightDetail/AdminFlightDetail.jsx";
-import Footer from "./components/Footer.jsx";
+import AdminFlightDetailPage from "./pages/AdminFlightDetail/AdminFlightDetailPage.jsx";
+import AdminAddFlightPage from "./pages/AdminAddFlight/AdminAddFlightPage.jsx";
 
 function App() {
   const handleRefreshToken = () => {
@@ -68,12 +67,16 @@ function App() {
           {UserService.isAdmin() && (
             <>
               <Route
-                path="/admin-flight-management"
+                path="/admin/flight-management"
                 element={<FlightManagementPage />}
               />
               <Route
-                path="/admin-flight-detail/:flightId"
-                element={<AdminFlightDetail />}
+                path="/admin/flight-detail/:flightId"
+                element={<AdminFlightDetailPage />}
+              />
+              <Route
+                path="/admin/add-flight"
+                element={<AdminAddFlightPage />}
               />
             </>
           )}

@@ -18,6 +18,7 @@ export default function FlightsPage() {
   const departureRef = useRef(null);
   const returnRef = useRef(null);
   const [flightList, setFlightList] = useState([]);
+  const [noFlight, setNoFlight] = useState(false);
   const [message, setMessage] = useState("");
 
   const handleDepartureDate = () => {
@@ -37,6 +38,7 @@ export default function FlightsPage() {
     if (flights.statusCode === 200) {
       setFlightList(flights.flightList);
     } else {
+      setNoFlight(true);
       setMessage(flights.message);
     }
   };
@@ -64,11 +66,19 @@ export default function FlightsPage() {
               <div className={style["search-input"]}>
                 <div>
                   <div>
-                    <input type="checkbox" /> Round-trip
+                    <label>
+                      <input
+                        className="form-check-input border border-secondary"
+                        type="checkbox"
+                      />
+                      <b className="mx-2">Round-trip</b>
+                    </label>
                   </div>
                   <div className={style["input-city"]}>
                     <div>
-                      <p>From</p>
+                      <p>
+                        <b>From</b>
+                      </p>
                       <div className={style["input-box"]}>
                         <input
                           type="text"
@@ -79,7 +89,9 @@ export default function FlightsPage() {
                       </div>
                     </div>
                     <div>
-                      <p>To</p>
+                      <p>
+                        <b>To</b>
+                      </p>
                       <div className={style["input-box"]}>
                         <input
                           type="text"
@@ -92,7 +104,9 @@ export default function FlightsPage() {
                   </div>
                   <div className={style["input-date"]}>
                     <div>
-                      <p>Departure Date</p>
+                      <p>
+                        <b>Departure Date</b>
+                      </p>
                       <div className={style["input-box"]}>
                         <input
                           type="date"
@@ -106,7 +120,9 @@ export default function FlightsPage() {
                       </div>
                     </div>
                     <div>
-                      <p>Return Date</p>
+                      <p>
+                        <b>Return Date</b>
+                      </p>
                       <div className={style["input-box"]}>
                         <input
                           type="date"
@@ -122,7 +138,9 @@ export default function FlightsPage() {
                   </div>
                 </div>
                 <div style={{ marginTop: "54px" }}>
-                  <p>Airline</p>
+                  <p>
+                    <b>Airline</b>
+                  </p>
                   <div className={style["input-box"]}>
                     <input
                       type="text"
@@ -145,10 +163,15 @@ export default function FlightsPage() {
               <b>Flights</b>
             </h1>
             <hr style={{ marginBottom: "50px" }} />
+            {noFlight && (
+              <center>
+                <h3>{message}</h3>
+              </center>
+            )}
             <Link className={style["flights"]} to={"/"}>
               {flightList.map((flight, index) => {
                 return (
-                  <div className={style["flight"]}>
+                  <div className={style["flight"]} key={index}>
                     <FlightCard
                       airline={flight.airline}
                       flightName={flight.flightName}

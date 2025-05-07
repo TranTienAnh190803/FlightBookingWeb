@@ -81,6 +81,18 @@ public class FlightServiceImpl implements FlightService {
             Flight flightNeedEdit = flightRepository.findById(flightId).orElse(null);
 
             if (flightNeedEdit != null) {
+                final int remain = flightNeedEdit.getRemain();
+                final int capacity = flightNeedEdit.getCapacity();
+                final int newCapacity = flightDTO.getCapacity();
+                final int newRemain;
+
+                if (newCapacity > capacity) {
+                    newRemain = remain + (newCapacity - capacity);
+                }
+                else {
+                    newRemain = remain - (capacity - newCapacity);
+                }
+
                 Flight newFlight = new Flight(flightId,
                         flightDTO.getFlightName(),
                         flightDTO.getAirline(),
@@ -91,7 +103,7 @@ public class FlightServiceImpl implements FlightService {
                         flightDTO.getDestinationCity(),
                         flightDTO.getArrivalDate(),
                         flightDTO.getCapacity(),
-                        flightDTO.getCapacity(),
+                        newRemain,
                         flightDTO.getPlaneType(),
                         flightDTO.getPrice(),
                         flightDTO.getAdultPrice(),

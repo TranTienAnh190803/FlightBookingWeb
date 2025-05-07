@@ -1,15 +1,20 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import style from "./AdminFlightDetail.module.css";
+import style from "./AdminFlightDetailPage.module.css";
 import UserService from "../../services/UserService";
 import { useEffect, useState } from "react";
 import FlightService from "../../services/FlightService";
 import Footer from "../../components/Footer";
 
-export default function AdminFlightDetail() {
+export default function AdminFlightDetailPage() {
   const { flightId } = useParams("flightId");
+  const navigate = useNavigate();
   const [flightName, setFlightName] = useState("");
   const [flight, setFlight] = useState({});
+  const [excess, setExcess] = useState({
+    oldCapacity: 0,
+    oldRemain: 0,
+  });
 
   const fetchSelectedFlight = async () => {
     if (UserService.isAuthenticated()) {
@@ -18,6 +23,10 @@ export default function AdminFlightDetail() {
       if (response.statusCode === 200) {
         setFlight(response.flight);
         setFlightName(response.flight.flightName);
+        setExcess({
+          oldCapacity: response.flight.capacity,
+          oldRemain: response.flight.remain,
+        });
       } else {
         alert(response.message);
       }
@@ -27,6 +36,62 @@ export default function AdminFlightDetail() {
   useEffect(() => {
     fetchSelectedFlight();
   }, []);
+
+  const handleInputChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setFlight({ ...flight, [name]: value });
+  };
+
+  const handleRoundTrip = (e) => {
+    const name = e.target.value;
+    const check = e.target.checked;
+    if (check) {
+      setFlight({ ...flight, [name]: check });
+    } else {
+      setFlight({
+        ...flight,
+        [name]: check,
+        returnDate: null,
+      });
+    }
+  };
+
+  const handleFlightCapacity = (e) => {
+    const name = e.target.name;
+    const newCapacity = Number(e.target.value);
+    let newRemain;
+
+    if (newCapacity > excess.oldCapacity) {
+      newRemain = excess.oldRemain + (newCapacity - excess.oldCapacity);
+    } else {
+      newRemain = excess.oldRemain - (excess.oldCapacity - newCapacity);
+    }
+
+    setFlight({ ...flight, [name]: newCapacity, remain: newRemain });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (UserService.isAuthenticated()) {
+      const token = localStorage.getItem("token");
+      const submitter = e.nativeEvent.submitter;
+      const action = submitter.name;
+
+      if (action === "delete") {
+        const response = await FlightService.deleteFlight(token, flightId);
+        if (response.statusCode === 200) {
+          alert(response.message);
+          navigate("/admin/flight-management");
+        } else {
+          alert(response.message);
+        }
+      } else if (action === "update") {
+        console.log("update");
+      }
+    }
+  };
 
   return (
     <div>
@@ -40,7 +105,7 @@ export default function AdminFlightDetail() {
             </b>
           </h1>
           <hr />
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className={`${style["input-container"]} p-3`}>
               <div className={style["input-box"]}>
                 <div className={style["input-group"]}>
@@ -65,6 +130,7 @@ export default function AdminFlightDetail() {
                     name="flightName"
                     className="form-control border border-secondary"
                     value={flight.flightName}
+                    onChange={handleInputChange}
                     required
                   />
                 </div>
@@ -77,6 +143,7 @@ export default function AdminFlightDetail() {
                     name="airline"
                     className="form-control border border-secondary"
                     value={flight.airline}
+                    onChange={handleInputChange}
                     required
                   />
                 </div>
@@ -91,6 +158,7 @@ export default function AdminFlightDetail() {
                     name="departureCity"
                     className="form-control border border-secondary"
                     value={flight.departureCity}
+                    onChange={handleInputChange}
                     required
                   />
                 </div>
@@ -103,6 +171,7 @@ export default function AdminFlightDetail() {
                     name="departureAirport"
                     className="form-control border border-secondary"
                     value={flight.departureAirport}
+                    onChange={handleInputChange}
                     required
                   />
                 </div>
@@ -115,6 +184,7 @@ export default function AdminFlightDetail() {
                     name="departureDate"
                     className="form-control border border-secondary"
                     value={flight.departureDate?.slice(0, 16)}
+                    onChange={handleInputChange}
                     required
                   />
                 </div>
@@ -126,9 +196,10 @@ export default function AdminFlightDetail() {
                   </p>
                   <input
                     type="text"
-                    name="destinationeCity"
+                    name="destinationCity"
                     className="form-control border border-secondary"
                     value={flight.destinationCity}
+                    onChange={handleInputChange}
                     required
                   />
                 </div>
@@ -141,6 +212,7 @@ export default function AdminFlightDetail() {
                     name="destinationAirport"
                     className="form-control border border-secondary"
                     value={flight.destinationAirport}
+                    onChange={handleInputChange}
                     required
                   />
                 </div>
@@ -153,6 +225,7 @@ export default function AdminFlightDetail() {
                     name="arrivalDate"
                     className="form-control border border-secondary"
                     value={flight.arrivalDate?.slice(0, 16)}
+                    onChange={handleInputChange}
                     required
                   />
                 </div>
@@ -162,15 +235,17 @@ export default function AdminFlightDetail() {
                   className={style["input-group"]}
                   style={{ alignSelf: "center", flexBasis: "calc(80% / 3)" }}
                 >
-                  <input
-                    type="checkbox"
-                    name="roundTrip"
-                    className="form-check-input border border-secondary"
-                    checked={flight.roundTrip}
-                  />
-                  <span>
-                    <b> Round Trip </b>
-                  </span>
+                  <label>
+                    <input
+                      type="checkbox"
+                      value="roundTrip"
+                      className="form-check-input border border-secondary"
+                      onChange={handleRoundTrip}
+                    />
+                    <span className="mx-1">
+                      <b> Round Trip </b>
+                    </span>
+                  </label>
                 </div>
                 <div
                   className={style["input-group"]}
@@ -184,6 +259,7 @@ export default function AdminFlightDetail() {
                     name="returnDate"
                     className="form-control border border-secondary"
                     value={flight.returnDate?.slice(0, 16)}
+                    onChange={handleInputChange}
                     required={flight.roundTrip}
                     disabled={!flight.roundTrip}
                     readOnly={!flight.roundTrip}
@@ -194,7 +270,12 @@ export default function AdminFlightDetail() {
                 <div className={style["input-group"]}>
                   <p>
                     <b>Capacity: </b>{" "}
-                    <span id="remainHelpInline" class="form-text">
+                    <span
+                      id="remainHelpInline"
+                      className={`form-text ${
+                        flight.remain < 0 && "text-danger"
+                      }`}
+                    >
                       ( Remain Seat: {flight.remain} )
                     </span>
                   </p>
@@ -204,6 +285,7 @@ export default function AdminFlightDetail() {
                     className="form-control border border-secondary"
                     aria-describedby="remainHelpInline"
                     value={flight.capacity}
+                    onChange={handleFlightCapacity}
                     required
                   />
                 </div>
@@ -216,18 +298,21 @@ export default function AdminFlightDetail() {
                     name="planeType"
                     className="form-control border border-secondary"
                     value={flight.planeType}
+                    onChange={handleInputChange}
                     required
                   />
                 </div>
                 <div className={style["input-group"]}>
                   <p>
-                    <b>Base Price: </b> <span class="form-text">( VNĐ )</span>
+                    <b>Base Price: </b>{" "}
+                    <span className="form-text">( VNĐ )</span>
                   </p>
                   <input
                     type="number"
                     name="price"
                     className="form-control border border-secondary"
                     value={flight.price}
+                    onChange={handleInputChange}
                     required
                   />
                 </div>
@@ -235,38 +320,43 @@ export default function AdminFlightDetail() {
               <div className={style["input-box"]}>
                 <div className={style["input-group"]}>
                   <p>
-                    <b>Adult Price: </b> <span class="form-text">( VNĐ )</span>
+                    <b>Adult Price: </b>{" "}
+                    <span className="form-text">( VNĐ )</span>
                   </p>
                   <input
                     type="number"
                     name="adultPrice"
                     className="form-control border border-secondary"
                     value={flight.adultPrice}
+                    onChange={handleInputChange}
                     required
                   />
                 </div>
                 <div className={style["input-group"]}>
                   <p>
                     <b>Children Price: </b>{" "}
-                    <span class="form-text">( VNĐ )</span>
+                    <span className="form-text">( VNĐ )</span>
                   </p>
                   <input
                     type="number"
                     name="childrenPrice"
                     className="form-control border border-secondary"
                     value={flight.childrenPrice}
+                    onChange={handleInputChange}
                     required
                   />
                 </div>
                 <div className={style["input-group"]}>
                   <p>
-                    <b>Baby Price: </b> <span class="form-text">( VNĐ )</span>
+                    <b>Baby Price: </b>{" "}
+                    <span className="form-text">( VNĐ )</span>
                   </p>
                   <input
                     type="number"
                     name="babyPrice"
                     className="form-control border border-secondary"
                     value={flight.babyPrice}
+                    onChange={handleInputChange}
                     required
                   />
                 </div>
@@ -276,14 +366,14 @@ export default function AdminFlightDetail() {
               <button
                 className="btn btn-danger btn-lg mx-3"
                 type="submit"
-                value="delete"
+                name="delete"
               >
                 Delete
               </button>
               <button
                 className="btn btn-warning btn-lg mx-3 px-4"
                 type="submit"
-                value="update"
+                name="update"
               >
                 Edit
               </button>

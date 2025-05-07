@@ -62,13 +62,13 @@ export default function Navbar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link mx-2" to={"/admin-flight-management"}>
+                <Link className="nav-link mx-2" to={"/admin/flight-management"}>
                   Flight Management
                 </Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link mx-2" to={"/"}>
-                  Feedback
+                  User Management
                 </Link>
               </li>
             </ul>

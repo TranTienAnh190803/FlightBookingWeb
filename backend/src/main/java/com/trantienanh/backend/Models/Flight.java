@@ -50,7 +50,7 @@ public class Flight {
     public Flight() {
     }
 
-    // Constructor with flightId (for Add-Flight)
+    // Constructor with flightId (for Update-Flight)
     public Flight(Long flightId, String flightName, String airline, String departureAirport, String departureCity, Date departureDate, String destinationAirport, String destinationCity, Date arrivalDate, int capacity, int remain, String planeType, float price, float adultPrice, float childrenPrice, float babyPrice, boolean roundTrip, Date returnDate) {
         this.flightId = flightId;
         this.flightName = flightName;
@@ -72,7 +72,7 @@ public class Flight {
         this.returnDate = returnDate;
     }
 
-    // Constructor without flightId (for Update-Flight)
+    // Constructor without flightId (for Add-Flight)
     public Flight(String flightName, String airline, String departureAirport, String departureCity, Date departureDate, String destinationAirport, String destinationCity, Date arrivalDate, int capacity, int remain, String planeType, float price, float adultPrice, float childrenPrice, float babyPrice, boolean roundTrip, Date returnDate) {
         this.flightName = flightName;
         this.airline = airline;
