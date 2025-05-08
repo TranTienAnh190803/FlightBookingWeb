@@ -11,6 +11,8 @@ import FlightManagementPage from "./pages/FlightsManagement/FlightManagementPage
 import UserProfilePage from "./pages/UserProfile/UserProfile.jsx";
 import AdminFlightDetailPage from "./pages/AdminFlightDetail/AdminFlightDetailPage.jsx";
 import AdminAddFlightPage from "./pages/AdminAddFlight/AdminAddFlightPage.jsx";
+import AdminUserManagementPage from "./pages/AdminUserManagement/AdminUserManagementPage.jsx";
+import AdminUserDetailPage from "./pages/AdminUserDetail/AdminUserDetailPage.jsx";
 
 function App() {
   const handleRefreshToken = () => {
@@ -77,6 +79,14 @@ function App() {
               <Route
                 path="/admin/add-flight"
                 element={<AdminAddFlightPage />}
+              />
+              <Route
+                path="/admin/user-management"
+                element={<AdminUserManagementPage />}
+              />
+              <Route
+                path="/admin/user-detail/:id"
+                element={<AdminUserDetailPage />}
               />
             </>
           )}

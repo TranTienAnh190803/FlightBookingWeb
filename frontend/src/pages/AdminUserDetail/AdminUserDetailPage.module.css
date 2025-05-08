@@ -1,0 +1,57 @@
+.wrapper{
+    margin-top: 125px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.user-detail{
+    padding: 35px;
+    width: 90%;
+    background-color: white;
+    border-radius: 30px;
+}
+
+.wrapper form{
+    padding: 50px;
+}
+
+.wrapper .form-container1{
+    display: flex;
+    column-gap: 60px;
+}
+
+.wrapper .image{
+    width: 30%;
+    aspect-ratio: 1/1;
+}
+
+.wrapper .image img{
+    width: 100%;
+    height: auto;
+    border: black 3px solid;
+}
+
+.wrapper .form-container1 .user-info{
+    width: 64%;
+    margin: auto 0px;
+}
+
+.wrapper .form-container1 .user-info .info{
+    margin: 20px 0px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.wrapper .form-container1 .user-info .info input{
+    width: 70%;
+    padding: 6px 12px;
+}
+
+.wrapper .form-container2 {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+}

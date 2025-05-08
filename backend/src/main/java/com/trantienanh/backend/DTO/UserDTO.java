@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.trantienanh.backend.Models.User;
 
 import java.util.Date;
+import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -44,6 +45,8 @@ public class UserDTO {
     private String oldPassword;
 
     private User user;
+
+    private List<User> userList;
 
     public String getName() {
         return name;
@@ -187,5 +190,13 @@ public class UserDTO {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
     }
 }

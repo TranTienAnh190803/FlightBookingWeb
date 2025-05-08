@@ -76,4 +76,16 @@ public class UserManagementController {
         UserDTO response = userManagementService.changePassword(username, userDTO);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
+
+    @GetMapping("/admin/get-all-user")
+    public ResponseEntity<UserDTO> getAllUser() {
+        UserDTO response = userManagementService.getAllUser();
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
+
+    @GetMapping("/admin/get-selected-user")
+    public ResponseEntity<UserDTO> getSelectedUser(@RequestParam("id") Integer id) {
+        UserDTO response = userManagementService.getSelectedUser(id);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
 }

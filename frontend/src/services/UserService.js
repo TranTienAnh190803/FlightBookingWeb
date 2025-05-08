@@ -75,7 +75,7 @@ class UserService{
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
-            })
+            });
 
             return response.data;
         } catch (error) {
@@ -89,7 +89,7 @@ class UserService{
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
-            })
+            });
 
             return response.data;
         } catch (error) {
@@ -103,8 +103,36 @@ class UserService{
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
-            })
+            });
 
+            return response.data;
+        } catch (error) {
+            return error.response.data;
+        }
+    }
+
+    static async getAllUser(token) {
+        try {
+            const response = await axios.get(`${this.BASE_URL}/admin/get-all-user`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            return response.data;
+        } catch (error) {
+            return error.response.data;
+        }
+    }
+
+    static async getSelectedUser(token, id) {
+        try {
+            const response = await axios.get(`${this.BASE_URL}/admin/get-selected-user?id=${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            
             return response.data;
         } catch (error) {
             return error.response.data;

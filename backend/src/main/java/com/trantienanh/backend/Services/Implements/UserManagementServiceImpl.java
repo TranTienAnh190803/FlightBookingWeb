@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class UserManagementServiceImpl implements UserManagementService {
@@ -230,6 +231,52 @@ public class UserManagementServiceImpl implements UserManagementService {
             else {
                 response.setStatusCode(404);
                 response.setMessage("User not found");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public UserDTO getAllUser() {
+        UserDTO response = new UserDTO();
+
+        try {
+            List<User> allUser = userRepository.findAllByRole("USER").orElse(null);
+
+            if (allUser != null) {
+                response.setUserList(allUser);
+                response.setStatusCode(200);
+            }
+            else {
+                response.setStatusCode(404);
+                response.setMessage("There Is No User");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public UserDTO getSelectedUser(Integer id) {
+        UserDTO response = new UserDTO();
+
+        try {
+            User selectedUser = userRepository.findById(id).orElse(null);
+
+            if (selectedUser != null) {
+                response.setUser(selectedUser);
+                response.setStatusCode(200);
+            }
+            else {
+                response.setStatusCode(404);
+                response.setMessage("No User Selected");
             }
         } catch (Exception e) {
             response.setStatusCode(500);

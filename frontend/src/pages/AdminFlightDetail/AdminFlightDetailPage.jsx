@@ -29,6 +29,7 @@ export default function AdminFlightDetailPage() {
         });
       } else {
         alert(response.message);
+        navigate("/admin/flight-management");
       }
     }
   };
@@ -80,15 +81,33 @@ export default function AdminFlightDetailPage() {
       const action = submitter.name;
 
       if (action === "delete") {
-        const response = await FlightService.deleteFlight(token, flightId);
-        if (response.statusCode === 200) {
-          alert(response.message);
-          navigate("/admin/flight-management");
-        } else {
-          alert(response.message);
+        if (confirm("Are you sure you want DELETE this flight")) {
+          const response = await FlightService.deleteFlight(token, flightId);
+          if (response.statusCode === 200) {
+            alert(response.message);
+            navigate("/admin/flight-management");
+          } else {
+            alert(response.message);
+          }
         }
       } else if (action === "update") {
-        console.log("update");
+        if (confirm("Are you sure you want UPDATE this flight")) {
+          if (flight.remain > 0) {
+            const response = await FlightService.editFlight(
+              token,
+              flight,
+              flightId
+            );
+            if (response.statusCode === 200) {
+              alert(response.message);
+              navigate("/admin/flight-management");
+            } else {
+              alert(response.message);
+            }
+          } else {
+            alert("Remain seat is NEGATIVE");
+          }
+        }
       }
     }
   };
@@ -240,6 +259,7 @@ export default function AdminFlightDetailPage() {
                       type="checkbox"
                       value="roundTrip"
                       className="form-check-input border border-secondary"
+                      checked={flight.roundTrip}
                       onChange={handleRoundTrip}
                     />
                     <span className="mx-1">

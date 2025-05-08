@@ -21,4 +21,8 @@ public interface UserManagementService {
     public UserDTO updateProfile(String username, UserDTO userDTO);
 
     public UserDTO changePassword(String username, UserDTO userDTO);
+
+    public UserDTO getAllUser();
+
+    public UserDTO getSelectedUser(Integer id);
 }

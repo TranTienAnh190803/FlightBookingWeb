@@ -1,0 +1,14 @@
+.wrapper{
+    margin-top: 125px;
+    width: 100%;
+    display: flex;
+    min-height: 500px;
+    justify-content: center;
+}
+
+.user-list{
+    padding: 35px;
+    width: 90%;
+    background-color: white;
+    border-radius: 30px;
+}
