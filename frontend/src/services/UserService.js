@@ -139,6 +139,63 @@ class UserService{
         }
     }
 
+    static async getUserAvatarById(token, id) {
+        try {
+            const response = await axios.get(`${this.BASE_URL}/admin/get-user-avatar?id=${id}`, {
+                responseType: "blob",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            return response.data;
+        } catch (error) {
+            return null;
+        }
+    }
+
+    static async resetPassword(token, id) {
+        try {
+            const response = await axios.patch(`${this.BASE_URL}/admin/reset-password?id=${id}`, {}, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            return response.data;
+        } catch (error) {
+            return error.response.data;
+        }
+    }
+
+    static async deleteAccount(token, id) {
+        try {
+            const response = await axios.delete(`${this.BASE_URL}/admin/delete-account?id=${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            return response.data;
+        } catch (error) {
+            return error.response.data;
+        }
+    }
+
+    static async registerAdmin(token, adminInfo) {
+        try {
+            const response = await axios.post(`${this.BASE_URL}/admin/register-admin`, adminInfo, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            return response.data;
+        } catch (error) {
+            return error.response.data;
+        }
+    }
+
     static logout() {
         localStorage.removeItem("token");
         localStorage.removeItem("role");

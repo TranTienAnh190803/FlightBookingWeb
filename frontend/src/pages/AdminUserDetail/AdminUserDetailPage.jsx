@@ -25,9 +25,49 @@ export default function AdminUserDetailPage() {
     }
   };
 
+  const fetchUserAvatar = async () => {
+    if (UserService.isAuthenticated()) {
+      const token = localStorage.getItem("token");
+      const response = await UserService.getUserAvatarById(token, id);
+      setAvatar(URL.createObjectURL(response));
+    }
+  };
+
   useEffect(() => {
     fetchSelectUser();
+    fetchUserAvatar();
   }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (UserService.isAuthenticated()) {
+      const token = localStorage.getItem("token");
+      const submitter = e.nativeEvent.submitter;
+      const action = submitter.name;
+
+      if (action === "deleteAccount") {
+        if (
+          confirm(
+            "Are you sure you want to DELETE this account (every information of this USER will not be RESTORE)?"
+          )
+        ) {
+          const response = await UserService.deleteAccount(token, id);
+          if (response.statusCode === 200) {
+            alert(response.message);
+            navigate("/admin/user-management");
+          } else {
+            alert(response.message);
+          }
+        }
+      } else if (action === "resetPassword") {
+        if (confirm("Are you sure you want to RESET this account PASSWORD?")) {
+          const response = await UserService.resetPassword(token, id);
+          alert(response.message);
+        }
+      }
+    }
+  };
 
   return (
     <div>
@@ -40,7 +80,7 @@ export default function AdminUserDetailPage() {
             </b>
           </h1>
           <hr />
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className={style["form-container1"]}>
               <div className={style["image"]}>
                 <img
@@ -157,8 +197,20 @@ export default function AdminUserDetailPage() {
               </div>
             </div>
             <div className={style["form-container2"]}>
-              <button className="btn btn-danger btn-lg">Delete Account</button>
-              <button className="btn btn-primary btn-lg">Reset Password</button>
+              <button
+                type="submit"
+                className="btn btn-danger btn-lg"
+                name="deleteAccount"
+              >
+                Delete Account
+              </button>
+              <button
+                type="submit"
+                className="btn btn-primary btn-lg"
+                name="resetPassword"
+              >
+                Reset Password
+              </button>
             </div>
           </form>
         </div>

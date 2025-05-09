@@ -13,6 +13,7 @@ import AdminFlightDetailPage from "./pages/AdminFlightDetail/AdminFlightDetailPa
 import AdminAddFlightPage from "./pages/AdminAddFlight/AdminAddFlightPage.jsx";
 import AdminUserManagementPage from "./pages/AdminUserManagement/AdminUserManagementPage.jsx";
 import AdminUserDetailPage from "./pages/AdminUserDetail/AdminUserDetailPage.jsx";
+import RegisterAdminPage from "./pages/RegisterAdmin/RegisterAdminPage.jsx";
 
 function App() {
   const handleRefreshToken = () => {
@@ -87,6 +88,10 @@ function App() {
               <Route
                 path="/admin/user-detail/:id"
                 element={<AdminUserDetailPage />}
+              />
+              <Route
+                path="/admin/register-admin"
+                element={<RegisterAdminPage />}
               />
             </>
           )}

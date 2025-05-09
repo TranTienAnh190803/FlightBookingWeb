@@ -124,6 +124,7 @@ export default function RegisterPage() {
                 <input
                   type="radio"
                   name="gender"
+                  className="form-check-input"
                   value={true}
                   onChange={onChangeHandler}
                   required
@@ -134,6 +135,7 @@ export default function RegisterPage() {
                 <input
                   type="radio"
                   name="gender"
+                  className="form-check-input"
                   value={false}
                   onChange={onChangeHandler}
                   required

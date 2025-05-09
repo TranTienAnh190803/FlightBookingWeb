@@ -285,4 +285,111 @@ public class UserManagementServiceImpl implements UserManagementService {
 
         return response;
     }
+
+    @Override
+    public UserDTO getUserAvatarById(Integer id) {
+        UserDTO response = new UserDTO();
+
+        try {
+            User user = userRepository.findById(id).orElse(null);
+
+            if (user != null && user.getAvatar() != null) {
+                response.setStatusCode(200);
+                response.setAvatar(user.getAvatar());
+                response.setAvatarType(user.getAvatarType());
+            }
+            else {
+                response.setStatusCode(404);
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public UserDTO resetPassword(Integer id) {
+        UserDTO response = new UserDTO();
+
+        try {
+            User user = userRepository.findById(id).orElse(null);
+
+            if (user != null) {
+                String newPassword = "12345";
+                user.setPassword(passwordEncoder.encode(newPassword));
+                userRepository.save(user);
+                response.setStatusCode(200);
+                response.setMessage("Reset Password Successfully. New Password is: " + newPassword);
+            }
+            else {
+                response.setStatusCode(404);
+                response.setMessage("User Not Found");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public UserDTO deleteAccount(Integer id) {
+        UserDTO response = new UserDTO();
+
+        try {
+            User user = userRepository.findById(id).orElse(null);
+
+            if (user != null) {
+                userRepository.delete(user);
+                response.setStatusCode(200);
+                response.setMessage("Deleted Account Successfully");
+            }
+            else {
+                response.setStatusCode(404);
+                response.setMessage("User Not Found");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public UserDTO registerAdmin(UserDTO userDTO) {
+        UserDTO response = new UserDTO();
+
+        try {
+            User newAdmin = new User(userDTO.getName(),
+                    userDTO.getUsername(),
+                    passwordEncoder.encode(userDTO.getPassword()),
+                    userDTO.getDateOfBirth(),
+                    userDTO.getEmail(),
+                    userDTO.getPhoneNumber(),
+                    userDTO.getAddress(),
+                    userDTO.isGender(),
+                    "ADMIN");
+
+            userRepository.save(newAdmin);
+
+            if (newAdmin.getId() > 0) {
+                response.setStatusCode(200);
+                response.setMessage("Register New Admin Successfully");
+            }
+            else {
+                response.setStatusCode(500);
+                response.setMessage("Register New Admin Fail");
+            }
+        }
+        catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
 }

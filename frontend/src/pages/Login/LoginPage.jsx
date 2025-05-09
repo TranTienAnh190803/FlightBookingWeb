@@ -9,7 +9,6 @@ export default function LoginPage() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -24,10 +23,10 @@ export default function LoginPage() {
         localStorage.setItem("role", userData.role);
         navigate("/home");
       } else {
-        setError(userData.message);
+        alert(userData.message);
       }
     } catch (error) {
-      setError(error.message);
+      alert(error.message);
     }
   };
 
@@ -71,8 +70,6 @@ export default function LoginPage() {
           </div>
 
           <button type="submit">Login</button>
-
-          {error && <p className={style["error-message"]}>{error}</p>}
 
           <hr />
 

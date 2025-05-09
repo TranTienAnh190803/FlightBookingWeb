@@ -25,4 +25,12 @@ public interface UserManagementService {
     public UserDTO getAllUser();
 
     public UserDTO getSelectedUser(Integer id);
+
+    public UserDTO getUserAvatarById(Integer id);
+
+    public UserDTO resetPassword(Integer id);
+
+    public UserDTO deleteAccount(Integer id);
+
+    public UserDTO registerAdmin(UserDTO userDTO);
 }

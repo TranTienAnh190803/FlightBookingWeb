@@ -37,7 +37,10 @@ export default function AdminUserManagementPage() {
           </h1>
           <hr />
           <div className="text-end my-4">
-            <Link className="btn btn-success btn-lg" to={"/admin/add-flight"}>
+            <Link
+              className="btn btn-success btn-lg"
+              to={"/admin/register-admin"}
+            >
               Register New Admin
             </Link>
           </div>

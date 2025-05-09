@@ -1,0 +1,28 @@
+.wrapper{
+    margin-top: 125px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.register-admin{
+    padding: 35px;
+    width: 90%;
+    background-color: white;
+    border-radius: 30px;
+}
+
+.input-container .input-box{
+    display: flex;
+    gap: 10%;
+    margin-bottom: 50px;
+}
+
+.input-container .input-box .input-group{
+    flex-basis: 100%;
+}
+
+.button-group{
+    text-align: end;
+    margin-top: 30px;
+}

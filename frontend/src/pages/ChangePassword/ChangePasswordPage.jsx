@@ -53,6 +53,7 @@ export default function ChangePasswordPage() {
                 <input
                   type="password"
                   name="oldPassword"
+                  className="form-control border border-secondary"
                   value={changePass.oldPassword}
                   onChange={handleInputChange}
                 />
@@ -64,6 +65,7 @@ export default function ChangePasswordPage() {
                 <input
                   type="password"
                   name="password"
+                  className="form-control border border-secondary"
                   value={changePass.password}
                   onChange={handleInputChange}
                 />
@@ -75,6 +77,7 @@ export default function ChangePasswordPage() {
                 <input
                   type="password"
                   name="repeatPassword"
+                  className="form-control border border-secondary"
                   value={repeatPassword}
                   onChange={(e) => {
                     setRepeatPassword(e.target.value);

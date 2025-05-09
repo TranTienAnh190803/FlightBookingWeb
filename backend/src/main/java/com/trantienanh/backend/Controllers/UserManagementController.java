@@ -88,4 +88,28 @@ public class UserManagementController {
         UserDTO response = userManagementService.getSelectedUser(id);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
+
+    @GetMapping("/admin/get-user-avatar")
+    public ResponseEntity<byte[]> getUserAvatar(@RequestParam("id") Integer id) {
+        UserDTO response = userManagementService.getUserAvatarById(id);
+        return ResponseEntity.status(response.getStatusCode()).contentType(MediaType.parseMediaType(response.getAvatarType())).body(response.getAvatar());
+    }
+
+    @PatchMapping("/admin/reset-password")
+    public ResponseEntity<UserDTO> resetPassword(@RequestParam("id") Integer id) {
+        UserDTO response = userManagementService.resetPassword(id);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
+
+    @DeleteMapping("admin/delete-account")
+    public ResponseEntity<UserDTO> deleteAccount(@RequestParam("id") Integer id) {
+        UserDTO response = userManagementService.deleteAccount(id);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
+
+    @PostMapping("admin/register-admin")
+    public ResponseEntity<UserDTO> registerAdmin(@RequestBody UserDTO userDTO) {
+        UserDTO response = userManagementService.registerAdmin(userDTO);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
 }
