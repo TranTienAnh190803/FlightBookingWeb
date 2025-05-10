@@ -163,4 +163,51 @@ public class FlightServiceImpl implements FlightService {
 
         return response;
     }
+
+    @Override
+    public FlightDTO searchFlight(FlightDTO flightDTO) {
+        FlightDTO response = new FlightDTO();
+
+        try {
+            if (flightDTO.isRoundTrip()) {
+                List<Flight> flightList = flightRepository.searchFlight(flightDTO.isRoundTrip(),
+                        flightDTO.getDepartureCity(),
+                        flightDTO.getDestinationCity(),
+                        flightDTO.getDepartureDate(),
+                        flightDTO.getReturnDate()
+                );
+
+                if (!flightList.isEmpty()) {
+                    response.setFlightList(flightList);
+                    response.setStatusCode(200);
+                }
+                else {
+                    response.setStatusCode(404);
+                    response.setMessage("Flight Not Found");
+                }
+            }
+            else {
+                List<Flight> flightList = flightRepository.searchFlightNoRoundTrip(flightDTO.isRoundTrip(),
+                        flightDTO.getDepartureCity(),
+                        flightDTO.getDestinationCity(),
+                        flightDTO.getDepartureDate()
+                );
+
+                if (!flightList.isEmpty()) {
+                    response.setFlightList(flightList);
+                    response.setStatusCode(200);
+                }
+                else {
+                    response.setStatusCode(404);
+                    response.setMessage("Flight Not Found");
+                }
+            }
+
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
 }

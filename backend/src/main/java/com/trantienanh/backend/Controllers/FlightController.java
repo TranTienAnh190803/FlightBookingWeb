@@ -1,13 +1,10 @@
 package com.trantienanh.backend.Controllers;
 
 import com.trantienanh.backend.DTO.FlightDTO;
-import com.trantienanh.backend.Repositories.FlightRepository;
 import com.trantienanh.backend.Services.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
 
 @RestController
 public class FlightController {
@@ -41,6 +38,12 @@ public class FlightController {
     @DeleteMapping("/admin/delete-flight")
     public ResponseEntity<FlightDTO> deleteFlight(@RequestParam("flightId") Long flightId) {
         FlightDTO response = flightService.deleteFlight(flightId);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
+
+    @PostMapping("/user/search-flight")
+    public ResponseEntity<FlightDTO> searchFlight(@RequestBody FlightDTO flightDTO) {
+        FlightDTO response = flightService.searchFlight(flightDTO);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 }

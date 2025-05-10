@@ -20,6 +20,13 @@ export default function FlightsPage() {
   const [flightList, setFlightList] = useState([]);
   const [noFlight, setNoFlight] = useState(false);
   const [message, setMessage] = useState("");
+  const [searchInfo, setSearchInfo] = useState({
+    roundTrip: false,
+    departureCity: "",
+    destinationCity: "",
+    departureDate: null,
+    returnDate: null,
+  });
 
   const handleDepartureDate = () => {
     if (departureRef.current) {
@@ -47,6 +54,38 @@ export default function FlightsPage() {
     fetchFlightList();
   }, []);
 
+  const handleInputChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setSearchInfo({ ...searchInfo, [name]: value });
+  };
+
+  const handleRoundTrip = (e) => {
+    const name = e.target.name;
+    const check = e.target.checked;
+    if (check) {
+      setSearchInfo({ ...searchInfo, [name]: check });
+    } else {
+      setSearchInfo({ ...searchInfo, [name]: check, returnDate: null });
+    }
+  };
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+
+    if (UserService.isAuthenticated()) {
+      const token = localStorage.getItem("token");
+      const response = await FlightService.searchFlight(token, searchInfo);
+      if (response.statusCode === 200) {
+        setFlightList(response.flightList);
+      } else {
+        setFlightList([]);
+        setNoFlight(true);
+        setMessage(response.message);
+      }
+    }
+  };
+
   return (
     <div>
       <Navbar />
@@ -57,12 +96,12 @@ export default function FlightsPage() {
             backgroundImage: `url(${plane})`,
           }}
         >
-          <div className={style["search-box"]}>
+          <div className={`${style["search-box"]} shadow`}>
             <h1>
               <b>Filter</b>
             </h1>
             <hr />
-            <form>
+            <form onSubmit={handleSearch}>
               <div className={style["search-input"]}>
                 <div>
                   <div>
@@ -70,6 +109,9 @@ export default function FlightsPage() {
                       <input
                         className="form-check-input border border-secondary"
                         type="checkbox"
+                        name="roundTrip"
+                        checked={searchInfo.roundTrip}
+                        onChange={handleRoundTrip}
                       />
                       <b className="mx-2">Round-trip</b>
                     </label>
@@ -84,6 +126,9 @@ export default function FlightsPage() {
                           type="text"
                           name="departureCity"
                           placeholder="Departure City"
+                          value={searchInfo.departureCity}
+                          onChange={handleInputChange}
+                          required
                         />
                         <FaPlaneDeparture className={style["icon"]} />
                       </div>
@@ -97,6 +142,9 @@ export default function FlightsPage() {
                           type="text"
                           name="destinationCity"
                           placeholder="Destination City"
+                          value={searchInfo.destinationCity}
+                          onChange={handleInputChange}
+                          required
                         />
                         <FaPlaneArrival className={style["icon"]} />
                       </div>
@@ -110,8 +158,11 @@ export default function FlightsPage() {
                       <div className={style["input-box"]}>
                         <input
                           type="date"
-                          name="departureCity"
+                          name="departureDate"
                           ref={departureRef}
+                          value={searchInfo.departureDate}
+                          onChange={handleInputChange}
+                          required
                         />
                         <FaCalendar
                           className={style["icon"]}
@@ -119,35 +170,27 @@ export default function FlightsPage() {
                         />
                       </div>
                     </div>
-                    <div>
-                      <p>
-                        <b>Return Date</b>
-                      </p>
-                      <div className={style["input-box"]}>
-                        <input
-                          type="date"
-                          name="destinationCity"
-                          ref={returnRef}
-                        />
-                        <FaCalendar
-                          className={style["icon"]}
-                          onClick={handleReturnDate}
-                        />
+                    {searchInfo.roundTrip && (
+                      <div>
+                        <p>
+                          <b>Return Date</b>
+                        </p>
+                        <div className={style["input-box"]}>
+                          <input
+                            type="date"
+                            name="returnDate"
+                            ref={returnRef}
+                            value={searchInfo.returnDate}
+                            onChange={handleInputChange}
+                            required={searchInfo.roundTrip}
+                          />
+                          <FaCalendar
+                            className={style["icon"]}
+                            onClick={handleReturnDate}
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </div>
-                <div style={{ marginTop: "54px" }}>
-                  <p>
-                    <b>Airline</b>
-                  </p>
-                  <div className={style["input-box"]}>
-                    <input
-                      type="text"
-                      name="airline"
-                      placeholder="Your favorite airline"
-                    />
-                    <FaPlane className={style["icon"]} />
+                    )}
                   </div>
                 </div>
               </div>
@@ -158,14 +201,16 @@ export default function FlightsPage() {
           </div>
         </div>
         <div className={style["flights-container"]}>
-          <div className={style["flights-list"]}>
+          <div className={`${style["flights-list"]} shadow`}>
             <h1>
               <b>Flights</b>
             </h1>
             <hr style={{ marginBottom: "50px" }} />
             {noFlight && (
               <center>
-                <h3>{message}</h3>
+                <h3 className="text-danger">
+                  <b>{message}</b>
+                </h3>
               </center>
             )}
             <Link className={style["flights"]} to={"/"}>

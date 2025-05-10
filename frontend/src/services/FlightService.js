@@ -68,4 +68,18 @@ export default class FlightService {
             return error.response.data;
         }
     }
+
+    static async searchFlight(token, searchInfo) {
+        try {
+            const response = await axios.post(`${this.BASE_URL}/user/search-flight`, searchInfo, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            return response.data;
+        } catch (error) {
+            return error.response.data
+        }
+    }
 }

@@ -12,4 +12,6 @@ public interface FlightService {
     public FlightDTO deleteFlight(Long flightId);
 
     public FlightDTO getSelectedFlight(Long flightId);
+
+    public FlightDTO searchFlight(FlightDTO flightDTO);
 }
