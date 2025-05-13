@@ -213,10 +213,15 @@ export default function FlightsPage() {
                 </h3>
               </center>
             )}
-            <Link className={style["flights"]} to={"/"}>
-              {flightList.map((flight, index) => {
+
+            <div className={style["flights"]}>
+              {flightList.map((flight) => {
                 return (
-                  <div className={style["flight"]} key={index}>
+                  <Link
+                    className={style["flight"]}
+                    to={`/user/book-ticket/${flight.flightId}`}
+                    key={flight.flightId}
+                  >
                     <FlightCard
                       airline={flight.airline}
                       flightName={flight.flightName}
@@ -226,10 +231,10 @@ export default function FlightsPage() {
                       price={flight.price}
                       className={style["flight-card"]}
                     />
-                  </div>
+                  </Link>
                 );
               })}
-            </Link>
+            </div>
           </div>
         </div>
       </div>

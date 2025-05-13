@@ -14,6 +14,7 @@ import AdminAddFlightPage from "./pages/AdminAddFlight/AdminAddFlightPage.jsx";
 import AdminUserManagementPage from "./pages/AdminUserManagement/AdminUserManagementPage.jsx";
 import AdminUserDetailPage from "./pages/AdminUserDetail/AdminUserDetailPage.jsx";
 import RegisterAdminPage from "./pages/RegisterAdmin/RegisterAdminPage.jsx";
+import BookTicketPage from "./pages/BookTicket/BookTicketPage.jsx";
 
 function App() {
   const handleRefreshToken = () => {
@@ -92,6 +93,16 @@ function App() {
               <Route
                 path="/admin/register-admin"
                 element={<RegisterAdminPage />}
+              />
+            </>
+          )}
+
+          {/* User Page */}
+          {UserService.isUser() && (
+            <>
+              <Route
+                path="/user/book-ticket/:flightId"
+                element={<BookTicketPage />}
               />
             </>
           )}
