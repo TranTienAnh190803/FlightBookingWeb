@@ -13,11 +13,12 @@
 .booking .information {
     width: 44%;
 }
-.booking .seat-number{
+.booking .booking-info{
     width: 50%;
+    height: fit-content;
 }
 
-.booking .seat-number,
+.booking .booking-info,
 .booking .flight-info,
 .booking .payment-info{
     background-color: white;
@@ -25,6 +26,50 @@
     padding: 35px;
 }
 
+/* Booking Infomation */
+.booking .contact-info{
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.booking .contact-info .input-container{
+    flex-basis: 49%;
+}
+
+.booking .reservation{
+    padding: 20px;
+}
+
+.booking .reservation .input-container{
+    display: flex;
+    width: 70%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.booking .reservation .input-box{
+    display: flex;
+    align-items: center;
+}
+
+.booking .reservation input[type="number"]{
+    width: 20%;
+}
+
+.booking .reservation input[type="number"]::-webkit-inner-spin-button,
+.booking .reservation input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.booking .reservation .button-style{
+    height: 30px;
+    width: 30px;
+    border-radius: 8px;
+}
+
+/* Flight Infomation */
 .booking .schedule{
     display: flex;
     justify-content: space-between;
@@ -51,4 +96,20 @@
     background-color: green;
     color: white;
     padding: 2px 8px;
+    font-size: 14px;
+}
+
+/* Payment Information */
+.booking .payment-info .price-info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: lightblue;
+    margin-top: 10px;
+    padding: 10px 25px;
+    border-radius: 30px;
+}
+
+.booking .payment-info .price-info p{
+    margin: 0;
 }

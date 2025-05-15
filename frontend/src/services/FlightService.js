@@ -79,7 +79,7 @@ export default class FlightService {
 
             return response.data;
         } catch (error) {
-            return error.response.data
+            return error.response.data;
         }
     }
 }

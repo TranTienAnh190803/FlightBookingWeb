@@ -1,6 +1,7 @@
 package com.trantienanh.backend.Services.Implements;
 
 import com.trantienanh.backend.DTO.FlightTicketDTO;
+import com.trantienanh.backend.DTO.UserDTO;
 import com.trantienanh.backend.Models.ClientInfo;
 import com.trantienanh.backend.Models.Flight;
 import com.trantienanh.backend.Models.FlightTicket;
@@ -78,6 +79,32 @@ public class FlightTicketServiceImpl implements FlightTicketService {
                 response.setMessage("Not Found Error");
             }
 
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public UserDTO getContactInfo(String username) {
+        UserDTO response = new UserDTO();
+
+        try {
+            User user = userRepository.findByUsername(username).orElse(null);
+
+            if (user != null) {
+                response.setName(user.getName());
+                response.setEmail(user.getEmail());
+                response.setPhoneNumber(user.getPhoneNumber());
+                response.setDateOfBirth(user.getDateOfBirth());
+                response.setStatusCode(200);
+            }
+            else {
+                response.setStatusCode(404);
+                response.setMessage("User Not Found");
+            }
         } catch (Exception e) {
             response.setStatusCode(500);
             response.setMessage(e.getMessage());
