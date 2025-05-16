@@ -18,7 +18,8 @@
     height: fit-content;
 }
 
-.booking .booking-info,
+.booking .contact-reservation,
+.booking .client-info,
 .booking .flight-info,
 .booking .payment-info{
     background-color: white;
@@ -67,6 +68,25 @@
     height: 30px;
     width: 30px;
     border-radius: 8px;
+}
+
+/* Client information */
+.booking .client-form{
+    padding: 20px 20px 0px 20px;
+}
+
+.booking .client-form p{
+    margin: 0px 0px 10px 0px;
+}
+
+.booking .client-form .input-container{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.booking .client-form .input-container .input-box{
+    flex-basis: 49%;
 }
 
 /* Flight Infomation */

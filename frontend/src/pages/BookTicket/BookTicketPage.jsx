@@ -18,7 +18,9 @@ export default function BookTicketPage() {
     adultSeat: 1,
     childrenSeat: 0,
     babySeat: 0,
+    clientInfoList: Array.from({ length: 1 }),
   });
+  const [totalSeat, setTotalSeat] = useState(1);
 
   // fetch data function
   const fetchSelectedFlight = async () => {
@@ -93,10 +95,28 @@ export default function BookTicketPage() {
   };
 
   // handle function
-  const handleInputChange = (e) => {
+  const handleContactInfoChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     setContactInfo({ ...contactInfo, [name]: value });
+  };
+
+  const handleClientInfoChange = (index, variable, name, value) => {
+    for (let i in reservation.clientInfoList) {
+      if (Number(i) === index) {
+        const updateClientInfoList = [...reservation.clientInfoList];
+        updateClientInfoList[i] = {
+          ...updateClientInfoList[i],
+          [name]: value,
+          ageCategory: variable,
+        };
+
+        setReservation({
+          ...reservation,
+          clientInfoList: updateClientInfoList,
+        });
+      }
+    }
   };
 
   const handleAdultSeat = (e) => {
@@ -104,19 +124,28 @@ export default function BookTicketPage() {
     const adult = reservation.adultSeat;
     const adultPrice = selectedFlight.adultPrice;
     const total = reservation.totalPrice;
+    const oldClientInfoList = reservation.clientInfoList;
     if (name === "minus") {
       if (adult > 1) {
+        setTotalSeat(totalSeat - 1);
         setReservation({
           ...reservation,
           adultSeat: adult - 1,
           totalPrice: total - adultPrice,
+          clientInfoList: Array.from({ length: totalSeat - 1 }, (v, k) => {
+            return oldClientInfoList[k];
+          }),
         });
       }
     } else if (name === "plus") {
+      setTotalSeat(totalSeat + 1);
       setReservation({
         ...reservation,
         adultSeat: adult + 1,
         totalPrice: total + adultPrice,
+        clientInfoList: Array.from({ length: totalSeat + 1 }, (v, k) => {
+          return oldClientInfoList[k];
+        }),
       });
     }
   };
@@ -126,19 +155,28 @@ export default function BookTicketPage() {
     const children = reservation.childrenSeat;
     const childrenPrice = selectedFlight.childrenPrice;
     const total = reservation.totalPrice;
+    const oldClientInfoList = reservation.clientInfoList;
     if (name === "minus") {
       if (children > 0) {
+        setTotalSeat(totalSeat - 1);
         setReservation({
           ...reservation,
           childrenSeat: children - 1,
           totalPrice: total - childrenPrice,
+          clientInfoList: Array.from({ length: totalSeat - 1 }, (v, k) => {
+            return oldClientInfoList[k];
+          }),
         });
       }
     } else if (name === "plus") {
+      setTotalSeat(totalSeat + 1);
       setReservation({
         ...reservation,
         childrenSeat: children + 1,
         totalPrice: total + childrenPrice,
+        clientInfoList: Array.from({ length: totalSeat + 1 }, (v, k) => {
+          return oldClientInfoList[k];
+        }),
       });
     }
   };
@@ -148,186 +186,579 @@ export default function BookTicketPage() {
     const baby = reservation.babySeat;
     const babyPrice = selectedFlight.babyPrice;
     const total = reservation.totalPrice;
+    const oldClientInfoList = reservation.clientInfoList;
     if (name === "minus") {
       if (baby > 0) {
+        setTotalSeat(totalSeat - 1);
         setReservation({
           ...reservation,
           babySeat: baby - 1,
           totalPrice: total - babyPrice,
+          clientInfoList: Array.from({ length: totalSeat - 1 }, (v, k) => {
+            return oldClientInfoList[k];
+          }),
         });
       }
     } else if (name === "plus") {
+      setTotalSeat(totalSeat + 1);
       setReservation({
         ...reservation,
         babySeat: baby + 1,
         totalPrice: total + babyPrice,
+        clientInfoList: Array.from({ length: totalSeat + 1 }, (v, k) => {
+          return oldClientInfoList[k];
+        }),
       });
     }
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   if (UserService.isAuthenticated()) {
+  //     const token = localStorage.getItem("token");
+  //   }
+  // };
 
   return (
     <div>
       <Navbar />
       <div className={style["wrapper"]}>
-        <div className={style["booking"]}>
+        <form className={style["booking"]}>
           <div className={style["booking-info"]}>
-            <h1>
-              <b>Booking Information</b>
-            </h1>
-            <hr />
-            <div>
+            <div className={style["contact-reservation"]}>
+              <h1>
+                <b>Booking Information</b>
+              </h1>
+              <hr />
               <div>
-                <h3>
-                  <b>Contact</b>
-                </h3>
-                <div className={style["contact-info"]}>
-                  <div className={style["input-container"]}>
-                    <div className="mb-3">
-                      <p>Full Name: </p>
-                      <input
-                        type="text"
-                        className="form-control border-secondary"
-                        name="name"
-                        value={contactInfo.name}
-                        onChange={handleInputChange}
-                        required
-                      />
+                <div>
+                  <h3>
+                    <b>Contact</b>
+                  </h3>
+                  <div className={style["contact-info"]}>
+                    <div className={style["input-container"]}>
+                      <div className="mb-3">
+                        <p>Full Name: </p>
+                        <input
+                          type="text"
+                          className="form-control border-secondary"
+                          name="name"
+                          value={contactInfo.name}
+                          onChange={handleContactInfoChange}
+                          required
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <p>Phone Number: </p>
+                        <input
+                          type="text"
+                          className="form-control border-secondary"
+                          name="phoneNumber"
+                          value={contactInfo.phoneNumber}
+                          onChange={handleContactInfoChange}
+                          required
+                        />
+                      </div>
                     </div>
-                    <div className="mb-3">
-                      <p>Phone Number: </p>
-                      <input
-                        type="text"
-                        className="form-control border-secondary"
-                        name="phoneNumber"
-                        value={contactInfo.phoneNumber}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className={style["input-container"]}>
-                    <div className="mb-3">
-                      <p>Date Of Birth: </p>
-                      <input
-                        type="date"
-                        className="form-control border-secondary"
-                        name="dateOfBirth"
-                        value={contactInfo.dateOfBirth}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <p>Email: </p>
-                      <input
-                        type="email"
-                        className="form-control border-secondary"
-                        name="email"
-                        value={contactInfo.email}
-                        onChange={handleInputChange}
-                        required
-                      />
+                    <div className={style["input-container"]}>
+                      <div className="mb-3">
+                        <p>Date Of Birth: </p>
+                        <input
+                          type="date"
+                          className="form-control border-secondary"
+                          name="dateOfBirth"
+                          value={contactInfo.dateOfBirth}
+                          onChange={handleContactInfoChange}
+                          required
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <p>Email: </p>
+                        <input
+                          type="email"
+                          className="form-control border-secondary"
+                          name="email"
+                          value={contactInfo.email}
+                          onChange={handleContactInfoChange}
+                          required
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div>
-                <h3>
-                  <b>Reservation</b>
-                </h3>
-                <div className={style["reservation"]}>
-                  <div className={`${style["input-container"]} mb-3`}>
-                    <label>
-                      {" "}
-                      <FaPerson className="me-2" /> Adult:{" "}
-                    </label>
-                    <div className={style["input-box"]}>
-                      <button
-                        className={`btn btn-danger btn-sm ${style["button-style"]}`}
-                        type="button"
-                        name="minus"
-                        onClick={handleAdultSeat}
-                      >
-                        -
-                      </button>
-                      <input
-                        type="number"
-                        className="form-control border-secondary mx-2"
-                        name="adultSeat"
-                        value={reservation.adultSeat}
-                      />
-                      <button
-                        className={`btn btn-success btn-sm ${style["button-style"]}`}
-                        type="button"
-                        name="plus"
-                        onClick={handleAdultSeat}
-                      >
-                        +
-                      </button>
+                <div>
+                  <h3>
+                    <b>Reservation</b>
+                  </h3>
+                  <div className={style["reservation"]}>
+                    <div className={`${style["input-container"]} mb-3`}>
+                      <label>
+                        {" "}
+                        <FaPerson className="me-2" /> Adult:{" "}
+                      </label>
+                      <div className={style["input-box"]}>
+                        <button
+                          className={`btn btn-danger btn-sm ${style["button-style"]}`}
+                          type="button"
+                          name="minus"
+                          onClick={handleAdultSeat}
+                        >
+                          -
+                        </button>
+                        <input
+                          type="number"
+                          className="form-control border-secondary mx-2"
+                          name="adultSeat"
+                          value={reservation.adultSeat}
+                          readOnly
+                        />
+                        <button
+                          className={`btn btn-success btn-sm ${style["button-style"]}`}
+                          type="button"
+                          name="plus"
+                          disabled={totalSeat >= 7}
+                          onClick={handleAdultSeat}
+                        >
+                          +
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  <div className={`${style["input-container"]} mb-3`}>
-                    <label>
-                      {" "}
-                      <FaChild className="me-2" /> Children:{" "}
-                    </label>
-                    <div className={style["input-box"]}>
-                      <button
-                        className={`btn btn-danger btn-sm ${style["button-style"]}`}
-                        type="button"
-                        name="minus"
-                        onClick={handleChildrenSeat}
-                      >
-                        -
-                      </button>
-                      <input
-                        type="number"
-                        className="form-control border-secondary mx-2"
-                        name="childrenSeat"
-                        value={reservation.childrenSeat}
-                      />
-                      <button
-                        className={`btn btn-success btn-sm ${style["button-style"]}`}
-                        type="button"
-                        name="plus"
-                        onClick={handleChildrenSeat}
-                      >
-                        +
-                      </button>
+                    <div className={`${style["input-container"]} mb-3`}>
+                      <label>
+                        {" "}
+                        <FaChild className="me-2" /> Children:{" "}
+                      </label>
+                      <div className={style["input-box"]}>
+                        <button
+                          className={`btn btn-danger btn-sm ${style["button-style"]}`}
+                          type="button"
+                          name="minus"
+                          onClick={handleChildrenSeat}
+                        >
+                          -
+                        </button>
+                        <input
+                          type="number"
+                          className="form-control border-secondary mx-2"
+                          name="childrenSeat"
+                          value={reservation.childrenSeat}
+                          readOnly
+                        />
+                        <button
+                          className={`btn btn-success btn-sm ${style["button-style"]}`}
+                          type="button"
+                          name="plus"
+                          disabled={totalSeat >= 7}
+                          onClick={handleChildrenSeat}
+                        >
+                          +
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  <div className={`${style["input-container"]} mb-3`}>
-                    <label>
-                      <FaBaby className="me-2" /> Baby:{" "}
-                    </label>
-                    <div className={style["input-box"]}>
-                      <button
-                        className={`btn btn-danger btn-sm ${style["button-style"]}`}
-                        type="button"
-                        name="minus"
-                        onClick={handleBabySeat}
-                      >
-                        -
-                      </button>
-                      <input
-                        type="number"
-                        className="form-control border-secondary mx-2"
-                        name="babySeat"
-                        value={reservation.babySeat}
-                      />
-                      <button
-                        className={`btn btn-success btn-sm ${style["button-style"]}`}
-                        type="button"
-                        name="plus"
-                        onClick={handleBabySeat}
-                      >
-                        +
-                      </button>
+                    <div className={`${style["input-container"]} mb-3`}>
+                      <label>
+                        <FaBaby className="me-2" /> Baby:{" "}
+                      </label>
+                      <div className={style["input-box"]}>
+                        <button
+                          className={`btn btn-danger btn-sm ${style["button-style"]}`}
+                          type="button"
+                          name="minus"
+                          onClick={handleBabySeat}
+                        >
+                          -
+                        </button>
+                        <input
+                          type="number"
+                          className="form-control border-secondary mx-2"
+                          name="babySeat"
+                          value={reservation.babySeat}
+                          readOnly
+                        />
+                        <button
+                          className={`btn btn-success btn-sm ${style["button-style"]}`}
+                          type="button"
+                          name="plus"
+                          disabled={totalSeat >= 7}
+                          onClick={handleBabySeat}
+                        >
+                          +
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+            {/* Client */}
+            {/* Adult */}
+            {reservation.adultSeat > 0 && (
+              <div className={`${style["client-info"]} my-3`}>
+                <h1>
+                  <b>
+                    <FaPerson className="mb-3" /> Adult
+                  </b>
+                </h1>
+                <hr />
+                {Array.from({ length: reservation.adultSeat })
+                  .fill("Adult")
+                  .map((value, index) => {
+                    return (
+                      <div className={style["client-form"]} key={index}>
+                        {index > 0 && <hr />}
+                        <h3 className="mb-4">
+                          <b>Adult {index + 1}</b>
+                        </h3>
+                        <div className={style["input-container"]}>
+                          <div className={style["input-box"]}>
+                            <p>First Name: </p>
+                            <input
+                              type="text"
+                              className="form-control border-secondary"
+                              name="firstName"
+                              value={
+                                reservation.clientInfoList[index]?.firstName
+                              }
+                              onChange={(e) =>
+                                handleClientInfoChange(
+                                  index,
+                                  value,
+                                  e.target.name,
+                                  e.target.value
+                                )
+                              }
+                              required
+                            />
+                          </div>
+                          <div className={style["input-box"]}>
+                            <p>Last Name: </p>
+                            <input
+                              type="text"
+                              className="form-control border-secondary"
+                              name="lastName"
+                              value={
+                                reservation.clientInfoList[index]?.lastName
+                              }
+                              onChange={(e) =>
+                                handleClientInfoChange(
+                                  index,
+                                  value,
+                                  e.target.name,
+                                  e.target.value
+                                )
+                              }
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div className={style["input-container"]}>
+                          <div className={style["input-box"]}>
+                            <p>Date Of Birth: </p>
+                            <input
+                              type="date"
+                              className="form-control border-secondary"
+                              name="dateOfBirth"
+                              value={
+                                reservation.clientInfoList[index]?.dateOfBirth
+                              }
+                              onChange={(e) =>
+                                handleClientInfoChange(
+                                  index,
+                                  value,
+                                  e.target.name,
+                                  e.target.value
+                                )
+                              }
+                              required
+                            />
+                          </div>
+                          <div className={style["input-box"]}>
+                            <p>Gender: </p>
+                            <select
+                              name="gender"
+                              className="form-select border-secondary"
+                              value={reservation.clientInfoList[index]?.gender}
+                              onChange={(e) =>
+                                handleClientInfoChange(
+                                  index,
+                                  value,
+                                  e.target.name,
+                                  e.target.value
+                                )
+                              }
+                              required
+                            >
+                              <option
+                                value=""
+                                selected
+                                disabled
+                                hidden
+                              ></option>
+                              <option value="true">Male</option>
+                              <option value="false">Female</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className={style["input-box"]}>
+                          <p>Passport/Identification: </p>
+                          <input
+                            type="text"
+                            className="form-control border-secondary"
+                            name="passport"
+                            value={reservation.clientInfoList[index]?.passport}
+                            onChange={(e) =>
+                              handleClientInfoChange(
+                                index,
+                                value,
+                                e.target.name,
+                                e.target.value
+                              )
+                            }
+                            required
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            )}
+            {/* Children */}
+            {reservation.childrenSeat > 0 && (
+              <div className={`${style["client-info"]} my-3`}>
+                <h1>
+                  <b>
+                    <FaChild className="mb-3" /> Children
+                  </b>
+                </h1>
+                <hr />
+                {Array.from({ length: reservation.childrenSeat })
+                  .fill("Children")
+                  .map((value, index) => {
+                    const position = index + reservation.adultSeat;
+                    return (
+                      <div className={style["client-form"]} key={index}>
+                        {index > 0 && <hr />}
+                        <h3 className="mb-4">
+                          <b>Children {index + 1}</b>
+                        </h3>
+                        <div className={style["input-container"]}>
+                          <div className={style["input-box"]}>
+                            <p>First Name: </p>
+                            <input
+                              type="text"
+                              className="form-control border-secondary"
+                              name="firstName"
+                              value={
+                                reservation.clientInfoList[position]?.firstName
+                              }
+                              onChange={(e) =>
+                                handleClientInfoChange(
+                                  position,
+                                  value,
+                                  e.target.name,
+                                  e.target.value
+                                )
+                              }
+                              required
+                            />
+                          </div>
+                          <div className={style["input-box"]}>
+                            <p>Last Name: </p>
+                            <input
+                              type="text"
+                              className="form-control border-secondary"
+                              name="lastName"
+                              value={
+                                reservation.clientInfoList[position]?.lastName
+                              }
+                              onChange={(e) =>
+                                handleClientInfoChange(
+                                  position,
+                                  value,
+                                  e.target.name,
+                                  e.target.value
+                                )
+                              }
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div className={style["input-container"]}>
+                          <div className={style["input-box"]}>
+                            <p>Date Of Birth: </p>
+                            <input
+                              type="date"
+                              className="form-control border-secondary"
+                              name="dateOfBirth"
+                              value={
+                                reservation.clientInfoList[position]
+                                  ?.dateOfBirth
+                              }
+                              onChange={(e) =>
+                                handleClientInfoChange(
+                                  position,
+                                  value,
+                                  e.target.name,
+                                  e.target.value
+                                )
+                              }
+                              required
+                            />
+                          </div>
+                          <div className={style["input-box"]}>
+                            <p>Gender: </p>
+                            <select
+                              name="gender"
+                              className="form-select border-secondary"
+                              value={
+                                reservation.clientInfoList[position]?.gender
+                              }
+                              onChange={(e) =>
+                                handleClientInfoChange(
+                                  position,
+                                  value,
+                                  e.target.name,
+                                  e.target.value
+                                )
+                              }
+                              required
+                            >
+                              <option
+                                value=""
+                                selected
+                                disabled
+                                hidden
+                              ></option>
+                              <option value="true">Male</option>
+                              <option value="false">Female</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            )}
+
+            {/* Baby */}
+            {reservation.babySeat > 0 && (
+              <div className={`${style["client-info"]} my-3`}>
+                <h1>
+                  <b>
+                    <FaBaby className="mb-3" /> Baby
+                  </b>
+                </h1>
+                <hr />
+                {Array.from({ length: reservation.babySeat })
+                  .fill("Baby")
+                  .map((value, index) => {
+                    const position =
+                      index + reservation.adultSeat + reservation.childrenSeat;
+                    return (
+                      <div className={style["client-form"]} key={index}>
+                        {index > 0 && <hr />}
+                        <h3 className="mb-4">
+                          <b>Baby {index + 1}</b>
+                        </h3>
+                        <div className={style["input-container"]}>
+                          <div className={style["input-box"]}>
+                            <p>First Name: </p>
+                            <input
+                              type="text"
+                              className="form-control border-secondary"
+                              name="firstName"
+                              value={
+                                reservation.clientInfoList[position]?.firstName
+                              }
+                              onChange={(e) =>
+                                handleClientInfoChange(
+                                  position,
+                                  value,
+                                  e.target.name,
+                                  e.target.value
+                                )
+                              }
+                              required
+                            />
+                          </div>
+                          <div className={style["input-box"]}>
+                            <p>Last Name: </p>
+                            <input
+                              type="text"
+                              className="form-control border-secondary"
+                              name="lastName"
+                              value={
+                                reservation.clientInfoList[position]?.lastName
+                              }
+                              onChange={(e) =>
+                                handleClientInfoChange(
+                                  position,
+                                  value,
+                                  e.target.name,
+                                  e.target.value
+                                )
+                              }
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div className={style["input-container"]}>
+                          <div className={style["input-box"]}>
+                            <p>Date Of Birth: </p>
+                            <input
+                              type="date"
+                              className="form-control border-secondary"
+                              name="dateOfBirth"
+                              value={
+                                reservation.clientInfoList[position]
+                                  ?.dateOfBirth
+                              }
+                              onChange={(e) =>
+                                handleClientInfoChange(
+                                  position,
+                                  value,
+                                  e.target.name,
+                                  e.target.value
+                                )
+                              }
+                              required
+                            />
+                          </div>
+                          <div className={style["input-box"]}>
+                            <p>Gender: </p>
+                            <select
+                              name="gender"
+                              className="form-select border-secondary"
+                              value={
+                                reservation.clientInfoList[position]?.gender
+                              }
+                              onChange={(e) =>
+                                handleClientInfoChange(
+                                  position,
+                                  value,
+                                  e.target.name,
+                                  e.target.value
+                                )
+                              }
+                              required
+                            >
+                              <option
+                                value=""
+                                selected
+                                disabled
+                                hidden
+                              ></option>
+                              <option value="true">Male</option>
+                              <option value="false">Female</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            )}
           </div>
           <div className={style["information"]}>
             <div className={style["flight-info"]}>
@@ -466,7 +897,7 @@ export default function BookTicketPage() {
               </div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
       <Footer />
     </div>
