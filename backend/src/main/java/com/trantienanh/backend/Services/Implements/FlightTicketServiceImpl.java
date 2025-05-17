@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class FlightTicketServiceImpl implements FlightTicketService {
@@ -37,7 +39,7 @@ public class FlightTicketServiceImpl implements FlightTicketService {
         try {
             User user = userRepository.findByUsername(username).orElse(null);
             Flight flight = flightRepository.findById(flightId).orElse(null);
-            List<ClientInfo> clientInfoList = flightTicketDTO.getClientInfoList();
+            List<ClientInfo> clientInfoList = flightTicketDTO.getClientInfoList().stream().filter(Objects::nonNull).toList();
 
             if (user != null && flight != null) {
                 float flightPrice = flight.getPrice();

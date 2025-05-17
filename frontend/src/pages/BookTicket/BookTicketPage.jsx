@@ -10,15 +10,22 @@ import { FaPerson } from "react-icons/fa6";
 import FlightTicketService from "../../services/FlightTicketService";
 
 export default function BookTicketPage() {
+  // Parameter
   const { flightId } = useParams("flightId");
   const navigate = useNavigate();
   const [selectedFlight, setSelectedFlight] = useState({});
   const [contactInfo, setContactInfo] = useState({});
+  const [position, setPosition] = useState([
+    {
+      index: 0,
+      category: "Adult",
+    },
+  ]);
   const [reservation, setReservation] = useState({
     adultSeat: 1,
     childrenSeat: 0,
     babySeat: 0,
-    clientInfoList: Array.from({ length: 1 }),
+    clientInfoList: Array.from({ length: 7 }).fill(null),
   });
   const [totalSeat, setTotalSeat] = useState(1);
 
@@ -101,14 +108,14 @@ export default function BookTicketPage() {
     setContactInfo({ ...contactInfo, [name]: value });
   };
 
-  const handleClientInfoChange = (index, variable, name, value) => {
+  const handleClientInfoChange = (index, category, name, value) => {
     for (let i in reservation.clientInfoList) {
       if (Number(i) === index) {
         const updateClientInfoList = [...reservation.clientInfoList];
         updateClientInfoList[i] = {
           ...updateClientInfoList[i],
           [name]: value,
-          ageCategory: variable,
+          ageCategory: category,
         };
 
         setReservation({
@@ -124,18 +131,34 @@ export default function BookTicketPage() {
     const adult = reservation.adultSeat;
     const adultPrice = selectedFlight.adultPrice;
     const total = reservation.totalPrice;
-    const oldClientInfoList = reservation.clientInfoList;
+    const newPosition = [...position];
+
     if (name === "minus") {
       if (adult > 1) {
         setTotalSeat(totalSeat - 1);
-        setReservation({
-          ...reservation,
-          adultSeat: adult - 1,
-          totalPrice: total - adultPrice,
-          clientInfoList: Array.from({ length: totalSeat - 1 }, (v, k) => {
-            return oldClientInfoList[k];
-          }),
-        });
+        for (let i = position.length - 1; i >= 0; i--) {
+          if (position[i].category === "Adult") {
+            const positionUpdate = newPosition.filter(
+              (value, index) => index !== i
+            );
+            const positionDelete = newPosition.filter(
+              (value, index) => index === i
+            );
+            const updateClientInfoList = reservation.clientInfoList.map(
+              (value, index) =>
+                index === positionDelete[0]?.index ? null : value
+            );
+
+            setPosition(positionUpdate);
+            setReservation({
+              ...reservation,
+              adultSeat: adult - 1,
+              totalPrice: total - adultPrice,
+              clientInfoList: updateClientInfoList,
+            });
+            break;
+          }
+        }
       }
     } else if (name === "plus") {
       setTotalSeat(totalSeat + 1);
@@ -143,10 +166,15 @@ export default function BookTicketPage() {
         ...reservation,
         adultSeat: adult + 1,
         totalPrice: total + adultPrice,
-        clientInfoList: Array.from({ length: totalSeat + 1 }, (v, k) => {
-          return oldClientInfoList[k];
-        }),
       });
+      for (let i = 0; i < reservation.clientInfoList.length; i++) {
+        const existSlot = newPosition.some((value) => value.index === i);
+        if (!existSlot) {
+          newPosition.push({ index: i, category: "Adult" });
+          setPosition(newPosition);
+          break;
+        }
+      }
     }
   };
 
@@ -155,18 +183,34 @@ export default function BookTicketPage() {
     const children = reservation.childrenSeat;
     const childrenPrice = selectedFlight.childrenPrice;
     const total = reservation.totalPrice;
-    const oldClientInfoList = reservation.clientInfoList;
+    const newPosition = [...position];
+
     if (name === "minus") {
       if (children > 0) {
         setTotalSeat(totalSeat - 1);
-        setReservation({
-          ...reservation,
-          childrenSeat: children - 1,
-          totalPrice: total - childrenPrice,
-          clientInfoList: Array.from({ length: totalSeat - 1 }, (v, k) => {
-            return oldClientInfoList[k];
-          }),
-        });
+        for (let i = position.length - 1; i >= 0; i--) {
+          if (position[i].category === "Children") {
+            const positionUpdate = newPosition.filter(
+              (value, index) => index !== i
+            );
+            const positionDelete = newPosition.filter(
+              (value, index) => index === i
+            );
+            const updateClientInfoList = reservation.clientInfoList.map(
+              (value, index) =>
+                index === positionDelete[0]?.index ? null : value
+            );
+
+            setPosition(positionUpdate);
+            setReservation({
+              ...reservation,
+              childrenSeat: children - 1,
+              totalPrice: total - childrenPrice,
+              clientInfoList: updateClientInfoList,
+            });
+            break;
+          }
+        }
       }
     } else if (name === "plus") {
       setTotalSeat(totalSeat + 1);
@@ -174,10 +218,15 @@ export default function BookTicketPage() {
         ...reservation,
         childrenSeat: children + 1,
         totalPrice: total + childrenPrice,
-        clientInfoList: Array.from({ length: totalSeat + 1 }, (v, k) => {
-          return oldClientInfoList[k];
-        }),
       });
+      for (let i = 0; i < reservation.clientInfoList.length; i++) {
+        const existSlot = newPosition.some((value) => value.index === i);
+        if (!existSlot) {
+          newPosition.push({ index: i, category: "Children" });
+          setPosition(newPosition);
+          break;
+        }
+      }
     }
   };
 
@@ -186,18 +235,34 @@ export default function BookTicketPage() {
     const baby = reservation.babySeat;
     const babyPrice = selectedFlight.babyPrice;
     const total = reservation.totalPrice;
-    const oldClientInfoList = reservation.clientInfoList;
+    const newPosition = [...position];
+
     if (name === "minus") {
       if (baby > 0) {
         setTotalSeat(totalSeat - 1);
-        setReservation({
-          ...reservation,
-          babySeat: baby - 1,
-          totalPrice: total - babyPrice,
-          clientInfoList: Array.from({ length: totalSeat - 1 }, (v, k) => {
-            return oldClientInfoList[k];
-          }),
-        });
+        for (let i = position.length - 1; i >= 0; i--) {
+          if (position[i].category === "Baby") {
+            const positionUpdate = newPosition.filter(
+              (value, index) => index !== i
+            );
+            const positionDelete = newPosition.filter(
+              (value, index) => index === i
+            );
+            const updateClientInfoList = reservation.clientInfoList.map(
+              (value, index) =>
+                index === positionDelete[0]?.index ? null : value
+            );
+
+            setPosition(positionUpdate);
+            setReservation({
+              ...reservation,
+              babySeat: baby - 1,
+              totalPrice: total - babyPrice,
+              clientInfoList: updateClientInfoList,
+            });
+            break;
+          }
+        }
       }
     } else if (name === "plus") {
       setTotalSeat(totalSeat + 1);
@@ -205,27 +270,45 @@ export default function BookTicketPage() {
         ...reservation,
         babySeat: baby + 1,
         totalPrice: total + babyPrice,
-        clientInfoList: Array.from({ length: totalSeat + 1 }, (v, k) => {
-          return oldClientInfoList[k];
-        }),
       });
+      for (let i = 0; i < reservation.clientInfoList.length; i++) {
+        const existSlot = newPosition.some((value) => value.index === i);
+        if (!existSlot) {
+          newPosition.push({ index: i, category: "Baby" });
+          setPosition(newPosition);
+          break;
+        }
+      }
     }
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  //   if (UserService.isAuthenticated()) {
-  //     const token = localStorage.getItem("token");
-  //   }
-  // };
+    if (UserService.isAuthenticated()) {
+      const token = localStorage.getItem("token");
+      const response = await FlightTicketService.bookingFlight(
+        token,
+        flightId,
+        reservation
+      );
+      if (response.statusCode === 200) {
+        alert(response.message);
+        navigate("/flights");
+      } else {
+        alert(response.message);
+      }
+    }
+  };
 
   return (
     <div>
       <Navbar />
+      {/* Main */}
       <div className={style["wrapper"]}>
-        <form className={style["booking"]}>
+        <form className={style["booking"]} onSubmit={handleSubmit}>
           <div className={style["booking-info"]}>
+            {/* Booking Information Desk */}
             <div className={style["contact-reservation"]}>
               <h1>
                 <b>Booking Information</b>
@@ -287,6 +370,7 @@ export default function BookTicketPage() {
                     </div>
                   </div>
                 </div>
+
                 <div>
                   <h3>
                     <b>Reservation</b>
@@ -391,7 +475,8 @@ export default function BookTicketPage() {
                 </div>
               </div>
             </div>
-            {/* Client */}
+
+            {/* Client Information Desk */}
             {/* Adult */}
             {reservation.adultSeat > 0 && (
               <div className={`${style["client-info"]} my-3`}>
@@ -401,8 +486,8 @@ export default function BookTicketPage() {
                   </b>
                 </h1>
                 <hr />
-                {Array.from({ length: reservation.adultSeat })
-                  .fill("Adult")
+                {position
+                  .filter((value) => value.category === "Adult")
                   .map((value, index) => {
                     return (
                       <div className={style["client-form"]} key={index}>
@@ -418,12 +503,13 @@ export default function BookTicketPage() {
                               className="form-control border-secondary"
                               name="firstName"
                               value={
-                                reservation.clientInfoList[index]?.firstName
+                                reservation.clientInfoList[value.index]
+                                  ?.firstName
                               }
                               onChange={(e) =>
                                 handleClientInfoChange(
-                                  index,
-                                  value,
+                                  value.index,
+                                  value.category,
                                   e.target.name,
                                   e.target.value
                                 )
@@ -438,12 +524,13 @@ export default function BookTicketPage() {
                               className="form-control border-secondary"
                               name="lastName"
                               value={
-                                reservation.clientInfoList[index]?.lastName
+                                reservation.clientInfoList[value.index]
+                                  ?.lastName
                               }
                               onChange={(e) =>
                                 handleClientInfoChange(
-                                  index,
-                                  value,
+                                  value.index,
+                                  value.category,
                                   e.target.name,
                                   e.target.value
                                 )
@@ -460,12 +547,13 @@ export default function BookTicketPage() {
                               className="form-control border-secondary"
                               name="dateOfBirth"
                               value={
-                                reservation.clientInfoList[index]?.dateOfBirth
+                                reservation.clientInfoList[value.index]
+                                  ?.dateOfBirth
                               }
                               onChange={(e) =>
                                 handleClientInfoChange(
-                                  index,
-                                  value,
+                                  value.index,
+                                  value.category,
                                   e.target.name,
                                   e.target.value
                                 )
@@ -478,11 +566,13 @@ export default function BookTicketPage() {
                             <select
                               name="gender"
                               className="form-select border-secondary"
-                              value={reservation.clientInfoList[index]?.gender}
+                              value={
+                                reservation.clientInfoList[value.index]?.gender
+                              }
                               onChange={(e) =>
                                 handleClientInfoChange(
-                                  index,
-                                  value,
+                                  value.index,
+                                  value.category,
                                   e.target.name,
                                   e.target.value
                                 )
@@ -506,11 +596,13 @@ export default function BookTicketPage() {
                             type="text"
                             className="form-control border-secondary"
                             name="passport"
-                            value={reservation.clientInfoList[index]?.passport}
+                            value={
+                              reservation.clientInfoList[value.index]?.passport
+                            }
                             onChange={(e) =>
                               handleClientInfoChange(
-                                index,
-                                value,
+                                value.index,
+                                value.category,
                                 e.target.name,
                                 e.target.value
                               )
@@ -532,10 +624,9 @@ export default function BookTicketPage() {
                   </b>
                 </h1>
                 <hr />
-                {Array.from({ length: reservation.childrenSeat })
-                  .fill("Children")
+                {position
+                  .filter((value) => value.category === "Children")
                   .map((value, index) => {
-                    const position = index + reservation.adultSeat;
                     return (
                       <div className={style["client-form"]} key={index}>
                         {index > 0 && <hr />}
@@ -550,12 +641,13 @@ export default function BookTicketPage() {
                               className="form-control border-secondary"
                               name="firstName"
                               value={
-                                reservation.clientInfoList[position]?.firstName
+                                reservation.clientInfoList[value.index]
+                                  ?.firstName
                               }
                               onChange={(e) =>
                                 handleClientInfoChange(
-                                  position,
-                                  value,
+                                  value.index,
+                                  value.category,
                                   e.target.name,
                                   e.target.value
                                 )
@@ -570,12 +662,13 @@ export default function BookTicketPage() {
                               className="form-control border-secondary"
                               name="lastName"
                               value={
-                                reservation.clientInfoList[position]?.lastName
+                                reservation.clientInfoList[value.index]
+                                  ?.lastName
                               }
                               onChange={(e) =>
                                 handleClientInfoChange(
-                                  position,
-                                  value,
+                                  value.index,
+                                  value.category,
                                   e.target.name,
                                   e.target.value
                                 )
@@ -592,13 +685,13 @@ export default function BookTicketPage() {
                               className="form-control border-secondary"
                               name="dateOfBirth"
                               value={
-                                reservation.clientInfoList[position]
+                                reservation.clientInfoList[value.index]
                                   ?.dateOfBirth
                               }
                               onChange={(e) =>
                                 handleClientInfoChange(
-                                  position,
-                                  value,
+                                  value.index,
+                                  value.category,
                                   e.target.name,
                                   e.target.value
                                 )
@@ -612,12 +705,12 @@ export default function BookTicketPage() {
                               name="gender"
                               className="form-select border-secondary"
                               value={
-                                reservation.clientInfoList[position]?.gender
+                                reservation.clientInfoList[value.index]?.gender
                               }
                               onChange={(e) =>
                                 handleClientInfoChange(
-                                  position,
-                                  value,
+                                  value.index,
+                                  value.category,
                                   e.target.name,
                                   e.target.value
                                 )
@@ -650,11 +743,9 @@ export default function BookTicketPage() {
                   </b>
                 </h1>
                 <hr />
-                {Array.from({ length: reservation.babySeat })
-                  .fill("Baby")
+                {position
+                  .filter((value) => value.category === "Baby")
                   .map((value, index) => {
-                    const position =
-                      index + reservation.adultSeat + reservation.childrenSeat;
                     return (
                       <div className={style["client-form"]} key={index}>
                         {index > 0 && <hr />}
@@ -669,12 +760,13 @@ export default function BookTicketPage() {
                               className="form-control border-secondary"
                               name="firstName"
                               value={
-                                reservation.clientInfoList[position]?.firstName
+                                reservation.clientInfoList[value.index]
+                                  ?.firstName
                               }
                               onChange={(e) =>
                                 handleClientInfoChange(
-                                  position,
-                                  value,
+                                  value.index,
+                                  value.category,
                                   e.target.name,
                                   e.target.value
                                 )
@@ -689,12 +781,13 @@ export default function BookTicketPage() {
                               className="form-control border-secondary"
                               name="lastName"
                               value={
-                                reservation.clientInfoList[position]?.lastName
+                                reservation.clientInfoList[value.index]
+                                  ?.lastName
                               }
                               onChange={(e) =>
                                 handleClientInfoChange(
-                                  position,
-                                  value,
+                                  value.index,
+                                  value.category,
                                   e.target.name,
                                   e.target.value
                                 )
@@ -711,13 +804,13 @@ export default function BookTicketPage() {
                               className="form-control border-secondary"
                               name="dateOfBirth"
                               value={
-                                reservation.clientInfoList[position]
+                                reservation.clientInfoList[value.index]
                                   ?.dateOfBirth
                               }
                               onChange={(e) =>
                                 handleClientInfoChange(
-                                  position,
-                                  value,
+                                  value.index,
+                                  value.category,
                                   e.target.name,
                                   e.target.value
                                 )
@@ -731,12 +824,12 @@ export default function BookTicketPage() {
                               name="gender"
                               className="form-select border-secondary"
                               value={
-                                reservation.clientInfoList[position]?.gender
+                                reservation.clientInfoList[value.index]?.gender
                               }
                               onChange={(e) =>
                                 handleClientInfoChange(
-                                  position,
-                                  value,
+                                  value.index,
+                                  value.category,
                                   e.target.name,
                                   e.target.value
                                 )
@@ -760,6 +853,8 @@ export default function BookTicketPage() {
               </div>
             )}
           </div>
+
+          {/* Flight Information Desk */}
           <div className={style["information"]}>
             <div className={style["flight-info"]}>
               <h1>
@@ -843,6 +938,8 @@ export default function BookTicketPage() {
                 </ul>
               </div>
             </div>
+
+            {/* Price And Payment Desk */}
             <div className={`${style["payment-info"]} mt-3`}>
               <h1>
                 <b>Payment</b>
