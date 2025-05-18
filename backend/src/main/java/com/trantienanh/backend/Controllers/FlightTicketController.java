@@ -29,4 +29,12 @@ public class FlightTicketController {
         UserDTO response = flightTicketService.getContactInfo(username);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
+
+    @GetMapping("/user/booking-history")
+    public ResponseEntity<FlightTicketDTO> bookingHistory() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        FlightTicketDTO response = flightTicketService.bookingHistory(username);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
 }

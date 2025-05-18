@@ -40,9 +40,9 @@ export default function ChangePasswordPage() {
         <Sidebar />
         {/* Change Password */}
         <div className={`${style["change-password"]} shadow`}>
-          <h3>
+          <h1>
             <b>Change Password</b>
-          </h3>
+          </h1>
           <hr />
           <form onSubmit={handleSubmit}>
             <div className={style["form-container"]}>

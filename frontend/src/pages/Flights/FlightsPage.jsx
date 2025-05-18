@@ -228,6 +228,7 @@ export default function FlightsPage() {
                       departureDate={flight.departureDate}
                       roundTrip={flight.roundTrip}
                       returnDate={flight.returnDate}
+                      remain={flight.remain}
                       price={flight.price}
                       className={style["flight-card"]}
                     />

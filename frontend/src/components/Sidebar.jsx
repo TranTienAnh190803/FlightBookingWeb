@@ -71,7 +71,7 @@ export default function Sidebar({ avatar }) {
       {UserService.isAdmin ? (
         <Link
           to="/"
-          className="list-group-item list-group-item-action border-0 bg-secondary text-white"
+          className="list-group-item list-group-item-action border-0"
         >
           <FaBell className="me-3" />
           Notification

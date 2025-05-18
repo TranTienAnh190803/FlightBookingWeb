@@ -7,6 +7,7 @@ import com.trantienanh.backend.Models.Flight;
 import com.trantienanh.backend.Models.FlightTicket;
 import com.trantienanh.backend.Models.User;
 
+import java.util.Date;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -19,6 +20,8 @@ public class FlightTicketDTO {
     private int babySeat;
 
     private float totalPrice;
+
+    private Date bookingDate;
 
     private User user;
 
@@ -33,6 +36,9 @@ public class FlightTicketDTO {
     private FlightTicket flightTicket;
 
     private List<FlightTicket> flightTicketList;
+
+    // Record
+    private List<FlightHistoryDTO> flightHistoryList;
 
     public int getAdultSeat() {
         return adultSeat;
@@ -64,6 +70,14 @@ public class FlightTicketDTO {
 
     public void setTotalPrice(float totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public Date getBookingDate() {
+        return bookingDate;
+    }
+
+    public void setBookingDate(Date bookingDate) {
+        this.bookingDate = bookingDate;
     }
 
     public User getUser() {
@@ -120,5 +134,13 @@ public class FlightTicketDTO {
 
     public void setFlightTicketList(List<FlightTicket> flightTicketList) {
         this.flightTicketList = flightTicketList;
+    }
+
+    public List<FlightHistoryDTO> getFlightHistoryList() {
+        return flightHistoryList;
+    }
+
+    public void setFlightHistoryList(List<FlightHistoryDTO> flightHistoryList) {
+        this.flightHistoryList = flightHistoryList;
     }
 }

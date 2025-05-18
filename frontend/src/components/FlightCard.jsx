@@ -4,32 +4,47 @@ export default function FlightCard({
   departureDate,
   roundTrip,
   returnDate,
+  remain,
   price,
 }) {
-  const dptDate = new Date(departureDate);
-  const dyyyy = dptDate.getFullYear();
-  const dMM = String(dptDate.getMonth() + 1).padStart(2, "0");
-  const ddd = String(dptDate.getDate()).padStart(2, "0");
-  const dhh = String(dptDate.getHours()).padStart(2, "0");
-  const dmm = String(dptDate.getMinutes()).padStart(2, "0");
+  const getDate = (d) => {
+    const date = new Date(d);
+    const yyyy = date.getFullYear();
+    const MM = String(date.getMonth() + 1).padStart(2, "0");
+    const dd = String(date.getDate()).padStart(2, "0");
 
-  const rtDate = new Date(returnDate);
-  const ryyyy = rtDate.getFullYear();
-  const rMM = String(rtDate.getMonth() + 1).padStart(2, "0");
-  const rdd = String(rtDate.getDate()).padStart(2, "0");
-  const rhh = String(rtDate.getHours()).padStart(2, "0");
-  const rmm = String(rtDate.getMinutes()).padStart(2, "0");
+    return `${yyyy}/${MM}/${dd}`;
+  };
+
+  const getTime = (d) => {
+    const date = new Date(d);
+    const hh = String(date.getHours()).padStart(2, "0");
+    const mm = String(date.getMinutes()).padStart(2, "0");
+
+    return `${hh}:${mm}`;
+  };
 
   return (
     <div className="card position-relative h-100">
-      {roundTrip && (
-        <span
-          className="position-absolute top-0 end-0 badge bg-warning text-dark m-2 shadow-sm"
-          style={{ borderRadius: "0 0 0 0.5rem" }}
-        >
-          Round-trip
-        </span>
-      )}
+      <div className="position-absolute top-0 end-0">
+        {roundTrip && (
+          <span
+            className="badge bg-warning text-dark m-2 shadow-sm"
+            style={{ borderRadius: "0 0 0 0.5rem" }}
+          >
+            Round-trip
+          </span>
+        )}
+        {remain === 0 && (
+          <span
+            className="badge bg-danger text-white m-2 shadow-sm"
+            style={{ borderRadius: "0 0 0 0.5rem" }}
+          >
+            Full
+          </span>
+        )}
+      </div>
+
       <h5 className="card-header">
         <b>{airline}</b>
       </h5>
@@ -39,11 +54,12 @@ export default function FlightCard({
           <b>{flightName}</b>
         </h5>
         <p className="card-text text-muted">
-          Departure Date: {`${dyyyy}/${dMM}/${ddd}`} - Time: {`${dhh}:${dmm}`}
+          Departure Date: {getDate(departureDate)} - Time:{" "}
+          {getTime(departureDate)}
         </p>
         {roundTrip && (
           <p className="card-text text-muted">
-            Return Date: {`${ryyyy}/${rMM}/${rdd}`} - Time: {`${rhh}:${rmm}`}
+            Return Date: {getDate(returnDate)} - Time: {getTime(returnDate)}
           </p>
         )}
 

@@ -77,9 +77,9 @@ export default function UserProfilePage() {
         <Sidebar avatar={avatar} />
         {/* Profile */}
         <div className={`${style["profile"]} shadow`}>
-          <h3>
+          <h1>
             <b>Profile</b>
-          </h3>
+          </h1>
           <hr />
           <form onSubmit={handleUpdateProfile}>
             <div className={style["form-container1"]}>

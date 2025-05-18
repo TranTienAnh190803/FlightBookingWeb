@@ -932,7 +932,8 @@ export default function BookTicketPage() {
                         selectedFlight.remain < 10 && "text-danger"
                       }`}
                     >
-                      {selectedFlight.remain}
+                      {selectedFlight.remain}{" "}
+                      {selectedFlight.remain === 0 && "(Full)"}
                     </span>
                   </li>
                 </ul>

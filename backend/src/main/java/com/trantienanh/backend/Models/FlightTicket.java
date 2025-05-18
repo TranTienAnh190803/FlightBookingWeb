@@ -2,6 +2,7 @@ package com.trantienanh.backend.Models;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -18,12 +19,14 @@ public class FlightTicket {
 
     private float totalPrice;
 
+    private Date bookingDate;
+
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "userId", unique = false)
     private User user;
 
     @OneToOne
-    @JoinColumn(name = "flightId")
+    @JoinColumn(name = "flightId", unique = false)
     private Flight flight;
 
     @OneToMany(mappedBy = "flightTicket", cascade = CascadeType.ALL)
@@ -37,6 +40,7 @@ public class FlightTicket {
         this.childrenSeat = childrenSeat;
         this.babySeat = babySeat;
         this.totalPrice = totalPrice;
+        this.bookingDate = new Date();
         this.user = user;
         this.flight = flight;
         this.clientInfoList = clientInfoList;
@@ -80,6 +84,14 @@ public class FlightTicket {
 
     public void setTotalPrice(float totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public Date getBookingDate() {
+        return bookingDate;
+    }
+
+    public void setBookingDate(Date bookingDate) {
+        this.bookingDate = bookingDate;
     }
 
     public User getUser() {

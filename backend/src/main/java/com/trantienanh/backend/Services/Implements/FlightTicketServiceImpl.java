@@ -1,5 +1,6 @@
 package com.trantienanh.backend.Services.Implements;
 
+import com.trantienanh.backend.DTO.FlightHistoryDTO;
 import com.trantienanh.backend.DTO.FlightTicketDTO;
 import com.trantienanh.backend.DTO.UserDTO;
 import com.trantienanh.backend.Models.ClientInfo;
@@ -47,33 +48,40 @@ public class FlightTicketServiceImpl implements FlightTicketService {
                 int childrenSeat = flightTicketDTO.getChildrenSeat();
                 int babySeat = flightTicketDTO.getBabySeat();
                 float totalPrice = flightPrice + (adultSeat * flight.getAdultPrice()) + (childrenSeat * flight.getChildrenPrice()) + (babySeat * flight.getBabyPrice());
+                int totalSeat = adultSeat + childrenSeat + babySeat;
 
-                // Main (Add Info to FlightTicket)
-                FlightTicket bookingInfo = new FlightTicket(adultSeat,
-                        childrenSeat,
-                        babySeat,
-                        totalPrice,
-                        user,
-                        flight,
-                        clientInfoList
-                );
+                if (totalSeat <= flight.getRemain()) {
+                    // Main (Add Info to FlightTicket)
+                    FlightTicket bookingInfo = new FlightTicket(adultSeat,
+                            childrenSeat,
+                            babySeat,
+                            totalPrice,
+                            user,
+                            flight,
+                            clientInfoList
+                    );
 
-                // Reverse (Add ticketId for ClientInfo)
-                for (ClientInfo clientInfo : clientInfoList) {
-                    clientInfo.setFlightTicket(bookingInfo);
-                }
+                    // Reverse (Add ticketId for ClientInfo)
+                    for (ClientInfo clientInfo : clientInfoList) {
+                        clientInfo.setFlightTicket(bookingInfo);
+                    }
 
-                FlightTicket flightTicket = flightTicketRepository.save(bookingInfo);
+                    FlightTicket flightTicket = flightTicketRepository.save(bookingInfo);
 
-                if (flightTicketRepository.existsById(flightTicket.getTicketId())) {
-                    flight.setRemain(flight.getRemain() - flightTicketDTO.getAdultSeat() - flightTicketDTO.getChildrenSeat() - flightTicketDTO.getBabySeat());
-                    flightRepository.save(flight);
-                    response.setStatusCode(200);
-                    response.setMessage("Booked Flight Successfully");
+                    if (flightTicketRepository.existsById(flightTicket.getTicketId())) {
+                        flight.setRemain(flight.getRemain() - totalSeat);
+                        flightRepository.save(flight);
+                        response.setStatusCode(200);
+                        response.setMessage("Booked Flight Successfully");
+                    }
+                    else {
+                        response.setStatusCode(500);
+                        response.setMessage("Booked Flight Fail");
+                    }
                 }
                 else {
                     response.setStatusCode(500);
-                    response.setMessage("Booked Flight Fail");
+                    response.setMessage("Booked Flight Fail: The Remain Seat Is Not Enough");
                 }
             }
             else {
@@ -102,6 +110,36 @@ public class FlightTicketServiceImpl implements FlightTicketService {
                 response.setPhoneNumber(user.getPhoneNumber());
                 response.setDateOfBirth(user.getDateOfBirth());
                 response.setStatusCode(200);
+            }
+            else {
+                response.setStatusCode(404);
+                response.setMessage("User Not Found");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public FlightTicketDTO bookingHistory(String username) {
+        FlightTicketDTO response = new FlightTicketDTO();
+
+        try {
+            User user = userRepository.findByUsername(username).orElse(null);
+
+            if (user != null) {
+                List<FlightHistoryDTO> bookingHistory = flightTicketRepository.getBookingHistory(user);
+                if (bookingHistory != null) {
+                    response.setFlightHistoryList(bookingHistory);
+                    response.setStatusCode(200);
+                }
+                else {
+                    response.setStatusCode(200);
+                    response.setMessage("You Haven't Booking Any Flight Yet. Let's Booking A Flight For Your Vacation.");
+                }
             }
             else {
                 response.setStatusCode(404);
