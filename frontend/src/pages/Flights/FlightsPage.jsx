@@ -1,6 +1,5 @@
 import Navbar from "../../components/Navbar";
 import style from "./FlightsPage.module.css";
-import plane from "../../assets/plane1.jpg";
 import {
   FaCalendar,
   FaPlane,
@@ -90,12 +89,7 @@ export default function FlightsPage() {
     <div>
       <Navbar />
       <div className={style["wrapper"]}>
-        <div
-          className={style["search-container"]}
-          style={{
-            backgroundImage: `url(${plane})`,
-          }}
-        >
+        <div className={style["search-container"]}>
           <div className={`${style["search-box"]} shadow`}>
             <h1>
               <b>Filter</b>

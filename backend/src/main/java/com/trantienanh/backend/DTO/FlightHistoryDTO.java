@@ -9,6 +9,8 @@ public record FlightHistoryDTO(
         int babySeat,
         float totalPrice,
         Date bookingDate,
-        Integer userId,
-        Long flightId
+        Long flightId,
+        String flightName,
+        String departureAirport,
+        Date departureDate
 ) {}

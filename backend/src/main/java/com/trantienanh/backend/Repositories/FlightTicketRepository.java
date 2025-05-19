@@ -13,7 +13,7 @@ public interface FlightTicketRepository extends JpaRepository<FlightTicket, Long
 
     @Query(
             "SELECT new com.trantienanh.backend.DTO.FlightHistoryDTO(" +
-                    "f.ticketId, f.adultSeat, f.childrenSeat, f.babySeat, f.totalPrice, f.bookingDate, f.user.id, f.flight.id" +
+                    "f.ticketId, f.adultSeat, f.childrenSeat, f.babySeat, f.totalPrice, f.bookingDate, f.flight.id, f.flight.flightName, f.flight.departureAirport, f.flight.departureDate" +
                     ")" +
                     "FROM FlightTicket f WHERE f.user = :user " +
                     "ORDER BY f.bookingDate DESC"

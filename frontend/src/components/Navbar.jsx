@@ -26,7 +26,9 @@ export default function Navbar() {
     if (UserService.isAuthenticated()) {
       const token = localStorage.getItem("token");
       const userAvatar = await UserService.getAvatar(token);
-      setAvatar(URL.createObjectURL(userAvatar));
+      if (userAvatar !== null) {
+        setAvatar(URL.createObjectURL(userAvatar));
+      }
     }
   };
 
@@ -150,7 +152,7 @@ export default function Navbar() {
                 <li>
                   <Link
                     className="dropdown-item d-flex align-items-center gap-3 px-3 py-2"
-                    to="/"
+                    to="/user/booking-history"
                   >
                     <FaNewspaper />
                     Booking History

@@ -30,4 +30,18 @@ export default class FlightTicketService {
             return error.response.data;
         }
     }
+
+    static async getBookingHistory(token) {
+        try {
+            const response = await axios.get(`${this.BASE_URL}/user/booking-history`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            return response.data;
+        } catch (error) {
+            return error.response.data;
+        }
+    }
 }

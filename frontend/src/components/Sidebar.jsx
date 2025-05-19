@@ -28,7 +28,9 @@ export default function Sidebar({ avatar }) {
     if (UserService.isAuthenticated()) {
       const token = localStorage.getItem("token");
       const userAvatar = await UserService.getAvatar(token);
-      setUserDefaultAvatar(URL.createObjectURL(userAvatar));
+      if (userAvatar !== null) {
+        setUserDefaultAvatar(URL.createObjectURL(userAvatar));
+      }
     }
   };
 
@@ -78,7 +80,7 @@ export default function Sidebar({ avatar }) {
         </Link>
       ) : (
         <Link
-          to="/"
+          to="/user/booking-history"
           className="list-group-item list-group-item-action border-0"
         >
           <FaNewspaper className="me-3" />

@@ -138,7 +138,7 @@ public class FlightTicketServiceImpl implements FlightTicketService {
                 }
                 else {
                     response.setStatusCode(200);
-                    response.setMessage("You Haven't Booking Any Flight Yet. Let's Booking A Flight For Your Vacation.");
+                    response.setMessage("You Haven't Booked Any Flight Yet.");
                 }
             }
             else {

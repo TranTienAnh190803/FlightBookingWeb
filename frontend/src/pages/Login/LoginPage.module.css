@@ -3,8 +3,9 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    /* background: url("../Image/Login.jpg") no-repeat; */
+    background: url("../../assets/login.jpg") no-repeat;
     background-size: cover;
+    background-position: center;
     position: relative;
 }
 

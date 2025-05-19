@@ -15,6 +15,7 @@ import AdminUserManagementPage from "./pages/AdminUserManagement/AdminUserManage
 import AdminUserDetailPage from "./pages/AdminUserDetail/AdminUserDetailPage.jsx";
 import RegisterAdminPage from "./pages/RegisterAdmin/RegisterAdminPage.jsx";
 import BookTicketPage from "./pages/BookTicket/BookTicketPage.jsx";
+import BookingHistoryPage from "./pages/BookingHistory/BookingHistoryPage.jsx";
 
 function App() {
   const handleRefreshToken = () => {
@@ -103,6 +104,10 @@ function App() {
               <Route
                 path="/user/book-ticket/:flightId"
                 element={<BookTicketPage />}
+              />
+              <Route
+                path="/user/booking-history"
+                element={<BookingHistoryPage />}
               />
             </>
           )}
