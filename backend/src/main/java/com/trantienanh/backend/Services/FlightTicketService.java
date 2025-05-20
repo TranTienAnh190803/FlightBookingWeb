@@ -9,4 +9,6 @@ public interface FlightTicketService {
     public UserDTO getContactInfo(String username);
 
     public FlightTicketDTO bookingHistory(String username);
+
+    public FlightTicketDTO getSelectedHistory(Long ticketId, String username);
 }

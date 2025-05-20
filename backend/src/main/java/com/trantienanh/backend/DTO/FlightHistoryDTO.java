@@ -1,5 +1,7 @@
 package com.trantienanh.backend.DTO;
 
+import com.trantienanh.backend.Models.Flight;
+
 import java.util.Date;
 
 public record FlightHistoryDTO(
@@ -9,8 +11,5 @@ public record FlightHistoryDTO(
         int babySeat,
         float totalPrice,
         Date bookingDate,
-        Long flightId,
-        String flightName,
-        String departureAirport,
-        Date departureDate
+        Flight flight
 ) {}

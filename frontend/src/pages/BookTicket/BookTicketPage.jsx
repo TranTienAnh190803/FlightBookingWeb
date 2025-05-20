@@ -914,6 +914,9 @@ export default function BookTicketPage() {
                     <b>Plane Type: </b> {selectedFlight.planeType}
                   </li>
                   <li className="my-2">
+                    <b>Capacity: </b> {selectedFlight.capacity}
+                  </li>
+                  <li className="my-2">
                     <b>Adult price: </b>{" "}
                     {selectedFlight.adultPrice?.toLocaleString("vi-VN")} VNĐ
                   </li>

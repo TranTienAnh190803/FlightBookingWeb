@@ -12,6 +12,8 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ClientInfoDTO {
+    private Long clientId;
+
     private String firstName;
 
     private String lastName;
@@ -33,6 +35,24 @@ public class ClientInfoDTO {
     private ClientInfo clientInfo;
 
     private List<ClientInfo> clientInfoList;
+
+    public ClientInfoDTO(Long clientId, String firstName, String lastName, boolean gender, Date dateOfBirth, String ageCategory, String passport) {
+        this.clientId = clientId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.ageCategory = ageCategory;
+        this.passport = passport;
+    }
+
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
+    }
 
     public String getFirstName() {
         return firstName;

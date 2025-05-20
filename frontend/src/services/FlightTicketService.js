@@ -44,4 +44,18 @@ export default class FlightTicketService {
             return error.response.data;
         }
     }
+
+    static async getSelectedHistory(token, ticketId) {
+        try {
+            const response = await axios.get(`${this.BASE_URL}/user/get-selected-history?ticketId=${ticketId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            return response.data;
+        } catch (error) {
+            return error.response.data;
+        }
+    }
 }

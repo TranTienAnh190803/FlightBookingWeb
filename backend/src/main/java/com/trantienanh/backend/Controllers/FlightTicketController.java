@@ -37,4 +37,12 @@ public class FlightTicketController {
         FlightTicketDTO response = flightTicketService.bookingHistory(username);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
+
+    @GetMapping("/user/get-selected-history")
+    public ResponseEntity<FlightTicketDTO> getSelectedHistory(@RequestParam("ticketId") Long ticketId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        FlightTicketDTO response = flightTicketService.getSelectedHistory(ticketId, username);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
 }

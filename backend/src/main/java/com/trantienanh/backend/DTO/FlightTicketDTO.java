@@ -40,6 +40,10 @@ public class FlightTicketDTO {
     // Record
     private List<FlightHistoryDTO> flightHistoryList;
 
+    private List<ClientInfoDTO> clientInfoDTO;
+
+    private FlightHistoryDTO flightHistory;
+
     public int getAdultSeat() {
         return adultSeat;
     }
@@ -142,5 +146,21 @@ public class FlightTicketDTO {
 
     public void setFlightHistoryList(List<FlightHistoryDTO> flightHistoryList) {
         this.flightHistoryList = flightHistoryList;
+    }
+
+    public FlightHistoryDTO getFlightHistory() {
+        return flightHistory;
+    }
+
+    public void setFlightHistory(FlightHistoryDTO flightHistory) {
+        this.flightHistory = flightHistory;
+    }
+
+    public List<ClientInfoDTO> getClientInfoDTO() {
+        return clientInfoDTO;
+    }
+
+    public void setClientInfoDTO(List<ClientInfoDTO> clientInfoDTO) {
+        this.clientInfoDTO = clientInfoDTO;
     }
 }

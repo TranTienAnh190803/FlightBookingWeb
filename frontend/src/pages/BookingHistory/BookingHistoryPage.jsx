@@ -75,15 +75,15 @@ export default function BookingHistoryPage() {
                       key={index}
                     >
                       <div className="ms-2 me-auto p-1">
-                        <h4 className="fw-bold">{value.flightName}</h4>
+                        <h4 className="fw-bold">{value.flight.flightName}</h4>
                         <small>
-                          Departure Airport: {value.departureAirport}
+                          Departure Airport: {value.flight.departureAirport}
                         </small>{" "}
                         <br />
                         <small>
                           Departure Date:{" "}
-                          {`${getDate(value.departureDate)} | ${getTime(
-                            value.departureDate
+                          {`${getDate(value.flight.departureDate)} | ${getTime(
+                            value.flight.departureDate
                           )}`}
                         </small>{" "}
                         <br />

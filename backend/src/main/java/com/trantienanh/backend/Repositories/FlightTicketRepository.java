@@ -1,5 +1,6 @@
 package com.trantienanh.backend.Repositories;
 
+import com.trantienanh.backend.DTO.ClientInfoDTO;
 import com.trantienanh.backend.DTO.FlightHistoryDTO;
 import com.trantienanh.backend.Models.FlightTicket;
 import com.trantienanh.backend.Models.User;
@@ -8,15 +9,23 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface FlightTicketRepository extends JpaRepository<FlightTicket, Long> {
 
     @Query(
             "SELECT new com.trantienanh.backend.DTO.FlightHistoryDTO(" +
-                    "f.ticketId, f.adultSeat, f.childrenSeat, f.babySeat, f.totalPrice, f.bookingDate, f.flight.id, f.flight.flightName, f.flight.departureAirport, f.flight.departureDate" +
+                    "f.ticketId, f.adultSeat, f.childrenSeat, f.babySeat, f.totalPrice, f.bookingDate, f.flight" +
                     ")" +
                     "FROM FlightTicket f WHERE f.user = :user " +
                     "ORDER BY f.bookingDate DESC"
     )
     List<FlightHistoryDTO> getBookingHistory(@Param("user") User user);
+
+
+    @Query("SELECT new com.trantienanh.backend.DTO.FlightHistoryDTO(" +
+            "f.ticketId, f.adultSeat, f.childrenSeat, f.babySeat, f.totalPrice, f.bookingDate, f.flight" +
+            ") " +
+            "FROM FlightTicket f WHERE f.ticketId = :ticketId AND f.user = :user")
+    Optional<FlightHistoryDTO> getSelectedFlightHistory(@Param("ticketId") Long ticketId, @Param("user") User user);
 }
