@@ -1,8 +1,6 @@
 import {
-  FaBell,
-  FaCog,
-  FaHome,
   FaLock,
+  FaMailBulk,
   FaNewspaper,
   FaSignOutAlt,
   FaUser,
@@ -70,13 +68,13 @@ export default function Sidebar({ avatar }) {
         <FaUser className="me-3" />
         Profile
       </Link>
-      {UserService.isAdmin ? (
+      {UserService.isAdmin() ? (
         <Link
           to="/"
           className="list-group-item list-group-item-action border-0"
         >
-          <FaBell className="me-3" />
-          Notification
+          <FaMailBulk className="me-3" />
+          Mail
         </Link>
       ) : (
         <Link

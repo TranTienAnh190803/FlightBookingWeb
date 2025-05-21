@@ -96,7 +96,10 @@ export default function BookingDetailPage() {
                 <b>Baby: </b> <span>{selectedHistory.babySeat}</span>
               </li>
               <li className="my-2">
-                <b>Total Price: </b> <span>{selectedHistory.totalPrice}</span>
+                <b>Total Price: </b>{" "}
+                <span>
+                  {selectedHistory.totalPrice.toLocaleString("vi-VN")} VNĐ
+                </span>
               </li>
               <li className="my-2">
                 <b>Booking Date: </b>{" "}
@@ -110,7 +113,7 @@ export default function BookingDetailPage() {
               <h3 className="mb-4">
                 <b>Client Information:</b>
               </h3>
-              <table className="table table-striped text-center">
+              <table className="table table-secondary table-striped text-center">
                 <thead>
                   <tr>
                     <th scope="col">Seat</th>

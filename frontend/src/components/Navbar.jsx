@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import UserService from "../services/UserService";
 import { useEffect, useState } from "react";
 import {
-  FaBell,
   FaLock,
+  FaMailBulk,
   FaNewspaper,
   FaSignOutAlt,
   FaUser,
@@ -42,7 +42,10 @@ export default function Navbar() {
       <div className="container-fluid d-flex justify-content-between align-items-center">
         {/* Logo */}
         {UserService.isAdmin() ? (
-          <Link className="navbar-brand ms-5 fs-3 fw-bold" to={"/"}>
+          <Link
+            className="navbar-brand ms-5 fs-3 fw-bold"
+            to={"/admin/flight-management"}
+          >
             Admin
           </Link>
         ) : (
@@ -58,11 +61,6 @@ export default function Navbar() {
         >
           {UserService.isAdmin() ? (
             <ul className="navbar-nav mb-2 mb-lg-0">
-              <li className="nav-item mx-2">
-                <Link className="nav-link" to={"/"}>
-                  Home
-                </Link>
-              </li>
               <li className="nav-item">
                 <Link className="nav-link mx-2" to={"/admin/flight-management"}>
                   Flight Management
@@ -87,7 +85,7 @@ export default function Navbar() {
                 </Link>
               </li>
               <li className="nav-item mx-2">
-                <Link className="nav-link" to={"/"}>
+                <Link className="nav-link" to={"/contact"}>
                   Contact
                 </Link>
               </li>
@@ -144,8 +142,8 @@ export default function Navbar() {
                     className="dropdown-item d-flex align-items-center gap-3 px-3 py-2"
                     to="/"
                   >
-                    <FaBell />
-                    Notification
+                    <FaMailBulk />
+                    Mail
                   </Link>
                 </li>
               ) : (

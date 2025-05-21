@@ -7,7 +7,7 @@
 .booking-info,
 .flight-info{
     background-color: white;
-    border-radius: 10px;
+    border-radius: 30px;
     padding: 20px;
     min-height: 60vh;
 }

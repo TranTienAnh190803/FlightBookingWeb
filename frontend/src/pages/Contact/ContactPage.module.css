@@ -1,0 +1,26 @@
+.wrapper{
+    margin-top: 125px;
+    display: flex;
+    justify-content: center;
+}
+
+.contact{
+    padding: 20px;
+    background-color: white;
+    width: 80%;
+    border-radius: 30px;
+}
+
+.contact-info{
+    padding: 30px 60px;
+}
+
+.contact-info .input-box{
+    width: 45%;
+}
+
+.contact-info textarea{
+    width: 100%;
+    height: 50vh;
+    resize: none;
+}

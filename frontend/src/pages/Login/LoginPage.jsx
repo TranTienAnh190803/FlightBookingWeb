@@ -17,11 +17,14 @@ export default function LoginPage() {
     try {
       const userData = await UserService.login(username, password);
 
-      // Kiểm tra token có tồn tại ko
       if (userData.token) {
         localStorage.setItem("token", userData.token);
         localStorage.setItem("role", userData.role);
-        navigate("/home");
+        if (userData.role === "ADMIN") {
+          navigate("/admin/flight-management");
+        } else {
+          navigate("/");
+        }
       } else {
         alert(userData.message);
       }
