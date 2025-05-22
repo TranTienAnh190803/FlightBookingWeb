@@ -2,6 +2,8 @@ package com.trantienanh.backend.Models;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 public class Mail {
     @Id
@@ -19,6 +21,8 @@ public class Mail {
 
     private boolean status;
 
+    private Date sendDate;
+
     public Mail() {
     }
 
@@ -28,6 +32,7 @@ public class Mail {
         this.title = title;
         this.content = content;
         this.status = status;
+        this.sendDate = new Date();
     }
 
     public Long getMailId() {
@@ -76,5 +81,13 @@ public class Mail {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public Date getSendDate() {
+        return sendDate;
+    }
+
+    public void setSendDate(Date sendDate) {
+        this.sendDate = sendDate;
     }
 }

@@ -9,10 +9,12 @@ import image1 from "../assets/user.jpg";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import UserService from "../services/UserService";
+import MailService from "../services/MailService";
 
 export default function Sidebar({ avatar }) {
   const [profile, setProfile] = useState({});
   const [userDefaultAvatar, setUserDefaultAvatar] = useState(image1);
+  const [mailList, setMailList] = useState([]);
 
   const fetchProfile = async () => {
     if (UserService.isAuthenticated()) {
@@ -31,6 +33,20 @@ export default function Sidebar({ avatar }) {
       }
     }
   };
+
+  const fetchMail = async () => {
+    if (UserService.isAdmin()) {
+      const token = localStorage.getItem("token");
+      const response = await MailService.getAllMail(token);
+      if (response.statusCode === 200) {
+        setMailList(response.mailList);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchMail();
+  }, [mailList]);
 
   useEffect(() => {
     fetchProfile();
@@ -70,11 +86,16 @@ export default function Sidebar({ avatar }) {
       </Link>
       {UserService.isAdmin() ? (
         <Link
-          to="/"
-          className="list-group-item list-group-item-action border-0"
+          to="/admin/mail-management"
+          className="list-group-item list-group-item-action border-0 position-relative"
         >
           <FaMailBulk className="me-3" />
           Mail
+          {mailList.filter((value) => !value.status).length > 0 && (
+            <span className="badge rounded-pill text-bg-danger position-absolute end-0 me-2">
+              {mailList.filter((value) => !value.status).length}
+            </span>
+          )}
         </Link>
       ) : (
         <Link

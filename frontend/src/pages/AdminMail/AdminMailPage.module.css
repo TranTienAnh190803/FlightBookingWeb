@@ -1,0 +1,26 @@
+p{
+    margin: 0;
+}
+
+.wrapper{
+    margin: 125px 80px 80px 80px;
+    display: flex;
+    align-items: flex-start;
+    column-gap: 50px;
+}
+
+.wrapper .mail {
+    background-color: white;
+    border-radius: 30px;
+    padding: 20px;
+    width: 80%;
+    min-height: 60vh;
+}
+
+.wrapper .mail .mail-box button{
+    display: none;
+}
+
+.wrapper .mail .mail-box:hover button{
+    display: block;
+}

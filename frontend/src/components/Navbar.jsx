@@ -9,10 +9,12 @@ import {
   FaUser,
 } from "react-icons/fa";
 import image1 from "../assets/user.jpg";
+import MailService from "../services/MailService";
 
 export default function Navbar() {
   const [profile, setProfile] = useState({});
   const [avatar, setAvatar] = useState(null);
+  const [mailList, setMailList] = useState([]);
 
   const fetchProfile = async () => {
     if (UserService.isAuthenticated()) {
@@ -31,6 +33,20 @@ export default function Navbar() {
       }
     }
   };
+
+  const fetchMail = async () => {
+    if (UserService.isAdmin()) {
+      const token = localStorage.getItem("token");
+      const response = await MailService.getAllMail(token);
+      if (response.statusCode === 200) {
+        setMailList(response.mailList);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchMail();
+  }, [mailList]);
 
   useEffect(() => {
     fetchProfile();
@@ -61,6 +77,11 @@ export default function Navbar() {
         >
           {UserService.isAdmin() ? (
             <ul className="navbar-nav mb-2 mb-lg-0">
+              <li className="nav-item mx-2">
+                <Link className="nav-link" to={"/"}>
+                  Home
+                </Link>
+              </li>
               <li className="nav-item">
                 <Link className="nav-link mx-2" to={"/admin/flight-management"}>
                   Flight Management
@@ -139,11 +160,16 @@ export default function Navbar() {
               {UserService.isAdmin() ? (
                 <li>
                   <Link
-                    className="dropdown-item d-flex align-items-center gap-3 px-3 py-2"
-                    to="/"
+                    className="dropdown-item d-flex align-items-center gap-3 px-3 py-2 position-relative"
+                    to="/admin/mail-management"
                   >
                     <FaMailBulk />
                     Mail
+                    {mailList.filter((value) => !value.status).length > 0 && (
+                      <span className="badge rounded-pill text-bg-danger position-absolute end-0 me-2">
+                        {mailList.filter((value) => !value.status).length}
+                      </span>
+                    )}
                   </Link>
                 </li>
               ) : (

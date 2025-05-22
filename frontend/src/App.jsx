@@ -18,6 +18,7 @@ import BookTicketPage from "./pages/BookTicket/BookTicketPage.jsx";
 import BookingHistoryPage from "./pages/BookingHistory/BookingHistoryPage.jsx";
 import BookingDetailPage from "./pages/BookingDetail/BookingDetailPage.jsx";
 import ContactPage from "./pages/Contact/ContactPage.jsx";
+import AdminMailPage from "./pages/AdminMail/AdminMailPage.jsx";
 
 function App() {
   const handleRefreshToken = () => {
@@ -53,6 +54,8 @@ function App() {
       <div className="App">
         <Routes>
           {/* Public page */}
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
 
@@ -94,14 +97,16 @@ function App() {
                 path="/admin/register-admin"
                 element={<RegisterAdminPage />}
               />
+              <Route
+                path="/admin/mail-management"
+                element={<AdminMailPage />}
+              />
             </>
           )}
 
           {/* Not Admin Page */}
           {UserService.isAdmin() || (
             <>
-              <Route path="/home" element={<HomePage />} />
-              <Route path="/" element={<HomePage />} />
               <Route path="/flights" element={<FlightsPage />} />
               <Route path="/contact" element={<ContactPage />} />
             </>

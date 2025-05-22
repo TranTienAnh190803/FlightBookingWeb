@@ -20,11 +20,7 @@ export default function LoginPage() {
       if (userData.token) {
         localStorage.setItem("token", userData.token);
         localStorage.setItem("role", userData.role);
-        if (userData.role === "ADMIN") {
-          navigate("/admin/flight-management");
-        } else {
-          navigate("/");
-        }
+        navigate("/");
       } else {
         alert(userData.message);
       }

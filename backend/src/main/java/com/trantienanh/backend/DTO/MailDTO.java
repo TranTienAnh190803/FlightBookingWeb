@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.trantienanh.backend.Models.Mail;
 
+import java.util.Date;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -18,6 +19,8 @@ public class MailDTO {
     private String content;
 
     private boolean status;
+
+    private Date sendDate;
 
     private int statusCode;
 
@@ -65,6 +68,14 @@ public class MailDTO {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public Date getSendDate() {
+        return sendDate;
+    }
+
+    public void setSendDate(Date sendDate) {
+        this.sendDate = sendDate;
     }
 
     public int getStatusCode() {
