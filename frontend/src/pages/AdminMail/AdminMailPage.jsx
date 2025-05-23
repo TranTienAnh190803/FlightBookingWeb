@@ -36,7 +36,7 @@ export default function AdminMailPage() {
 
   useEffect(() => {
     fetchMailList();
-  }, [mailList]);
+  }, []);
 
   const getFullDate = (d) => {
     const date = new Date(d);
@@ -68,7 +68,11 @@ export default function AdminMailPage() {
       const token = localStorage.getItem("token");
       if (confirm("Do You Want To DELETE This Mail.")) {
         const response = await MailService.deleteMail(token, mailId);
-        alert(response.message);
+        if (response.statusCode === 200) {
+          navigate(0);
+        } else {
+          alert(response.message);
+        }
       }
     }
   };
@@ -92,7 +96,7 @@ export default function AdminMailPage() {
                       className={`list-group-item list-group-item-action d-flex justify-content-between align-items-start position-relative ${
                         value.status || "bg-dark text-dark bg-opacity-10"
                       } ${style["mail-box"]}`}
-                      to={`/user/mail-content/${value.mailId}`}
+                      to={`/admin/mail-content/${value.mailId}`}
                       key={index}
                       onClick={() => {
                         handleReadMail(value.mailId);
@@ -119,7 +123,11 @@ export default function AdminMailPage() {
                 })}
               </div>
             ) : (
-              <div></div>
+              <div className="my-5">
+                <center>
+                  <h4>{check.message}</h4>
+                </center>
+              </div>
             )}
           </div>
         </div>

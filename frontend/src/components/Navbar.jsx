@@ -45,12 +45,9 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    fetchMail();
-  }, [mailList]);
-
-  useEffect(() => {
     fetchProfile();
     fetchAvatar();
+    fetchMail();
   }, []);
 
   return (
@@ -90,6 +87,14 @@ export default function Navbar() {
               <li className="nav-item">
                 <Link className="nav-link mx-2" to={"/admin/user-management"}>
                   User Management
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link mx-2"
+                  to={"/admin/booking-management"}
+                >
+                  Booking Management
                 </Link>
               </li>
             </ul>

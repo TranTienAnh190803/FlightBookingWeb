@@ -104,7 +104,7 @@ export default function UserProfilePage() {
                     <b>Name: </b>
                   </label>
                   <input
-                    className="form-control"
+                    className="form-control border-secondary"
                     type="text"
                     name="name"
                     value={profile.name}
@@ -116,7 +116,7 @@ export default function UserProfilePage() {
                     <b>Email: </b>
                   </label>
                   <input
-                    className="form-control"
+                    className="form-control border-secondary"
                     type="text"
                     name="email"
                     value={profile.email}
@@ -128,7 +128,7 @@ export default function UserProfilePage() {
                     <b>Phone Number: </b>
                   </label>
                   <input
-                    className="form-control"
+                    className="form-control border-secondary"
                     type="text"
                     name="phoneNumber"
                     value={profile.phoneNumber}
@@ -143,7 +143,7 @@ export default function UserProfilePage() {
                   <b>Role: </b>
                 </p>
                 <input
-                  className="form-control"
+                  className="form-control border-secondary"
                   type="text"
                   name="role"
                   value={profile.role}
@@ -155,7 +155,7 @@ export default function UserProfilePage() {
                   <b>Gender: </b>
                 </p>
                 <select
-                  className={`${style["combo-box"]} form-select`}
+                  className={`${style["combo-box"]} form-select border-secondary`}
                   name="gender"
                   onChange={handleInputChange}
                 >
@@ -172,7 +172,7 @@ export default function UserProfilePage() {
                   <b>Date Of Birth: </b>
                 </p>
                 <input
-                  className="form-control"
+                  className="form-control border-secondary"
                   type="date"
                   name="dateOfBirth"
                   value={profile.dateOfBirth}
@@ -185,7 +185,7 @@ export default function UserProfilePage() {
                 <b>Address: </b>
               </p>
               <input
-                className="form-control"
+                className="form-control border-secondary"
                 type="text"
                 name="address"
                 value={profile.address}

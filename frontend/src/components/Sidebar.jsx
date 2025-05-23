@@ -45,12 +45,9 @@ export default function Sidebar({ avatar }) {
   };
 
   useEffect(() => {
-    fetchMail();
-  }, [mailList]);
-
-  useEffect(() => {
     fetchProfile();
     fetchAvatar();
+    fetchMail();
   }, []);
 
   return (

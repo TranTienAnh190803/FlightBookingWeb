@@ -19,6 +19,7 @@ import BookingHistoryPage from "./pages/BookingHistory/BookingHistoryPage.jsx";
 import BookingDetailPage from "./pages/BookingDetail/BookingDetailPage.jsx";
 import ContactPage from "./pages/Contact/ContactPage.jsx";
 import AdminMailPage from "./pages/AdminMail/AdminMailPage.jsx";
+import AdminMailContentPage from "./pages/AdminMailContent/AdminMailContentPage.jsx";
 
 function App() {
   const handleRefreshToken = () => {
@@ -100,6 +101,10 @@ function App() {
               <Route
                 path="/admin/mail-management"
                 element={<AdminMailPage />}
+              />
+              <Route
+                path="/admin/mail-content/:mailId"
+                element={<AdminMailContentPage />}
               />
             </>
           )}

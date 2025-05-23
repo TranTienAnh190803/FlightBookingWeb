@@ -1,0 +1,23 @@
+.wrapper{
+    margin: 125px 80px 80px 80px;
+    display: flex;
+    align-items: flex-start;
+    column-gap: 50px;
+}
+
+.wrapper .container{
+    width: 80%;
+    min-height: 60vh;
+}
+
+.wrapper .mail-content{
+    background-color: white;
+    border-radius: 30px;
+    padding: 20px;
+}
+
+textarea{
+    width: 100%;
+    height: 50vh;
+    resize: none;
+}
