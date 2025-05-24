@@ -98,7 +98,7 @@ export default function BookingDetailPage() {
               <li className="my-2">
                 <b>Total Price: </b>{" "}
                 <span>
-                  {selectedHistory.totalPrice.toLocaleString("vi-VN")} VNĐ
+                  {selectedHistory.totalPrice?.toLocaleString("vi-VN")} VNĐ
                 </span>
               </li>
               <li className="my-2">
@@ -113,34 +113,36 @@ export default function BookingDetailPage() {
               <h3 className="mb-4">
                 <b>Client Information:</b>
               </h3>
-              <table className="table table-secondary table-striped text-center">
-                <thead>
-                  <tr>
-                    <th scope="col">Seat</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">Gender</th>
-                    <th scope="col">Date Of Birth</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Passport/Identification</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {clientInfo.map((value, index) => {
-                    return (
-                      <tr key={index}>
-                        <th scope="row">{value.clientId}</th>
-                        <td>{value.firstName}</td>
-                        <td>{value.lastName}</td>
-                        <td>{value.gender ? "Male" : "Female"}</td>
-                        <td>{getDate(value.dateOfBirth)}</td>
-                        <td>{value.ageCategory}</td>
-                        <td>{value.passport}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+              <div style={{ overflowX: "auto" }}>
+                <table className="table table-secondary table-striped text-center">
+                  <thead>
+                    <tr>
+                      <th scope="col">Seat</th>
+                      <th scope="col">First Name</th>
+                      <th scope="col">Last Name</th>
+                      <th scope="col">Gender</th>
+                      <th scope="col">Date Of Birth</th>
+                      <th scope="col">Category</th>
+                      <th scope="col">Passport/Identification</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {clientInfo.map((value, index) => {
+                      return (
+                        <tr key={index}>
+                          <th scope="row">{value.clientId}</th>
+                          <td>{value.firstName}</td>
+                          <td>{value.lastName}</td>
+                          <td>{value.gender ? "Male" : "Female"}</td>
+                          <td>{getDate(value.dateOfBirth)}</td>
+                          <td>{value.ageCategory}</td>
+                          <td>{value.passport}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>

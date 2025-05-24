@@ -58,4 +58,46 @@ export default class FlightTicketService {
             return error.response.data;
         }
     }
+
+    static async getAllBookedInfo(token) {
+        try {
+            const response = await axios.get(`${this.BASE_URL}/admin/get-booked-info`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            return response.data;
+        } catch (error) {
+            return error.response.data;
+        }
+    }
+
+    static async searchBookedInfo(token, ticketId) {
+        try {
+            const response = await axios.get(`${this.BASE_URL}/admin/search-booked-info?ticketId=${ticketId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            return response.data;
+        } catch (error) {
+            return error.response.data;
+        }
+    }
+
+    static async getSelectedBookedInfo(token, ticketId) {
+        try {
+            const response = await axios.get(`${this.BASE_URL}/admin/get-selected-booked-info?ticketId=${ticketId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            return response.data;
+        } catch (error) {
+            return error.response.data;
+        }
+    }
 }

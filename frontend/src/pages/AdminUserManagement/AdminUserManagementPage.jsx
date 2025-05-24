@@ -49,7 +49,7 @@ export default function AdminUserManagementPage() {
               <h3>{message}</h3>
             </center>
           ) : (
-            <div>
+            <div style={{ overflowX: "auto" }}>
               <table className="table table-striped table-hover text-center">
                 <thead>
                   <tr>

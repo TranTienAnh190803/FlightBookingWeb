@@ -45,4 +45,22 @@ public class FlightTicketController {
         FlightTicketDTO response = flightTicketService.getSelectedHistory(ticketId, username);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
+
+    @GetMapping("/admin/get-booked-info")
+    public ResponseEntity<FlightTicketDTO> getAllBookedInfo() {
+        FlightTicketDTO response = flightTicketService.getAllBookedInfo();
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
+
+    @GetMapping("/admin/search-booked-info")
+    public ResponseEntity<FlightTicketDTO> searchBookedInfo(@RequestParam("ticketId") Long ticketId) {
+        FlightTicketDTO response = flightTicketService.searchBookedInfo(ticketId);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
+
+    @GetMapping("/admin/get-selected-booked-info")
+    public ResponseEntity<FlightTicketDTO> getSelectedBookedInfo(@RequestParam("ticketId") Long ticketId) {
+        FlightTicketDTO response = flightTicketService.getSelectedBookedInfo(ticketId);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
 }

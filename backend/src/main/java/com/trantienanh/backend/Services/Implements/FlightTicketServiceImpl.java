@@ -1,9 +1,6 @@
 package com.trantienanh.backend.Services.Implements;
 
-import com.trantienanh.backend.DTO.ClientInfoDTO;
-import com.trantienanh.backend.DTO.FlightHistoryDTO;
-import com.trantienanh.backend.DTO.FlightTicketDTO;
-import com.trantienanh.backend.DTO.UserDTO;
+import com.trantienanh.backend.DTO.*;
 import com.trantienanh.backend.Models.ClientInfo;
 import com.trantienanh.backend.Models.Flight;
 import com.trantienanh.backend.Models.FlightTicket;
@@ -166,6 +163,77 @@ public class FlightTicketServiceImpl implements FlightTicketService {
             if (selectedHistory != null && clientInfoList != null) {
                 response.setClientInfoDTO(clientInfoList);
                 response.setFlightHistory(selectedHistory);
+                response.setStatusCode(200);
+            }
+            else {
+                response.setStatusCode(404);
+                response.setMessage("Ticket Not Exist");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public FlightTicketDTO getAllBookedInfo() {
+        FlightTicketDTO response = new FlightTicketDTO();
+
+        try {
+            List<BookedInfoDTO> bookedInfoList = flightTicketRepository.getAllBookedInfo();
+
+            if (!bookedInfoList.isEmpty()) {
+                response.setBookedInfoList(bookedInfoList);
+                response.setStatusCode(200);
+            }
+            else {
+                response.setStatusCode(404);
+                response.setMessage("No One Has Booked A Flight Yet.");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public FlightTicketDTO getSelectedBookedInfo(Long ticketId) {
+        FlightTicketDTO response = new FlightTicketDTO();
+
+        try {
+            BookedInfoDTO selectedBookedInfo = flightTicketRepository.getSelectedBookedInfo(ticketId).orElse(null);
+            List<ClientInfoDTO> clientInfoList = clientInfoRepository.findClientList(ticketId);
+
+            if (selectedBookedInfo != null) {
+                response.setBookedInfo(selectedBookedInfo);
+                response.setClientInfoDTO(clientInfoList);
+                response.setStatusCode(200);
+            }
+            else {
+                response.setStatusCode(404);
+                response.setMessage("Ticket Not Exist");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public FlightTicketDTO searchBookedInfo(Long ticketId) {
+        FlightTicketDTO response = new FlightTicketDTO();
+
+        try {
+            BookedInfoDTO selectedBookedInfo = flightTicketRepository.getSelectedBookedInfo(ticketId).orElse(null);
+
+            if (selectedBookedInfo != null) {
+                response.setBookedInfo(selectedBookedInfo);
                 response.setStatusCode(200);
             }
             else {

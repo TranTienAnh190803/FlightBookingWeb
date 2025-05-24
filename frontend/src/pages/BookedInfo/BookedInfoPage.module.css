@@ -1,0 +1,52 @@
+.wrapper{
+    margin: 125px 80px 80px 80px;
+    display: flex;
+    gap: 1%;
+}
+
+.booking-info,
+.flight-info,
+.mail-content{
+    background-color: white;
+    border-radius: 30px;
+    padding: 20px;
+    min-height: 60vh;
+}
+
+.main-info{
+    width: 64%;
+}
+
+.flight-info{
+    width: 35%;
+    height: fit-content;
+}
+
+.flight-info .schedule{
+    display: flex;
+    justify-content: space-between;
+}
+
+.flight-info .travel-time{
+    align-self: center;
+    position: relative;
+}
+
+.flight-info .travel-time .plane{
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(50%);
+}
+
+.flight-info .travel-time .time{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    border-radius: 20px;
+    background-color: green;
+    color: white;
+    padding: 2px 8px;
+    font-size: 14px;
+}

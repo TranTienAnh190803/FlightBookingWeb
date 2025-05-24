@@ -20,6 +20,8 @@ import BookingDetailPage from "./pages/BookingDetail/BookingDetailPage.jsx";
 import ContactPage from "./pages/Contact/ContactPage.jsx";
 import AdminMailPage from "./pages/AdminMail/AdminMailPage.jsx";
 import AdminMailContentPage from "./pages/AdminMailContent/AdminMailContentPage.jsx";
+import BookingManagementPage from "./pages/BookingManagement/BookingManagementPage.jsx";
+import BookedInfoPage from "./pages/BookedInfo/BookedInfoPage.jsx";
 
 function App() {
   const handleRefreshToken = () => {
@@ -77,6 +79,14 @@ function App() {
               <Route
                 path="/admin/flight-management"
                 element={<FlightManagementPage />}
+              />
+              <Route
+                path="/admin/booking-management"
+                element={<BookingManagementPage />}
+              />
+              <Route
+                path="/admin/booked-info/:ticketId"
+                element={<BookedInfoPage />}
               />
               <Route
                 path="/admin/flight-detail/:flightId"

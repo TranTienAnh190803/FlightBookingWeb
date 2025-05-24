@@ -329,7 +329,7 @@ export default function BookTicketPage() {
                           name="name"
                           value={contactInfo.name}
                           onChange={handleContactInfoChange}
-                          required
+                          readOnly
                         />
                       </div>
                       <div className="mb-3">
@@ -340,7 +340,7 @@ export default function BookTicketPage() {
                           name="phoneNumber"
                           value={contactInfo.phoneNumber}
                           onChange={handleContactInfoChange}
-                          required
+                          readOnly
                         />
                       </div>
                     </div>
@@ -353,7 +353,7 @@ export default function BookTicketPage() {
                           name="dateOfBirth"
                           value={contactInfo.dateOfBirth}
                           onChange={handleContactInfoChange}
-                          required
+                          readOnly
                         />
                       </div>
                       <div className="mb-3">
@@ -364,7 +364,7 @@ export default function BookTicketPage() {
                           name="email"
                           value={contactInfo.email}
                           onChange={handleContactInfoChange}
-                          required
+                          readOnly
                         />
                       </div>
                     </div>

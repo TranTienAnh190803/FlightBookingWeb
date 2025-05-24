@@ -96,7 +96,7 @@ export default function AdminMailContentPage() {
             <div className={`${style["mail-content"]} shadow mt-3 p-5`}>
               <form>
                 <p>
-                  <b>Email:</b> {selectedMail.email}
+                  <b>To:</b> {selectedMail.email}
                 </p>
                 <div className="mt-3">
                   <p>

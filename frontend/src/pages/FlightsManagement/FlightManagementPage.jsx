@@ -47,7 +47,7 @@ export default function FlightManagementPage() {
             </center>
           ) : (
             <div>
-              <div>
+              <div style={{ overflowX: "auto" }}>
                 <table className="table table-striped table-hover text-center">
                   <thead>
                     <tr>
