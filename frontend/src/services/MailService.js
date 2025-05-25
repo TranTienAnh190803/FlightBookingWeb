@@ -68,6 +68,20 @@ class MailService {
             return error.response.data;
         }
     }
+
+    static async sendReply(token, replyForm) {
+        try {
+            const response = await axios.post(`${this.BASE_URL}/admin/send-reply`, replyForm, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            return response.data;
+        } catch (error) {
+            return error.response.data;
+        }
+    }
 }
 
 export default MailService;

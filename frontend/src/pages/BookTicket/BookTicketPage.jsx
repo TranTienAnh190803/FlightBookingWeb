@@ -28,6 +28,7 @@ export default function BookTicketPage() {
     clientInfoList: Array.from({ length: 7 }).fill(null),
   });
   const [totalSeat, setTotalSeat] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
   // fetch data function
   const fetchSelectedFlight = async () => {
@@ -286,6 +287,7 @@ export default function BookTicketPage() {
     e.preventDefault();
 
     if (UserService.isAuthenticated()) {
+      setIsLoading(true);
       const token = localStorage.getItem("token");
       const response = await FlightTicketService.bookingFlight(
         token,
@@ -298,6 +300,7 @@ export default function BookTicketPage() {
       } else {
         alert(response.message);
       }
+      setIsLoading(false);
     }
   };
 
@@ -992,7 +995,11 @@ export default function BookTicketPage() {
                 </div>
               </div>
               <div className="mt-4 text-end">
-                <button type="submit" className="btn btn-lg btn-success">
+                <button
+                  type="submit"
+                  className="btn btn-lg btn-success"
+                  disabled={isLoading}
+                >
                   Checkout
                 </button>
               </div>

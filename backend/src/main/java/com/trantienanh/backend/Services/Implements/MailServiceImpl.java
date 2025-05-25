@@ -1,10 +1,13 @@
 package com.trantienanh.backend.Services.Implements;
 
 import com.trantienanh.backend.DTO.MailDTO;
+import com.trantienanh.backend.DTO.Reply;
 import com.trantienanh.backend.Models.Mail;
 import com.trantienanh.backend.Repositories.MailRepository;
 import com.trantienanh.backend.Services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -14,6 +17,9 @@ import java.util.List;
 public class MailServiceImpl implements MailService {
     @Autowired
     private MailRepository mailRepository;
+
+    @Autowired
+    private JavaMailSender javaMailSender;
 
     @Override
     public MailDTO sendMail(MailDTO mailDTO) {
@@ -134,6 +140,29 @@ public class MailServiceImpl implements MailService {
         } catch (Exception e) {
             response.setStatusCode(500);
             response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public Reply sendReply(Reply reply) {
+        Reply response = new Reply();
+
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom("admin@example.com");
+            message.setTo(reply.getEmail());
+            message.setSubject(reply.getSubject());
+            message.setText(reply.getContent());
+
+            javaMailSender.send(message);
+
+            response.setStatusCode(200);
+            response.setMessage("Send Mail Successfully");
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Send Mail Fail");
         }
 
         return response;

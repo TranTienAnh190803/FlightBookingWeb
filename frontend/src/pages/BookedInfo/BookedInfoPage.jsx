@@ -6,6 +6,7 @@ import FlightTicketService from "../../services/FlightTicketService";
 import Navbar from "../../components/Navbar";
 import { FaPlane } from "react-icons/fa";
 import Footer from "../../components/Footer";
+import MailService from "../../services/MailService";
 
 export default function BookedInfoPage() {
   const navigate = useNavigate();
@@ -15,8 +16,10 @@ export default function BookedInfoPage() {
   const [isSend, setIsSend] = useState(false);
   const [mail, setMail] = useState({
     email: "",
+    subject: "",
     content: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchBookedInfo = async () => {
     if (UserService.isAdmin()) {
@@ -72,6 +75,23 @@ export default function BookedInfoPage() {
     const mm = String(date.getMinutes()).padStart(2, "0");
 
     return `${hh}:${mm}`;
+  };
+
+  const handleSendMail = async (e) => {
+    e.preventDefault();
+
+    if (UserService.isAdmin()) {
+      setIsLoading(true);
+      const token = localStorage.getItem("token");
+      const response = await MailService.sendReply(token, mail);
+      if (response.statusCode === 200) {
+        alert(response.message);
+        navigate(0);
+      } else {
+        alert(response.message);
+      }
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -271,7 +291,11 @@ export default function BookedInfoPage() {
                   onClick={(e) => {
                     e.preventDefault();
                     setIsSend(!isSend);
-                    setMail({ ...mail, email: bookedInfo.email });
+                    setMail({
+                      ...mail,
+                      email: bookedInfo.email,
+                      subject: `Message about ticket ${ticketId}`,
+                    });
                   }}
                 >
                   <a className="link-primary-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
@@ -283,10 +307,25 @@ export default function BookedInfoPage() {
           </div>
           {isSend && (
             <div className={`${style["mail-content"]} shadow mt-3 p-5`}>
-              <form>
+              <form onSubmit={handleSendMail}>
                 <p>
                   <b>To:</b> {bookedInfo.email}
                 </p>
+                <div className="d-flex align-items-center">
+                  <p className="mb-0 me-3">
+                    <b>Subject: </b>
+                  </p>
+                  <input
+                    type="text"
+                    name="subject"
+                    className="form-control border-secondary"
+                    value={mail.subject}
+                    onChange={(e) => {
+                      setMail({ ...mail, [e.target.name]: e.target.value });
+                    }}
+                    required
+                  />
+                </div>
                 <div className="mt-3">
                   <p>
                     <b>Content: </b>
@@ -302,7 +341,12 @@ export default function BookedInfoPage() {
                   ></textarea>
                 </div>
                 <div className="text-end mt-5">
-                  <button className="btn btn-lg btn-success">Send</button>
+                  <button
+                    className="btn btn-lg btn-success"
+                    disabled={isLoading}
+                  >
+                    Send
+                  </button>
                 </div>
               </form>
             </div>

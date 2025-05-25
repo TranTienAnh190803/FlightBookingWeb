@@ -10,10 +10,18 @@ import com.trantienanh.backend.Repositories.FlightRepository;
 import com.trantienanh.backend.Repositories.FlightTicketRepository;
 import com.trantienanh.backend.Repositories.UserRepository;
 import com.trantienanh.backend.Services.FlightTicketService;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -30,6 +38,9 @@ public class FlightTicketServiceImpl implements FlightTicketService {
 
     @Autowired
     private ClientInfoRepository clientInfoRepository;
+
+    @Autowired
+    private JavaMailSender javaMailSender;
 
     @Override
     public FlightTicketDTO bookFlight(String username, Long flightId, FlightTicketDTO flightTicketDTO) {
@@ -69,6 +80,7 @@ public class FlightTicketServiceImpl implements FlightTicketService {
                     if (flightTicketRepository.existsById(flightTicket.getTicketId())) {
                         flight.setRemain(flight.getRemain() - totalSeat);
                         flightRepository.save(flight);
+                        sendMail(clientInfoList, flightTicket, user.getEmail());
                         response.setStatusCode(200);
                         response.setMessage("Booked Flight Successfully");
                     }
@@ -93,6 +105,61 @@ public class FlightTicketServiceImpl implements FlightTicketService {
         }
 
         return response;
+    }
+
+    private void sendMail(List<ClientInfo> clientInfoList, FlightTicket flightTicket, String email) throws MessagingException {
+        Locale localeVN = new Locale("vi", "VN");
+        NumberFormat nf = NumberFormat.getInstance(localeVN);
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+        StringBuilder htmlBody = new StringBuilder();
+        htmlBody.append("<div style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>");
+        htmlBody.append("<h1 style='color: #2c3e50;'>Thank you for choosing to book tickets at TTAFlight</h1>");
+        htmlBody.append("<h1 style='color: #2c3e50;'>Here is your booking information:</h1>");
+        htmlBody.append("<h3 style='color: #34495e;'>- Ticket:</h3>");
+        htmlBody.append("<p><b>Ticket ID:</b> ").append(flightTicket.getTicketId()).append("</p>");
+        htmlBody.append("<p><b>Total Client:</b> ").append(clientInfoList.size()).append("</p>");
+        htmlBody.append("<p><b>Total Price:</b> ").append(nf.format(flightTicket.getTotalPrice())).append(" VNĐ</p>");
+        htmlBody.append("<p><b>Booking Date:</b> ").append(df.format(flightTicket.getBookingDate())).append("</p>");
+        htmlBody.append("<h3 style='color: #34495e;'>- Client:</h3>");
+        htmlBody.append("<table style='border-collapse: collapse; width: 100%; font-size: 14px;'>");
+        htmlBody.append("<thead>");
+        htmlBody.append("<tr style='background-color: #f2f2f2;'>");
+        htmlBody.append("<th style='border: 1px solid #ccc; padding: 8px;'>Seat</th>");
+        htmlBody.append("<th style='border: 1px solid #ccc; padding: 8px;'>First Name</th>");
+        htmlBody.append("<th style='border: 1px solid #ccc; padding: 8px;'>Last Name</th>");
+        htmlBody.append("<th style='border: 1px solid #ccc; padding: 8px;'>Gender</th>");
+        htmlBody.append("<th style='border: 1px solid #ccc; padding: 8px;'>Date Of Birth</th>");
+        htmlBody.append("<th style='border: 1px solid #ccc; padding: 8px;'>Category</th>");
+        htmlBody.append("<th style='border: 1px solid #ccc; padding: 8px;'>Passport/ID</th>");
+        htmlBody.append("</tr>");
+        htmlBody.append("</thead>");
+        htmlBody.append("<tbody>");
+        for (ClientInfo clientInfo : clientInfoList) {
+            String gender = clientInfo.isGender() ? "Male" : "Female";
+            String passport = clientInfo.getPassport() == null ? "" : clientInfo.getPassport();
+            htmlBody.append("<tr>");
+            htmlBody.append("<td style='border: 1px solid #ccc; padding: 8px;'>").append(clientInfo.getClientId()).append("</td>");
+            htmlBody.append("<td style='border: 1px solid #ccc; padding: 8px;'>").append(clientInfo.getFirstName()).append("</td>");
+            htmlBody.append("<td style='border: 1px solid #ccc; padding: 8px;'>").append(clientInfo.getLastName()).append("</td>");
+            htmlBody.append("<td style='border: 1px solid #ccc; padding: 8px;'>").append(gender).append("</td>");
+            htmlBody.append("<td style='border: 1px solid #ccc; padding: 8px;'>").append(df.format(clientInfo.getDateOfBirth())).append("</td>");
+            htmlBody.append("<td style='border: 1px solid #ccc; padding: 8px;'>").append(clientInfo.getAgeCategory()).append("</td>");
+            htmlBody.append("<td style='border: 1px solid #ccc; padding: 8px;'>").append(passport).append("</td>");
+            htmlBody.append("</tr>");
+        }
+        htmlBody.append("</tbody>");
+        htmlBody.append("</table>");
+        htmlBody.append("</div>");
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+        helper.setFrom("TTAFlight@example.com");
+        helper.setTo(email);
+        helper.setSubject("Booked Flight Successfully");
+        helper.setText(htmlBody.toString(), true);
+
+        javaMailSender.send(message);
     }
 
     @Override

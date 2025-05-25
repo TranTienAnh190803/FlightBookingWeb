@@ -1,6 +1,7 @@
 package com.trantienanh.backend.Controllers;
 
 import com.trantienanh.backend.DTO.MailDTO;
+import com.trantienanh.backend.DTO.Reply;
 import com.trantienanh.backend.Services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,12 @@ public class MailController {
     @PatchMapping("/admin/read-mail")
     public ResponseEntity<MailDTO> readMail(@RequestParam("mailId") Long mailId) {
         MailDTO response = mailService.readMail(mailId);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
+
+    @PostMapping("/admin/send-reply")
+    public ResponseEntity<Reply> sendReply(@RequestBody Reply reply) {
+        Reply response = mailService.sendReply(reply);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 }

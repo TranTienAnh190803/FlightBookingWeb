@@ -14,8 +14,10 @@ export default function AdminMailContentPage() {
   const [isReply, setIsReply] = useState(false);
   const [reply, setReply] = useState({
     email: "",
+    subject: "",
     content: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchSelectedMail = async () => {
     if (UserService.isAdmin()) {
@@ -44,6 +46,23 @@ export default function AdminMailContentPage() {
     const mm = String(date.getMinutes()).padStart(2, "0");
 
     return `${dd}/${MM}/${yyyy} | ${hh}:${mm}`;
+  };
+
+  const handleSendReply = async (e) => {
+    e.preventDefault();
+
+    if (UserService.isAdmin()) {
+      setIsLoading(true);
+      const token = localStorage.getItem("token");
+      const response = await MailService.sendReply(token, reply);
+      if (response.statusCode === 200) {
+        alert(response.message);
+        navigate(0);
+      } else {
+        alert(response.message);
+      }
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -82,7 +101,11 @@ export default function AdminMailContentPage() {
                   onClick={(e) => {
                     e.preventDefault();
                     setIsReply(!isReply);
-                    setReply({ ...reply, email: selectedMail.email });
+                    setReply({
+                      ...reply,
+                      email: selectedMail.email,
+                      subject: `Reply ${selectedMail.title}`,
+                    });
                   }}
                 >
                   <a className="link-primary-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover">
@@ -94,10 +117,25 @@ export default function AdminMailContentPage() {
           </div>
           {isReply && (
             <div className={`${style["mail-content"]} shadow mt-3 p-5`}>
-              <form>
+              <form onSubmit={handleSendReply}>
                 <p>
                   <b>To:</b> {selectedMail.email}
                 </p>
+                <div className="d-flex align-items-center">
+                  <p className="mb-0 me-3">
+                    <b>Subject: </b>
+                  </p>
+                  <input
+                    type="text"
+                    name="subject"
+                    className="form-control border-secondary"
+                    value={reply.subject}
+                    onChange={(e) => {
+                      setReply({ ...reply, [e.target.name]: e.target.value });
+                    }}
+                    required
+                  />
+                </div>
                 <div className="mt-3">
                   <p>
                     <b>Content: </b>
@@ -113,7 +151,12 @@ export default function AdminMailContentPage() {
                   ></textarea>
                 </div>
                 <div className="text-end mt-5">
-                  <button className="btn btn-lg btn-success">Send</button>
+                  <button
+                    className="btn btn-lg btn-success"
+                    disabled={isLoading}
+                  >
+                    Send
+                  </button>
                 </div>
               </form>
             </div>
