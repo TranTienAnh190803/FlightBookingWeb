@@ -22,6 +22,7 @@ import AdminMailPage from "./pages/AdminMail/AdminMailPage.jsx";
 import AdminMailContentPage from "./pages/AdminMailContent/AdminMailContentPage.jsx";
 import BookingManagementPage from "./pages/BookingManagement/BookingManagementPage.jsx";
 import BookedInfoPage from "./pages/BookedInfo/BookedInfoPage.jsx";
+import AboutPage from "./pages/About/AboutPage.jsx";
 
 function App() {
   const handleRefreshToken = () => {
@@ -61,6 +62,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/about" element={<AboutPage />} />
 
           {/* Authentication page */}
           {UserService.isAuthenticated() && (

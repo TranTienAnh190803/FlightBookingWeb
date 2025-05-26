@@ -46,4 +46,11 @@ public class FlightController {
         FlightDTO response = flightService.searchFlight(flightDTO);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
+
+    @GetMapping("/public/get-cheap-flight")
+    public ResponseEntity<FlightDTO> getCheapFlight() {
+        float cheapPrice = 1000000; // VNĐ
+        FlightDTO response = flightService.getCheapFlight(cheapPrice);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
 }

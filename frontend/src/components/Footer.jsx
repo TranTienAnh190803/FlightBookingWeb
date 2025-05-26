@@ -1,9 +1,9 @@
 import { FaFacebook, FaGithub, FaYoutube } from "react-icons/fa";
 
-export default function Footer({ booked = true }) {
+export default function Footer({ booked = true, homePage = false }) {
   return (
     <footer
-      className={`bg-dark text-white py-4 mt-5 ${
+      className={`bg-dark text-white py-4 ${homePage ? "mt-0" : "mt-5"} ${
         booked || "position-absolute start-0 end-0 bottom-0"
       }`}
     >

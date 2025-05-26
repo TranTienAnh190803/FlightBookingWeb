@@ -82,4 +82,14 @@ export default class FlightService {
             return error.response.data;
         }
     }
+
+    static async getCheapFlight() {
+        try {
+            const response = await axios.get(`${this.BASE_URL}/public/get-cheap-flight`);
+
+            return response.data;
+        } catch (error) {
+            return error.response.data;
+        }
+    }
 }

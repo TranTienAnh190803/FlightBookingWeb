@@ -210,4 +210,27 @@ public class FlightServiceImpl implements FlightService {
 
         return response;
     }
+
+    @Override
+    public FlightDTO getCheapFlight(float cheapPrice) {
+        FlightDTO response = new FlightDTO();
+
+        try {
+            List<Flight> cheapFlightList = flightRepository.findCheapFlight(cheapPrice);
+
+            if (!cheapFlightList.isEmpty()) {
+                response.setStatusCode(200);
+                response.setFlightList(cheapFlightList);
+            }
+            else {
+                response.setStatusCode(404);
+                response.setMessage("There Are No Cheap Flight");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
+    }
 }

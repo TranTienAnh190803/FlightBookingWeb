@@ -14,4 +14,6 @@ public interface FlightService {
     public FlightDTO getSelectedFlight(Long flightId);
 
     public FlightDTO searchFlight(FlightDTO flightDTO);
+
+    public FlightDTO getCheapFlight(float cheapPrice);
 }

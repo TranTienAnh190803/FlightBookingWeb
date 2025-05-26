@@ -3,3 +3,52 @@
     width: 100vw;
     object-fit: cover;
 }
+
+.partnership-container,
+.cheap-flights{
+    width: 80%;
+    padding: 20px;
+    background-color: white;
+    border-radius: 30px;
+}
+
+.partners{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    gap: 5%;
+}
+
+.partners .partner{
+    width: 30%;
+    margin-bottom: 50px;
+}
+
+.partners .partner:hover .partner-icon{
+    border: black 2px solid;
+}
+
+.partners .partner .partner-icon{
+    width: 100%;
+    height: auto;
+    border: #F1F1F1 2px solid;
+}
+
+.flights{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5%;
+    padding: 20px;
+}
+
+.flights .flight{
+    width: 30%;
+    height: auto;
+    margin-bottom: 60px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.flights .flight:hover{
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}

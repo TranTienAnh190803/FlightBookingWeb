@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from "react";
 import UserService from "../../services/UserService";
 import FlightService from "../../services/FlightService";
 import FlightCard from "../../components/FlightCard";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 
 export default function FlightsPage() {
@@ -213,7 +213,11 @@ export default function FlightsPage() {
                 return (
                   <Link
                     className={style["flight"]}
-                    to={`/user/book-ticket/${flight.flightId}`}
+                    to={`${
+                      UserService.isUser()
+                        ? `/user/book-ticket/${flight.flightId}`
+                        : "/login"
+                    }`}
                     key={flight.flightId}
                   >
                     <FlightCard

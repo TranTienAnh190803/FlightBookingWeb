@@ -22,4 +22,7 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
                                          @Param("departureCity") String departureCity,
                                          @Param("destinationCity") String destinationCity,
                                          @Param("departureDate") Date departureDate);
+
+    @Query("SELECT f FROM Flight f WHERE f.price <= :cheapPrice")
+    List<Flight> findCheapFlight(@Param(("cheapPrice")) float cheapPrice);
 }
