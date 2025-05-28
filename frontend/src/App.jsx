@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./pages/Login/LoginPage.jsx";
 import RegisterPage from "./pages/Register/RegisterPage.jsx";
 import HomePage from "./pages/Home/HomePage.jsx";
@@ -60,11 +60,17 @@ function App() {
           {/* Public page */}
           <Route path="/home" element={<HomePage />} />
           <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
           <Route path="/about" element={<AboutPage />} />
 
-          {/* Authentication page */}
+          {/* Unauthenticated Page */}
+          {!UserService.isAuthenticated() && (
+            <>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+            </>
+          )}
+
+          {/* Authentication Page */}
           {UserService.isAuthenticated() && (
             <>
               <Route path="/user/profile" element={<UserProfilePage />} />{" "}
@@ -75,7 +81,7 @@ function App() {
             </>
           )}
 
-          {/* Admin page */}
+          {/* Admin Page */}
           {UserService.isAdmin() && (
             <>
               <Route
@@ -146,6 +152,9 @@ function App() {
               />
             </>
           )}
+
+          {/* Not Exist Page or Unauthorized Page*/}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
     </BrowserRouter>

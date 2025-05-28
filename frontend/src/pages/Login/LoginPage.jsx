@@ -5,11 +5,13 @@ import UserService from "../../services/UserService";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
-  UserService.logout();
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = "Login";
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,6 +23,7 @@ export default function LoginPage() {
         localStorage.setItem("token", userData.token);
         localStorage.setItem("role", userData.role);
         navigate("/");
+        window.location.reload();
       } else {
         alert(userData.message);
       }
@@ -33,7 +36,9 @@ export default function LoginPage() {
     <div className={`${style["login"]}`}>
       <div className={style["wrapper"]}>
         <form onSubmit={handleSubmit}>
-          <h1>Login</h1>
+          <h1>
+            <b>Login</b>
+          </h1>
           <div className={style["input-box"]}>
             <input
               type="text"

@@ -39,6 +39,7 @@ export default function BookedInfoPage() {
   };
 
   useEffect(() => {
+    document.title = "Booked Infomation";
     fetchBookedInfo();
   }, []);
 

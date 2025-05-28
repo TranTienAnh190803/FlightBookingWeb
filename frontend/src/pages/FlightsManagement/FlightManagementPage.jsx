@@ -24,6 +24,7 @@ export default function FlightManagementPage() {
   };
 
   useEffect(() => {
+    document.title = "Flight Management";
     fetchFlightList();
   }, []);
 

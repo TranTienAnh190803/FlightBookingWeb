@@ -50,6 +50,7 @@ export default function FlightsPage() {
   };
 
   useEffect(() => {
+    document.title = "Flights";
     fetchFlightList();
   }, []);
 

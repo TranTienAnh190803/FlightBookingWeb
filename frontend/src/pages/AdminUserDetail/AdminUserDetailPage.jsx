@@ -34,6 +34,7 @@ export default function AdminUserDetailPage() {
   };
 
   useEffect(() => {
+    document.title = "User Detail";
     fetchSelectUser();
     fetchUserAvatar();
   }, []);

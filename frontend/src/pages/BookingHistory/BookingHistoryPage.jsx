@@ -31,6 +31,7 @@ export default function BookingHistoryPage() {
   };
 
   useEffect(() => {
+    document.title = "Booking History";
     fetchBookingHistory();
   }, []);
 

@@ -30,6 +30,7 @@ export default function UserProfilePage() {
   };
 
   useEffect(() => {
+    document.title = "Profile";
     fetchProfile();
     fetchAvatar();
   }, []);
@@ -54,17 +55,34 @@ export default function UserProfilePage() {
     setProfile({ ...profile, [name]: value });
   };
 
-  const handleUpdateProfile = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (UserService.isAuthenticated()) {
       const token = localStorage.getItem("token");
-      const response = await UserService.updateProfile(token, profile);
-      if (response.statusCode === 200) {
-        alert(response.message);
-        navigate(0);
-      } else {
-        alert(response.message);
+      const submitter = e.nativeEvent.submitter;
+      const action = submitter.name;
+
+      if (action === "update") {
+        const response = await UserService.updateProfile(token, profile);
+        if (response.statusCode === 200) {
+          alert(response.message);
+          navigate(0);
+        } else {
+          alert(response.message);
+        }
+      } else if (action === "delete") {
+        if (confirm("Are You Sure You Want To DELETE This Account?")) {
+          const response = await UserService.deleteAccount(token, profile.id);
+          if (response.statusCode === 200) {
+            alert(response.message);
+            UserService.logout();
+            navigate("/");
+            window.location.reload();
+          } else {
+            alert(response.message);
+          }
+        }
       }
     }
   };
@@ -81,7 +99,7 @@ export default function UserProfilePage() {
             <b>Profile</b>
           </h1>
           <hr />
-          <form onSubmit={handleUpdateProfile}>
+          <form onSubmit={handleSubmit}>
             <div className={style["form-container1"]}>
               <div className={style["image"]}>
                 <img
@@ -193,7 +211,18 @@ export default function UserProfilePage() {
               />
             </div>
             <div className={style["btn-box"]}>
-              <button className="btn btn-success">Update Profile</button>
+              {UserService.isAdmin() && (
+                <button
+                  type="submit"
+                  className="btn btn-outline-danger me-3"
+                  name="delete"
+                >
+                  Delete Account
+                </button>
+              )}
+              <button type="submit" className="btn btn-success" name="update">
+                Update Profile
+              </button>
             </div>
           </form>
         </div>

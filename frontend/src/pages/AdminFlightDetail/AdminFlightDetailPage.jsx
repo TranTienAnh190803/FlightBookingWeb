@@ -35,6 +35,7 @@ export default function AdminFlightDetailPage() {
   };
 
   useEffect(() => {
+    document.title = "Flight Detail";
     fetchSelectedFlight();
   }, []);
 

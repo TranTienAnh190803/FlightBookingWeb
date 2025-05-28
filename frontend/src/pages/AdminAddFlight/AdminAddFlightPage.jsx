@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import style from "./AdminAddFlightPage.module.css";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
@@ -26,6 +26,10 @@ export default function AdminAddFlightPage() {
     roundTrip: false,
     returnDate: null,
   });
+
+  useEffect(() => {
+    document.title = "Add Flight";
+  }, []);
 
   const handleInputChange = (e) => {
     const name = e.target.name;

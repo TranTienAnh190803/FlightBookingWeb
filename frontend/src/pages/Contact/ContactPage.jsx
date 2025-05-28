@@ -2,12 +2,16 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import style from "./ContactPage.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MailService from "../../services/MailService";
 
 export default function ContactPage() {
   const navigate = useNavigate();
   const [mailForm, setMailForm] = useState({});
+
+  useEffect(() => {
+    document.title = "Contact";
+  }, []);
 
   const handleInputChange = (e) => {
     const name = e.target.name;

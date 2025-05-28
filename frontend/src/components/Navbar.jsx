@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UserService from "../services/UserService";
 import { useEffect, useState } from "react";
 import {
@@ -12,6 +12,7 @@ import image1 from "../assets/user.jpg";
 import MailService from "../services/MailService";
 
 export default function Navbar() {
+  const navigate = useNavigate();
   const [profile, setProfile] = useState({});
   const [avatar, setAvatar] = useState(null);
   const [mailList, setMailList] = useState([]);
@@ -49,6 +50,16 @@ export default function Navbar() {
     fetchAvatar();
     fetchMail();
   }, []);
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+
+    if (UserService.isAuthenticated()) {
+      UserService.logout();
+      navigate("/login");
+      window.location.reload();
+    }
+  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top py-3 fs-6">
@@ -203,13 +214,13 @@ export default function Navbar() {
               </li>
 
               <li>
-                <Link
+                <button
                   className="dropdown-item text-danger d-flex align-items-center gap-3 px-3 py-2"
-                  to="/login"
+                  onClick={handleLogout}
                 >
                   <FaSignOutAlt />
                   Logout
-                </Link>
+                </button>
               </li>
             </ul>
           </div>

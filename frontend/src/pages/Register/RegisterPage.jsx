@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import style from "./RegisterPage.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserService from "../../services/UserService";
 
 export default function RegisterPage() {
@@ -25,6 +25,10 @@ export default function RegisterPage() {
   const [repeatPassword, setRepeatPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = "Register";
+  }, []);
 
   const onChangeHandler = (e) => {
     const name = e.target.name;
@@ -48,6 +52,7 @@ export default function RegisterPage() {
             localStorage.setItem("token", login.token);
             localStorage.setItem("role", login.role);
             navigate("/home");
+            window.location.reload();
           } else {
             setError(login.message);
           }
@@ -62,7 +67,9 @@ export default function RegisterPage() {
     <div className={`${style["register"]}`}>
       <div className={style["wrapper"]}>
         <form onSubmit={handleSubmit}>
-          <h1>Register</h1>
+          <h1>
+            <b>Register</b>
+          </h1>
           <div className={style["input-box"]}>
             <input
               type="text"

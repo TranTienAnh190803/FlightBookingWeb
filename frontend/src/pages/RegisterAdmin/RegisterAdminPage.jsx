@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import style from "./RegisterAdminPage.module.css";
@@ -18,6 +18,10 @@ export default function RegisterAdminPage() {
     gender: true,
   });
   const [repeatPassword, setRepeatPassword] = useState("");
+
+  useEffect(() => {
+    document.title = "Register Admin";
+  }, []);
 
   const handleInputChange = (e) => {
     const name = e.target.name;

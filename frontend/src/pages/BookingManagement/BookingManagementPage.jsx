@@ -27,6 +27,7 @@ export default function BookingManagementPage() {
   };
 
   useEffect(() => {
+    document.title = "Booking Management";
     fetchBookedInfo();
   }, []);
 

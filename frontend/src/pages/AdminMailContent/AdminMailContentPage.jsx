@@ -33,6 +33,7 @@ export default function AdminMailContentPage() {
   };
 
   useEffect(() => {
+    document.title = "Mail Content";
     fetchSelectedMail();
   }, []);
 

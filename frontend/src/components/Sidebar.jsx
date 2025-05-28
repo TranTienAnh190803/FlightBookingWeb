@@ -6,12 +6,13 @@ import {
   FaUser,
 } from "react-icons/fa";
 import image1 from "../assets/user.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import UserService from "../services/UserService";
 import MailService from "../services/MailService";
 
 export default function Sidebar({ avatar }) {
+  const navigate = useNavigate();
   const [profile, setProfile] = useState({});
   const [userDefaultAvatar, setUserDefaultAvatar] = useState(image1);
   const [mailList, setMailList] = useState([]);
@@ -49,6 +50,16 @@ export default function Sidebar({ avatar }) {
     fetchAvatar();
     fetchMail();
   }, []);
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+
+    if (UserService.isAuthenticated()) {
+      UserService.logout();
+      navigate("/login");
+      window.location.reload();
+    }
+  };
 
   return (
     <div
@@ -112,13 +123,13 @@ export default function Sidebar({ avatar }) {
       </Link>
 
       <hr className="my-1" />
-      <Link
-        to="/login"
+      <button
         className="list-group-item list-group-item-action border-0 text-danger"
+        onClick={handleLogout}
       >
         <FaSignOutAlt className="me-3" />
         Logout
-      </Link>
+      </button>
     </div>
   );
 }

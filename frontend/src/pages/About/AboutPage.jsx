@@ -1,8 +1,13 @@
+import { useEffect } from "react";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import style from "./AboutPage.module.css";
 
 export default function AboutPage() {
+  useEffect(() => {
+    document.title = "About";
+  }, []);
+
   return (
     <div>
       <Navbar />

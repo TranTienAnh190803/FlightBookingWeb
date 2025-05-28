@@ -62,6 +62,7 @@ export default function BookTicketPage() {
   };
 
   useEffect(() => {
+    document.title = "Ticket Booking";
     fetchSelectedFlight();
     fetchContactInfo();
   }, []);

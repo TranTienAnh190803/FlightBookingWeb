@@ -24,6 +24,7 @@ export default function AdminUserManagementPage() {
   };
 
   useEffect(() => {
+    document.title = "User Management";
     fetchUserList();
   }, []);
 

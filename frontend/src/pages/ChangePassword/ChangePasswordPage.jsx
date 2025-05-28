@@ -12,6 +12,10 @@ export default function ChangePasswordPage() {
   });
   const [repeatPassword, setRepeatPassword] = useState("");
 
+  useEffect(() => {
+    document.title = "Password Changing";
+  }, []);
+
   const handleInputChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
