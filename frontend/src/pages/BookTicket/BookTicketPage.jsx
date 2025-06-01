@@ -103,6 +103,17 @@ export default function BookTicketPage() {
     return `${hh}:${mm}`;
   };
 
+  const getAge = (date1) => {
+    const date = new Date(date1).getTime();
+    const now = Date.now();
+
+    const ageInMs = now - date;
+    const msInYear = 365.25 * 24 * 60 * 60 * 1000;
+    const age = ageInMs / msInYear;
+
+    return age;
+  };
+
   // handle function
   const handleContactInfoChange = (e) => {
     const name = e.target.name;
@@ -289,18 +300,48 @@ export default function BookTicketPage() {
 
     if (UserService.isAuthenticated()) {
       setIsLoading(true);
-      const token = localStorage.getItem("token");
-      const response = await FlightTicketService.bookingFlight(
-        token,
-        flightId,
-        reservation
-      );
-      if (response.statusCode === 200) {
-        alert(response.message);
-        navigate("/flights");
-      } else {
-        alert(response.message);
+      let execute = true;
+
+      const clientList = reservation.clientInfoList;
+      for (let value of clientList) {
+        if (value === null) {
+          continue;
+        }
+        if (value.ageCategory === "Adult" && getAge(value.dateOfBirth) < 18) {
+          execute = false;
+        } else if (
+          value.ageCategory === "Children" &&
+          (getAge(value.dateOfBirth) >= 18 || getAge(value.dateOfBirth) <= 4)
+        ) {
+          console.log(getAge(value.dateOfBirth));
+          execute = false;
+        } else if (
+          value.ageCategory === "Baby" &&
+          getAge(value.dateOfBirth) > 4
+        ) {
+          execute = false;
+        }
       }
+
+      if (execute) {
+        const token = localStorage.getItem("token");
+        const response = await FlightTicketService.bookingFlight(
+          token,
+          flightId,
+          reservation
+        );
+        if (response.statusCode === 200) {
+          alert(response.message);
+          navigate("/flights");
+        } else {
+          alert(response.message);
+        }
+      } else {
+        alert(
+          "Please check your date of birth information again.\n- Adult: 18 years of age or older.\n- Children: Under 18 years old and over 3 years old\n- Baby: Under 3 years old"
+        );
+      }
+
       setIsLoading(false);
     }
   };
