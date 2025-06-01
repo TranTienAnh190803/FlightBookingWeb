@@ -1,6 +1,6 @@
 # FlightBookingWeb
 
-1. Description: Built a full-stack flight booking web application that enables users to search, book, and manage flight tickets with real-time data. The system supports user authentication, role-based access (admin/user), dynamic flight filtering, booking history, and admin management tools.
+1. Description: Built a full-stack flight booking web application that enables users to search, book, and manage flight tickets with real-time data. The system supports user authentication, role-based access (admin/user), dynamic flight filtering, booking history, mail, and admin management tools.
 
 2. Key Features:
 
