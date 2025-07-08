@@ -5,6 +5,7 @@ import {
   FaMapPin,
   FaLock,
   FaCalendar,
+  FaAngleDown,
 } from "react-icons/fa";
 import style from "./RegisterPage.module.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -16,7 +17,7 @@ export default function RegisterPage() {
     name: "",
     username: "",
     password: "",
-    dateOfBirth: new Date(),
+    dateOfBirth: null,
     address: "",
     phoneNumber: "",
     email: "",
@@ -54,9 +55,13 @@ export default function RegisterPage() {
             navigate("/home");
             window.location.reload();
           } else {
-            setError(login.message);
+            alert(login.message);
           }
+        } else {
+          alert(response.message);
         }
+      } else {
+        alert("Re-enter Password Does Not Match.");
       }
     } catch (error) {
       setError(error.message);
@@ -124,32 +129,18 @@ export default function RegisterPage() {
             />
             <FaPhone className={style["icon"]} />
           </div>
-          <div className={style["check"]}>
-            <div className={`${style["radio-group"]}`}>
-              <label>Gender: </label>
-              <label>
-                <input
-                  type="radio"
-                  name="gender"
-                  className="form-check-input"
-                  value={true}
-                  onChange={onChangeHandler}
-                  required
-                />{" "}
-                Male
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="gender"
-                  className="form-check-input"
-                  value={false}
-                  onChange={onChangeHandler}
-                  required
-                />{" "}
-                Female
-              </label>
-            </div>
+          <div className={style["input-box"]}>
+            <select name="gender" onChange={onChangeHandler} required>
+              <option value="" hidden disabled selected>
+                Gender
+              </option>
+              <option value={true}>Male</option>
+              <option value={false}>Female</option>
+            </select>
+            <FaAngleDown
+              className={style["icon"]}
+              style={{ pointerEvents: "none" }}
+            />
           </div>
           <div className={style["input-box"]}>
             <input

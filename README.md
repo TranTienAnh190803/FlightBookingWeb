@@ -11,4 +11,6 @@
    - Admin panel to manage flights, view bookings, and update system data.
    - Validation, error handling, and feedback integrated across the system.
 
-3. Diagram (BFD, DFD, ERD): https://drive.google.com/drive/folders/1wij7lgKZuDIAkslsg02HBpY_7C3YrGUo?usp=sharing
+3. Result: The project was completed with all core features implemented and tested locally. It demonstrated a complete flow from user authentication to flight booking and admin management. Through this project, I gained hands-on experience in integrating a ReactJS frontend with a Spring Boot backend, designing RESTful APIs, implementing JWT-based security, and working with relational databases. It also improved my understanding of fullstack application structure, data validation, and user experience design.
+
+4. Diagram (BFD, DFD, ERD): https://drive.google.com/drive/folders/1wij7lgKZuDIAkslsg02HBpY_7C3YrGUo?usp=sharing
